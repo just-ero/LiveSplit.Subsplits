@@ -600,10 +600,6 @@ namespace LiveSplit.UI.Components
             get { throw new NotSupportedException(); }
         }
 
-        public void RenameComparison(string oldName, string newName)
-        {
-        }
-
         private TimeSpan? getSectionTime(LiveSplitState state, int splitNumber, int topNumber, String comparison, TimingMethod method, int currentIndex)
         {
             if (topNumber > currentIndex)
@@ -828,7 +824,7 @@ namespace LiveSplit.UI.Components
                     }
                     TimeLabel.Text = TimeFormatter.Format(Split.Comparisons[comparison][state.CurrentTimingMethod]);
                     //Live Delta
-                    var bestDelta = LiveSplitStateHelper.CheckBestSegment(state, false, state.LayoutSettings.ShowBestSegments, comparison, state.CurrentTimingMethod);
+                    var bestDelta = LiveSplitStateHelper.CheckLiveDelta(state, false, comparison, state.CurrentTimingMethod);
                     if (bestDelta != null && Split == state.CurrentSplit)
                     {
                         if (!Settings.ShowSplitTimes)

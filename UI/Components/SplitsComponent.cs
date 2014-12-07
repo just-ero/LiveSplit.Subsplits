@@ -85,6 +85,17 @@ namespace LiveSplit.UI.Components
             ScrollOffset = 0;
             RebuildVisualSplits();
             sectionList = new SectionList();
+            state.ComparisonRenamed += state_ComparisonRenamed;
+        }
+
+        void state_ComparisonRenamed(object sender, EventArgs e)
+        {
+            var args = (RenameEventArgs)e;
+            if (Settings.Comparison == args.OldName)
+            {
+                Settings.Comparison = args.NewName;
+                ((LiveSplitState)sender).Layout.HasChanged = true;
+            }
         }
 
         void Settings_SplitLayoutChanged(object sender, EventArgs e)
@@ -397,13 +408,6 @@ namespace LiveSplit.UI.Components
         public System.Xml.XmlNode GetSettings(System.Xml.XmlDocument document)
         {
             return Settings.GetSettings(document);
-        }
-
-
-        public void RenameComparison(string oldName, string newName)
-        {
-            if (Settings.Comparison == oldName)
-                Settings.Comparison = newName;
         }
 
         public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
