@@ -513,9 +513,9 @@ namespace LiveSplit.UI.Components
 
                     if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit && index == LastSplitSeparatorIndex)
                     {
-                        int secondLast = state.Run.Count() - 2;
+                        int lastIndex = state.Run.Count() - 1;
 
-                        if ((freeSplits > 0) || ((visibleSplits.Count() > 0) && (visibleSplits.Last() == secondLast)))
+                        if ((freeSplits > 0) || ((visibleSplits.Count() > 0) && (visibleSplits.Last() == lastIndex - 1)))
                         {
                             if (Settings.ShowThinSeparators)
                                 separator.DisplayedSize = 1f;
@@ -526,7 +526,7 @@ namespace LiveSplit.UI.Components
                         }
                         else
                         {
-                            int prevSection = sectionList.getSection(secondLast) - 1;
+                            int prevSection = sectionList.getSection(lastIndex) - 1;
                             if ((visibleSplits.Count() > 0) &&
                                 ((prevSection > 0) ? (visibleSplits.Last() == sectionList.Sections[prevSection].endIndex) : true))
                             {
