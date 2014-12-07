@@ -513,9 +513,9 @@ namespace LiveSplit.UI.Components
 
                     if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit && index == LastSplitSeparatorIndex)
                     {
-                        int secondLast = state.Run.Count() - 2;
+                        int lastIndex = state.Run.Count() - 1;
 
-                        if ((freeSplits > 0) || ((visibleSplits.Count() > 0) && (visibleSplits.Last() == secondLast)))
+                        if ((freeSplits > 0) || ((visibleSplits.Count() > 0) && (visibleSplits.Last() == lastIndex - 1)))
                         {
                             if (Settings.ShowThinSeparators)
                                 separator.DisplayedSize = 1f;
@@ -526,7 +526,7 @@ namespace LiveSplit.UI.Components
                         }
                         else
                         {
-                            int prevSection = sectionList.getSection(secondLast) - 1;
+                            int prevSection = sectionList.getSection(lastIndex) - 1;
                             if ((visibleSplits.Count() > 0) &&
                                 ((prevSection > 0) ? (visibleSplits.Last() == sectionList.Sections[prevSection].endIndex) : true))
                             {
@@ -623,7 +623,7 @@ namespace LiveSplit.UI.Components
                     SplitComponents[i].oddSplit = ((sectionList.getSection(split) % 2) == 0);
 
                     if (split > 0 && sectionList.isMajorSplit(split) && (i == 0 || sectionList.isMajorSplit(visibleSplits[i - 1]))
-                        && (sectionList.Sections[currentSection].getSubsplitCount() > 0))
+                        && (sectionList.Sections[sectionList.getSection(split)].getSubsplitCount() > 0))
                     {
                         SplitComponents[i].CollapsedSplit = true;
                         SplitComponents[i].TopSplit = sectionList.Sections[sectionList.getSection(split)].startIndex;                      
