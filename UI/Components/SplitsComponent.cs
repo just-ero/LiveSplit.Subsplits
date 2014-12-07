@@ -623,7 +623,7 @@ namespace LiveSplit.UI.Components
                     SplitComponents[i].oddSplit = ((sectionList.getSection(split) % 2) == 0);
 
                     if (split > 0 && sectionList.isMajorSplit(split) && (i == 0 || sectionList.isMajorSplit(visibleSplits[i - 1]))
-                        && (sectionList.Sections[currentSection].getSubsplitCount() > 0))
+                        && (sectionList.Sections[sectionList.getSection(split)].getSubsplitCount() > 0))
                     {
                         SplitComponents[i].CollapsedSplit = true;
                         SplitComponents[i].TopSplit = sectionList.Sections[sectionList.getSection(split)].startIndex;                      
