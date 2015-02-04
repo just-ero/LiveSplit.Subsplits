@@ -434,6 +434,10 @@ namespace LiveSplit.UI.Components
             if (!cmbComparison.Items.Contains(Comparison))
                 cmbComparison.Items.Add(Comparison);
 
+            rdoHideSubsplits.Checked = !ShowSubsplits && HideSubsplits;
+            rdoShowSubsplits.Checked = ShowSubsplits && !HideSubsplits;
+            rdoNormalSubsplits.Checked = !ShowSubsplits && !HideSubsplits;
+
             rdoSeconds.Checked = SplitTimesAccuracy == TimeAccuracy.Seconds;
             rdoTenths.Checked = SplitTimesAccuracy == TimeAccuracy.Tenths;
             rdoHundredths.Checked = SplitTimesAccuracy == TimeAccuracy.Hundredths;
