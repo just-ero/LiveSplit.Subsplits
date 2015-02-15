@@ -147,25 +147,8 @@ namespace LiveSplit.UI.Components
                 OldState = state;
             }
 
-            var previousSplitCount = visualSplitCount;
-            visualSplitCount = Math.Min(state.Run.Count, Settings.VisualSplitCount);
-            if (previousSplitCount != visualSplitCount 
-                || (Settings.ShowBlankSplits && settingsSplitCount != Settings.VisualSplitCount) )
-            {
-                RebuildVisualSplits();
-            }
-            settingsSplitCount = Settings.VisualSplitCount;
-
-            var skipCount = Math.Min(
-                Math.Max(
-                    0,
-                    state.CurrentSplitIndex - (visualSplitCount - 2 - Settings.SplitPreviewCount + (Settings.AlwaysShowLastSplit ? 0 : 1))),
-                state.Run.Count - visualSplitCount);
-            //ScrollOffset = Math.Min(Math.Max(ScrollOffset, -skipCount), state.Run.Count - skipCount - visualSplitCount);
             int currentIndex = Math.Min(Math.Max(0, state.CurrentSplitIndex), state.Run.Count - 1);
             ScrollOffset = Math.Min(Math.Max(ScrollOffset, -currentIndex), state.Run.Count - currentIndex - 1);
-
-            skipCount += ScrollOffset;
 
             if (OldShadowsColor != state.LayoutSettings.ShadowsColor)
                 ShadowImages.Clear();
@@ -412,6 +395,15 @@ namespace LiveSplit.UI.Components
 
         public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
+            var previousSplitCount = visualSplitCount;
+            visualSplitCount = Math.Min(state.Run.Count, Settings.VisualSplitCount);
+            if (previousSplitCount != visualSplitCount
+                || (Settings.ShowBlankSplits && settingsSplitCount != Settings.VisualSplitCount))
+            {
+                RebuildVisualSplits();
+            }
+            settingsSplitCount = Settings.VisualSplitCount;
+
             sectionList.UpdateSplits(state.Run);
             
             int currentSplit = ScrollOffset;
