@@ -12,7 +12,7 @@ namespace LiveSplit.UI.Components
 
         public string Description
         {
-            get { return "Displays a list of split times and deltas in relation to a comparison. Only shows subsplits when relevent"; }
+            get { return "Displays a list of split times and deltas in relation to a comparison. Only shows subsplits when relevant"; }
         }
 
         public ComponentCategory Category
