@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LiveSplit.TimeFormatters
 {
@@ -24,8 +20,8 @@ namespace LiveSplit.TimeFormatters
             var formattedTime = deltaTime.Format(time);
             if (time == null)
                 return "-";
-            else
-                return formattedTime;
+
+            return formattedTime;
         }
     }
 }

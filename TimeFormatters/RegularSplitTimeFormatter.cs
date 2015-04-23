@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LiveSplit.TimeFormatters
 {
@@ -19,8 +15,8 @@ namespace LiveSplit.TimeFormatters
             var formatter = new RegularTimeFormatter(Accuracy);
             if (time == null)
                 return "-";
-            else
-                return formatter.Format(time);
+
+            return formatter.Format(time);
         }
     }
 }

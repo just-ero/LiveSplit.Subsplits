@@ -1,10 +1,5 @@
 ﻿using LiveSplit.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace LiveSplit.UI.Components
 {
@@ -17,7 +12,7 @@ namespace LiveSplit.UI.Components
 
         public string Description
         {
-            get { return "Displays a list of split times and deltas in relation to a comparison. Only shows subsplits when relevent"; }
+            get { return "Displays a list of split times and deltas in relation to a comparison. Only shows subsplits when relevant"; }
         }
 
         public ComponentCategory Category
