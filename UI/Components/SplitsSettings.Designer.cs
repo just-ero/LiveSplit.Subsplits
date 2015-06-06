@@ -345,7 +345,7 @@
             this.groupBox2.Location = new System.Drawing.Point(3, 857);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(439, 134);
-            this.groupBox2.TabIndex = 16;
+            this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Split Names Color";
             // 
@@ -487,7 +487,7 @@
             this.groupBox3.Location = new System.Drawing.Point(3, 997);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(439, 75);
-            this.groupBox3.TabIndex = 17;
+            this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Icons";
             // 
@@ -582,7 +582,7 @@
             this.groupBox4.Location = new System.Drawing.Point(3, 1265);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(439, 234);
-            this.groupBox4.TabIndex = 19;
+            this.groupBox4.TabIndex = 20;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Split Times";
             // 
@@ -866,7 +866,7 @@
             this.groupBox6.Location = new System.Drawing.Point(3, 1078);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(439, 181);
-            this.groupBox6.TabIndex = 18;
+            this.groupBox6.TabIndex = 19;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Deltas";
             // 
@@ -1061,7 +1061,7 @@
             // 
             // GroupBox9
             // 
-            this.GroupBox9.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.GroupBox9.BackColor = System.Drawing.SystemColors.Control;
             this.tableLayoutPanel1.SetColumnSpan(this.GroupBox9, 4);
             this.GroupBox9.Controls.Add(this.groupBox11);
             this.GroupBox9.Controls.Add(this.groupBox10);
@@ -1070,13 +1070,13 @@
             this.GroupBox9.Location = new System.Drawing.Point(3, 264);
             this.GroupBox9.Name = "GroupBox9";
             this.GroupBox9.Size = new System.Drawing.Size(439, 587);
-            this.GroupBox9.TabIndex = 45;
+            this.GroupBox9.TabIndex = 16;
             this.GroupBox9.TabStop = false;
             this.GroupBox9.Text = "Subsplits";
             // 
             // groupBox11
             // 
-            this.groupBox11.BackColor = System.Drawing.Color.LightGray;
+            this.groupBox11.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox11.Controls.Add(this.groupBox13);
             this.groupBox11.Controls.Add(this.groupBox12);
             this.groupBox11.Controls.Add(this.tableLayoutPanel12);
@@ -1084,7 +1084,7 @@
             this.groupBox11.Location = new System.Drawing.Point(3, 188);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(433, 396);
-            this.groupBox11.TabIndex = 2;
+            this.groupBox11.TabIndex = 6;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Section Header";
             // 
@@ -1096,7 +1096,7 @@
             this.groupBox13.Location = new System.Drawing.Point(3, 246);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(427, 147);
-            this.groupBox13.TabIndex = 2;
+            this.groupBox13.TabIndex = 4;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Section Timer";
             // 
@@ -1210,7 +1210,7 @@
             this.btnSectionTimerColor.Location = new System.Drawing.Point(185, 30);
             this.btnSectionTimerColor.Name = "btnSectionTimerColor";
             this.btnSectionTimerColor.Size = new System.Drawing.Size(21, 21);
-            this.btnSectionTimerColor.TabIndex = 6;
+            this.btnSectionTimerColor.TabIndex = 1;
             this.btnSectionTimerColor.UseVisualStyleBackColor = false;
             this.btnSectionTimerColor.Click += new System.EventHandler(this.ColorButtonClick);
             // 
@@ -1235,7 +1235,7 @@
             this.chkSectionTimerGradient.Location = new System.Drawing.Point(3, 57);
             this.chkSectionTimerGradient.Name = "chkSectionTimerGradient";
             this.chkSectionTimerGradient.Size = new System.Drawing.Size(176, 22);
-            this.chkSectionTimerGradient.TabIndex = 36;
+            this.chkSectionTimerGradient.TabIndex = 2;
             this.chkSectionTimerGradient.Text = "Show Gradient";
             this.chkSectionTimerGradient.UseVisualStyleBackColor = true;
             this.chkSectionTimerGradient.CheckedChanged += new System.EventHandler(this.chkSectionTimerGradient_CheckedChanged);
@@ -1248,7 +1248,7 @@
             this.groupBox12.Location = new System.Drawing.Point(3, 70);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Size = new System.Drawing.Size(427, 176);
-            this.groupBox12.TabIndex = 1;
+            this.groupBox12.TabIndex = 3;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Section Header Color";
             // 
@@ -1259,7 +1259,7 @@
             this.groupBox15.Location = new System.Drawing.Point(3, 126);
             this.groupBox15.Name = "groupBox15";
             this.groupBox15.Size = new System.Drawing.Size(421, 47);
-            this.groupBox15.TabIndex = 4;
+            this.groupBox15.TabIndex = 8;
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "Time Accuracy";
             // 
@@ -1368,7 +1368,7 @@
             this.chkHeaderTimes.Location = new System.Drawing.Point(243, 84);
             this.chkHeaderTimes.Name = "chkHeaderTimes";
             this.chkHeaderTimes.Size = new System.Drawing.Size(175, 23);
-            this.chkHeaderTimes.TabIndex = 1;
+            this.chkHeaderTimes.TabIndex = 7;
             this.chkHeaderTimes.Text = "Show Total Section Time";
             this.chkHeaderTimes.UseVisualStyleBackColor = true;
             this.chkHeaderTimes.CheckedChanged += new System.EventHandler(this.chkHeaderTimes_CheckedChanged);
@@ -1392,7 +1392,7 @@
             this.btnHeaderTextColor.Location = new System.Drawing.Point(186, 57);
             this.btnHeaderTextColor.Name = "btnHeaderTextColor";
             this.btnHeaderTextColor.Size = new System.Drawing.Size(23, 21);
-            this.btnHeaderTextColor.TabIndex = 36;
+            this.btnHeaderTextColor.TabIndex = 4;
             this.btnHeaderTextColor.UseVisualStyleBackColor = false;
             this.btnHeaderTextColor.Click += new System.EventHandler(this.ColorButtonClick);
             // 
@@ -1405,7 +1405,7 @@
             this.btnHeaderTimesColor.Location = new System.Drawing.Point(186, 84);
             this.btnHeaderTimesColor.Name = "btnHeaderTimesColor";
             this.btnHeaderTimesColor.Size = new System.Drawing.Size(23, 23);
-            this.btnHeaderTimesColor.TabIndex = 37;
+            this.btnHeaderTimesColor.TabIndex = 6;
             this.btnHeaderTimesColor.UseVisualStyleBackColor = false;
             this.btnHeaderTimesColor.Click += new System.EventHandler(this.ColorButtonClick);
             // 
@@ -1427,7 +1427,7 @@
             this.chkOverrideHeaderColor.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkOverrideHeaderColor.Name = "chkOverrideHeaderColor";
             this.chkOverrideHeaderColor.Size = new System.Drawing.Size(173, 17);
-            this.chkOverrideHeaderColor.TabIndex = 33;
+            this.chkOverrideHeaderColor.TabIndex = 3;
             this.chkOverrideHeaderColor.Text = "Override Layout Text Colors";
             this.chkOverrideHeaderColor.UseVisualStyleBackColor = true;
             this.chkOverrideHeaderColor.CheckedChanged += new System.EventHandler(this.chkOverrideHeaderColor_CheckedChanged);
@@ -1442,7 +1442,7 @@
             this.btnHeaderTopColor.Location = new System.Drawing.Point(186, 3);
             this.btnHeaderTopColor.Name = "btnHeaderTopColor";
             this.btnHeaderTopColor.Size = new System.Drawing.Size(23, 21);
-            this.btnHeaderTopColor.TabIndex = 30;
+            this.btnHeaderTopColor.TabIndex = 0;
             this.btnHeaderTopColor.UseVisualStyleBackColor = false;
             this.btnHeaderTopColor.Click += new System.EventHandler(this.ColorButtonClick);
             // 
@@ -1456,7 +1456,7 @@
             this.btnHeaderBottomColor.Location = new System.Drawing.Point(215, 3);
             this.btnHeaderBottomColor.Name = "btnHeaderBottomColor";
             this.btnHeaderBottomColor.Size = new System.Drawing.Size(22, 21);
-            this.btnHeaderBottomColor.TabIndex = 31;
+            this.btnHeaderBottomColor.TabIndex = 1;
             this.btnHeaderBottomColor.UseVisualStyleBackColor = false;
             this.btnHeaderBottomColor.Click += new System.EventHandler(this.ColorButtonClick);
             // 
@@ -1473,7 +1473,7 @@
             this.cmbHeaderGradient.Location = new System.Drawing.Point(243, 3);
             this.cmbHeaderGradient.Name = "cmbHeaderGradient";
             this.cmbHeaderGradient.Size = new System.Drawing.Size(175, 21);
-            this.cmbHeaderGradient.TabIndex = 32;
+            this.cmbHeaderGradient.TabIndex = 2;
             this.cmbHeaderGradient.SelectedIndexChanged += new System.EventHandler(this.cmbHeaderGradient_SelectedIndexChanged);
             // 
             // chkHeaderText
@@ -1485,7 +1485,7 @@
             this.chkHeaderText.Location = new System.Drawing.Point(243, 57);
             this.chkHeaderText.Name = "chkHeaderText";
             this.chkHeaderText.Size = new System.Drawing.Size(175, 21);
-            this.chkHeaderText.TabIndex = 38;
+            this.chkHeaderText.TabIndex = 5;
             this.chkHeaderText.Text = "Show Split Text";
             this.chkHeaderText.UseVisualStyleBackColor = true;
             this.chkHeaderText.CheckedChanged += new System.EventHandler(this.chkHeaderText_CheckedChanged);
@@ -1547,7 +1547,7 @@
             this.chkIndentSectionSplit.Location = new System.Drawing.Point(3, 30);
             this.chkIndentSectionSplit.Name = "chkIndentSectionSplit";
             this.chkIndentSectionSplit.Size = new System.Drawing.Size(207, 21);
-            this.chkIndentSectionSplit.TabIndex = 3;
+            this.chkIndentSectionSplit.TabIndex = 1;
             this.chkIndentSectionSplit.Text = "Indent Last Split Of Section";
             this.chkIndentSectionSplit.UseVisualStyleBackColor = true;
             this.chkIndentSectionSplit.CheckedChanged += new System.EventHandler(this.chkIndentSectionSplit_CheckedChanged);
@@ -1559,7 +1559,7 @@
             this.groupBox10.Location = new System.Drawing.Point(3, 112);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(433, 76);
-            this.groupBox10.TabIndex = 1;
+            this.groupBox10.TabIndex = 5;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Subsplit Color";
             // 
@@ -1569,7 +1569,7 @@
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.4486F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.5514F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 189F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 190F));
             this.tableLayoutPanel10.Controls.Add(this.label15, 0, 1);
             this.tableLayoutPanel10.Controls.Add(this.chkOverrideSubsplitColor, 0, 0);
             this.tableLayoutPanel10.Controls.Add(this.cmbSubsplitGradient, 3, 1);
@@ -1592,7 +1592,7 @@
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(3, 36);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(174, 13);
+            this.label15.Size = new System.Drawing.Size(173, 13);
             this.label15.TabIndex = 28;
             this.label15.Text = "Subsplit Background Color:";
             // 
@@ -1603,7 +1603,7 @@
             this.chkOverrideSubsplitColor.Location = new System.Drawing.Point(7, 5);
             this.chkOverrideSubsplitColor.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkOverrideSubsplitColor.Name = "chkOverrideSubsplitColor";
-            this.chkOverrideSubsplitColor.Size = new System.Drawing.Size(170, 17);
+            this.chkOverrideSubsplitColor.Size = new System.Drawing.Size(169, 17);
             this.chkOverrideSubsplitColor.TabIndex = 1;
             this.chkOverrideSubsplitColor.Text = "Override Layout Settings";
             this.chkOverrideSubsplitColor.UseVisualStyleBackColor = true;
@@ -1618,10 +1618,10 @@
             "Plain",
             "Vertical",
             "Horizontal"});
-            this.cmbSubsplitGradient.Location = new System.Drawing.Point(240, 32);
+            this.cmbSubsplitGradient.Location = new System.Drawing.Point(239, 32);
             this.cmbSubsplitGradient.Name = "cmbSubsplitGradient";
-            this.cmbSubsplitGradient.Size = new System.Drawing.Size(184, 21);
-            this.cmbSubsplitGradient.TabIndex = 3;
+            this.cmbSubsplitGradient.Size = new System.Drawing.Size(185, 21);
+            this.cmbSubsplitGradient.TabIndex = 4;
             this.cmbSubsplitGradient.SelectedIndexChanged += new System.EventHandler(this.cmbSubsplitGradient_SelectedIndexChanged);
             // 
             // btnSubsplitBottomColor
@@ -1630,10 +1630,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSubsplitBottomColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSubsplitBottomColor.Location = new System.Drawing.Point(211, 31);
+            this.btnSubsplitBottomColor.Location = new System.Drawing.Point(210, 31);
             this.btnSubsplitBottomColor.Name = "btnSubsplitBottomColor";
             this.btnSubsplitBottomColor.Size = new System.Drawing.Size(23, 23);
-            this.btnSubsplitBottomColor.TabIndex = 4;
+            this.btnSubsplitBottomColor.TabIndex = 3;
             this.btnSubsplitBottomColor.UseVisualStyleBackColor = false;
             this.btnSubsplitBottomColor.Click += new System.EventHandler(this.ColorButtonClick);
             // 
@@ -1643,10 +1643,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSubsplitTopColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSubsplitTopColor.Location = new System.Drawing.Point(183, 31);
+            this.btnSubsplitTopColor.Location = new System.Drawing.Point(182, 31);
             this.btnSubsplitTopColor.Name = "btnSubsplitTopColor";
             this.btnSubsplitTopColor.Size = new System.Drawing.Size(22, 23);
-            this.btnSubsplitTopColor.TabIndex = 5;
+            this.btnSubsplitTopColor.TabIndex = 2;
             this.btnSubsplitTopColor.UseVisualStyleBackColor = false;
             this.btnSubsplitTopColor.Click += new System.EventHandler(this.ColorButtonClick);
             // 
@@ -1758,7 +1758,7 @@
             this.chkCurrentSectionOnly.Location = new System.Drawing.Point(147, 67);
             this.chkCurrentSectionOnly.Name = "chkCurrentSectionOnly";
             this.chkCurrentSectionOnly.Size = new System.Drawing.Size(138, 26);
-            this.chkCurrentSectionOnly.TabIndex = 1;
+            this.chkCurrentSectionOnly.TabIndex = 4;
             this.chkCurrentSectionOnly.Text = "Only Current Section";
             this.chkCurrentSectionOnly.UseVisualStyleBackColor = true;
             // 
