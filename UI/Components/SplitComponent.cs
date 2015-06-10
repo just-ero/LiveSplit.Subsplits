@@ -853,7 +853,7 @@ namespace LiveSplit.UI.Components
                             ((!Settings.HideSubsplits && state.CurrentSplit == Split) ||
                             (SplitsSettings.SectionSplit != null && SplitsSettings.SectionSplit == Split));
                 IsHighlight = (SplitsSettings.HilightSplit == Split);
-                IsSubsplit = Split.Name.StartsWith("-");
+                IsSubsplit = Split.Name.StartsWith("-") && Split != state.Run.Last();
 
                 UpdateAll(state);
                 NeedUpdateAll = false;
