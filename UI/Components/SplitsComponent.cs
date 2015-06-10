@@ -81,7 +81,14 @@ namespace LiveSplit.UI.Components
             ScrollOffset = 0;
             RebuildVisualSplits();
             sectionList = new SectionList();
+            sectionList.UpdateSplits(state.Run);
             state.ComparisonRenamed += state_ComparisonRenamed;
+            state.RunManuallyModified += state_RunManuallyModified;
+        }
+
+        void state_RunManuallyModified(object sender, EventArgs e)
+        {
+            sectionList.UpdateSplits(((LiveSplitState)sender).Run);
         }
 
         void state_ComparisonRenamed(object sender, EventArgs e)
@@ -258,26 +265,7 @@ namespace LiveSplit.UI.Components
             public List<Section> Sections;
             IRun oldSplits;
 
-            private bool compareSplits(IRun first, IRun second)
-            {
-                if (first == null || second == null)
-                    return false;
-
-                if (first.Count() != second.Count())
-                    return false;
-
-                for (int i = 0; i < first.Count(); i++)
-                {
-                    if (first[i].Name.StartsWith("-") ^ second[i].Name.StartsWith("-"))
-                        return false;
-                }
-
-                return true;
-            }
-
             public void UpdateSplits(IRun splits) {
-                if (compareSplits(oldSplits, splits))
-                    return;
                 oldSplits = (IRun)splits.Clone();
 
                 Sections = new List<Section>();
@@ -400,7 +388,6 @@ namespace LiveSplit.UI.Components
             }
             settingsSplitCount = Settings.VisualSplitCount;
 
-            sectionList.UpdateSplits(state.Run);
             
             int currentSplit = ScrollOffset;
             if (state.CurrentPhase != TimerPhase.NotRunning)
