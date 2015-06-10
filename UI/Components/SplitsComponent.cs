@@ -385,9 +385,9 @@ namespace LiveSplit.UI.Components
             }
             settingsSplitCount = Settings.VisualSplitCount;
 
-            var runningSectionIndex = Math.Min(Math.Max(0, state.CurrentSplitIndex), state.Run.Count - 1);
+            var runningSectionIndex = Math.Min(Math.Max(state.CurrentSplitIndex, 0), state.Run.Count - 1);
             ScrollOffset = Math.Min(Math.Max(ScrollOffset, -runningSectionIndex), state.Run.Count - runningSectionIndex - 1);
-            var currentSplit = Math.Min(state.Run.Count - 1, Math.Max(0, ScrollOffset + runningSectionIndex));
+            var currentSplit = ScrollOffset + runningSectionIndex;
             var currentSection = sectionList.getSection(currentSplit);
             runningSectionIndex = sectionList.getSection(runningSectionIndex);
 
