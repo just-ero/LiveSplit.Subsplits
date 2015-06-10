@@ -150,9 +150,6 @@ namespace LiveSplit.UI.Components
                 OldState = state;
             }
 
-            int currentIndex = Math.Min(Math.Max(0, state.CurrentSplitIndex), state.Run.Count - 1);
-            ScrollOffset = Math.Min(Math.Max(ScrollOffset, -currentIndex), state.Run.Count - currentIndex - 1);
-
             if (OldShadowsColor != state.LayoutSettings.ShadowsColor)
                 ShadowImages.Clear();
 
@@ -388,19 +385,10 @@ namespace LiveSplit.UI.Components
             }
             settingsSplitCount = Settings.VisualSplitCount;
 
-            
-            int currentSplit = ScrollOffset;
-            if (state.CurrentPhase != TimerPhase.NotRunning)
-                currentSplit = state.CurrentSplitIndex + ScrollOffset;
-            if (state.CurrentPhase == TimerPhase.Ended)
-                currentSplit--;
+            var runningSectionIndex = Math.Min(Math.Max(0, state.CurrentSplitIndex), state.Run.Count - 1);
+            ScrollOffset = Math.Min(Math.Max(ScrollOffset, -runningSectionIndex), state.Run.Count - runningSectionIndex - 1);
+            var currentSplit = Math.Min(state.Run.Count - 1, Math.Max(0, ScrollOffset + runningSectionIndex));
             var currentSection = sectionList.getSection(currentSplit);
-
-            var runningSectionIndex = state.CurrentSplitIndex;
-            if (state.CurrentPhase == TimerPhase.NotRunning)
-                runningSectionIndex++;
-            if (state.CurrentPhase == TimerPhase.Ended)
-                runningSectionIndex--;
             runningSectionIndex = sectionList.getSection(runningSectionIndex);
 
             if (Settings.HideSubsplits)
