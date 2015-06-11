@@ -940,7 +940,6 @@
             this.chkOverrideDeltaColor.TabIndex = 0;
             this.chkOverrideDeltaColor.Text = "Override Layout Settings";
             this.chkOverrideDeltaColor.UseVisualStyleBackColor = true;
-            this.chkOverrideDeltaColor.CheckedChanged += new System.EventHandler(this.chkOverrideDeltaColor_CheckedChanged_1);
             // 
             // label8
             // 
@@ -1238,7 +1237,6 @@
             this.chkSectionTimerGradient.TabIndex = 2;
             this.chkSectionTimerGradient.Text = "Show Gradient";
             this.chkSectionTimerGradient.UseVisualStyleBackColor = true;
-            this.chkSectionTimerGradient.CheckedChanged += new System.EventHandler(this.chkSectionTimerGradient_CheckedChanged);
             // 
             // groupBox12
             // 
@@ -1371,7 +1369,6 @@
             this.chkHeaderTimes.TabIndex = 7;
             this.chkHeaderTimes.Text = "Show Total Section Time";
             this.chkHeaderTimes.UseVisualStyleBackColor = true;
-            this.chkHeaderTimes.CheckedChanged += new System.EventHandler(this.chkHeaderTimes_CheckedChanged);
             // 
             // label17
             // 
@@ -1488,7 +1485,6 @@
             this.chkHeaderText.TabIndex = 5;
             this.chkHeaderText.Text = "Show Split Name";
             this.chkHeaderText.UseVisualStyleBackColor = true;
-            this.chkHeaderText.CheckedChanged += new System.EventHandler(this.chkHeaderText_CheckedChanged);
             // 
             // tableLayoutPanel12
             // 
@@ -1534,7 +1530,6 @@
             this.chkShowSectionIcon.TabIndex = 2;
             this.chkShowSectionIcon.Text = "Show Icon";
             this.chkShowSectionIcon.UseVisualStyleBackColor = true;
-            this.chkShowSectionIcon.CheckedChanged += new System.EventHandler(this.chkShowSectionIcon_CheckedChanged);
             // 
             // chkIndentSectionSplit
             // 
@@ -1550,7 +1545,6 @@
             this.chkIndentSectionSplit.TabIndex = 1;
             this.chkIndentSectionSplit.Text = "Indent Last Split Of Section";
             this.chkIndentSectionSplit.UseVisualStyleBackColor = true;
-            this.chkIndentSectionSplit.CheckedChanged += new System.EventHandler(this.chkIndentSectionSplit_CheckedChanged);
             // 
             // groupBox10
             // 
@@ -1569,7 +1563,7 @@
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.4486F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.5514F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 191F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 192F));
             this.tableLayoutPanel10.Controls.Add(this.label15, 0, 1);
             this.tableLayoutPanel10.Controls.Add(this.chkOverrideSubsplitColor, 0, 0);
             this.tableLayoutPanel10.Controls.Add(this.cmbSubsplitGradient, 3, 1);
@@ -1618,9 +1612,9 @@
             "Plain",
             "Vertical",
             "Horizontal"});
-            this.cmbSubsplitGradient.Location = new System.Drawing.Point(238, 32);
+            this.cmbSubsplitGradient.Location = new System.Drawing.Point(237, 32);
             this.cmbSubsplitGradient.Name = "cmbSubsplitGradient";
-            this.cmbSubsplitGradient.Size = new System.Drawing.Size(186, 21);
+            this.cmbSubsplitGradient.Size = new System.Drawing.Size(187, 21);
             this.cmbSubsplitGradient.TabIndex = 4;
             this.cmbSubsplitGradient.SelectedIndexChanged += new System.EventHandler(this.cmbSubsplitGradient_SelectedIndexChanged);
             // 
@@ -1630,7 +1624,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSubsplitBottomColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSubsplitBottomColor.Location = new System.Drawing.Point(209, 31);
+            this.btnSubsplitBottomColor.Location = new System.Drawing.Point(208, 31);
             this.btnSubsplitBottomColor.Name = "btnSubsplitBottomColor";
             this.btnSubsplitBottomColor.Size = new System.Drawing.Size(23, 23);
             this.btnSubsplitBottomColor.TabIndex = 3;
@@ -1645,7 +1639,7 @@
             this.btnSubsplitTopColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSubsplitTopColor.Location = new System.Drawing.Point(181, 31);
             this.btnSubsplitTopColor.Name = "btnSubsplitTopColor";
-            this.btnSubsplitTopColor.Size = new System.Drawing.Size(22, 23);
+            this.btnSubsplitTopColor.Size = new System.Drawing.Size(21, 23);
             this.btnSubsplitTopColor.TabIndex = 2;
             this.btnSubsplitTopColor.UseVisualStyleBackColor = false;
             this.btnSubsplitTopColor.Click += new System.EventHandler(this.ColorButtonClick);
@@ -1747,7 +1741,6 @@
             this.chkIndentSubsplits.TabIndex = 3;
             this.chkIndentSubsplits.Text = "Indent Subsplits";
             this.chkIndentSubsplits.UseVisualStyleBackColor = true;
-            this.chkIndentSubsplits.CheckedChanged += new System.EventHandler(this.chkIndentSubsplits_CheckedChanged);
             // 
             // chkCurrentSectionOnly
             // 
