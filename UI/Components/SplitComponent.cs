@@ -786,7 +786,7 @@ namespace LiveSplit.UI.Components
                     
                     if (!Settings.ShowSplitTimes)
                     {
-                        var color = LiveSplitStateHelper.GetSplitColor(state, deltaTime, 0, splitIndex, comparison, state.CurrentTimingMethod);
+                        var color = LiveSplitStateHelper.GetSplitColor(state, deltaTime, splitIndex, true, true, comparison, state.CurrentTimingMethod);
                         if (color == null)
                             color = Settings.OverrideTimesColor ? Settings.BeforeTimesColor : state.LayoutSettings.TextColor;
                         TimeLabel.ForeColor = color.Value;
@@ -798,7 +798,7 @@ namespace LiveSplit.UI.Components
                     }
                     else
                     {
-                        var color = LiveSplitStateHelper.GetSplitColor(state, deltaTime, 0, splitIndex, comparison, state.CurrentTimingMethod);
+                        var color = LiveSplitStateHelper.GetSplitColor(state, deltaTime, splitIndex, true, true, comparison, state.CurrentTimingMethod);
                         if (color == null)
                             color = Settings.OverrideTimesColor ? Settings.BeforeTimesColor : state.LayoutSettings.TextColor;
                         DeltaLabel.ForeColor = color.Value;
