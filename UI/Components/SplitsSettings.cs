@@ -217,7 +217,6 @@ namespace LiveSplit.UI.Components
             chkIndentSubsplits.DataBindings.Add("Checked", this, "IndentSubsplits", false, DataSourceUpdateMode.OnPropertyChanged);
             chkCurrentSectionOnly.DataBindings.Add("Checked", this, "CurrentSectionOnly", false, DataSourceUpdateMode.OnPropertyChanged);
             chkOverrideSubsplitColor.DataBindings.Add("Checked", this, "OverrideSubsplitColor", false, DataSourceUpdateMode.OnPropertyChanged);
-            cmbSubsplitGradient.SelectedIndexChanged += cmbSubsplitGradient_SelectedIndexChanged;
             cmbSubsplitGradient.DataBindings.Add("SelectedItem", this, "SubsplitGradientString", false, DataSourceUpdateMode.OnPropertyChanged);
             btnSubsplitTopColor.DataBindings.Add("BackColor", this, "SubsplitTopColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnSubsplitBottomColor.DataBindings.Add("BackColor", this, "SubsplitBottomColor", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -227,7 +226,6 @@ namespace LiveSplit.UI.Components
             chkShowSectionIcon.DataBindings.Add("Checked", this, "ShowSectionIcon", false, DataSourceUpdateMode.OnPropertyChanged);
             btnHeaderTopColor.DataBindings.Add("BackColor", this, "HeaderTopColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnHeaderBottomColor.DataBindings.Add("BackColor", this, "HeaderBottomColor", false, DataSourceUpdateMode.OnPropertyChanged);
-            cmbHeaderGradient.SelectedIndexChanged += cmbHeaderGradient_SelectedIndexChanged;
             cmbHeaderGradient.DataBindings.Add("SelectedItem", this, "HeaderGradientString", false, DataSourceUpdateMode.OnPropertyChanged);
             chkOverrideHeaderColor.DataBindings.Add("Checked", this, "OverrideHeaderColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnHeaderTextColor.DataBindings.Add("BackColor", this, "HeaderTextColor", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -238,34 +236,12 @@ namespace LiveSplit.UI.Components
             btnSectionTimerColor.DataBindings.Add("BackColor", this, "SectionTimerColor", false, DataSourceUpdateMode.OnPropertyChanged);
             chkSectionTimerGradient.DataBindings.Add("Checked", this, "SectionTimerGradient", false, DataSourceUpdateMode.OnPropertyChanged);
 
-            this.Load += SplitsSettings_Load;
-            chkThinSeparators.CheckedChanged += chkThinSeparators_CheckedChanged;
-            chkLastSplit.CheckedChanged += chkLastSplit_CheckedChanged;
-            chkShowBlankSplits.CheckedChanged += chkShowBlankSplits_CheckedChanged;
-            chkLockLastSplit.CheckedChanged += chkLockLastSplit_CheckedChanged;
-            chkSeparatorLastSplit.CheckedChanged += chkSeparatorLastSplit_CheckedChanged;
             trkIconSize.DataBindings.Add("Value", this, "IconSize", false, DataSourceUpdateMode.OnPropertyChanged);
             cmbSplitGradient.DataBindings.Add("SelectedItem", this, "SplitGradientString", false, DataSourceUpdateMode.OnPropertyChanged);
-            cmbSplitGradient.SelectedIndexChanged += cmbSplitGradient_SelectedIndexChanged;
-            cmbComparison.SelectedIndexChanged += cmbComparison_SelectedIndexChanged;
             cmbComparison.DataBindings.Add("SelectedItem", this, "Comparison", false, DataSourceUpdateMode.OnPropertyChanged);
-
-            cmbGradientType.SelectedIndexChanged += cmbGradientType_SelectedIndexChanged;
             cmbGradientType.DataBindings.Add("SelectedItem", this, "GradientString", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor1.DataBindings.Add("BackColor", this, "BackgroundColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor2.DataBindings.Add("BackColor", this, "BackgroundColor2", false, DataSourceUpdateMode.OnPropertyChanged);
-
-            rdoSeconds.CheckedChanged += rdoSeconds_CheckedChanged;
-            rdoTenths.CheckedChanged += rdoTenths_CheckedChanged;
-
-            rdoDeltaSeconds.CheckedChanged += rdoDeltaSeconds_CheckedChanged;
-            rdoDeltaTenths.CheckedChanged += rdoDeltaTenths_CheckedChanged;
-
-            chkOverrideTextColor.CheckedChanged += chkOverrideTextColor_CheckedChanged;
-            chkOverrideDeltaColor.CheckedChanged += chkOverrideDeltaColor_CheckedChanged;
-            chkOverrideTimesColor.CheckedChanged += chkOverrideTimesColor_CheckedChanged;
-            chkDisplayIcons.CheckedChanged += chkDisplayIcons_CheckedChanged;
-            chkOverrideSubsplitColor.CheckedChanged += chkOverrideSubsplitColor_CheckedChanged;
         }
 
         void chkDisplayIcons_CheckedChanged(object sender, EventArgs e)
@@ -730,7 +706,5 @@ namespace LiveSplit.UI.Components
         {
             UpdateSectionTimerAccuracy();
         }
-
-
     }
 }
