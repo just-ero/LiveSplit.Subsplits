@@ -33,7 +33,7 @@ namespace LiveSplit.UI.Components
         protected int ScrollOffset { get; set; }
         protected int LastSplitSeparatorIndex { get; set; }
 
-        protected LiveSplitState OldState { get; set; }
+        protected LiveSplitState State { get; set; }
 
         protected Color OldShadowsColor { get; set; }
 
@@ -82,8 +82,6 @@ namespace LiveSplit.UI.Components
             RebuildVisualSplits();
             sectionList = new SectionList();
             sectionList.UpdateSplits(state.Run);
-            state.ComparisonRenamed += state_ComparisonRenamed;
-            state.RunManuallyModified += state_RunManuallyModified;
         }
 
         void state_RunManuallyModified(object sender, EventArgs e)
@@ -138,7 +136,7 @@ namespace LiveSplit.UI.Components
 
         private void Prepare(LiveSplitState state)
         {
-            if (state != OldState)
+            if (state != State)
             {
                 state.OnScrollDown += state_OnScrollDown;
                 state.OnScrollUp += state_OnScrollUp;
@@ -147,7 +145,9 @@ namespace LiveSplit.UI.Components
                 state.OnSplit += state_OnSplit;
                 state.OnSkipSplit += state_OnSkipSplit;
                 state.OnUndoSplit += state_OnUndoSplit;
-                OldState = state;
+                state.ComparisonRenamed += state_ComparisonRenamed;
+                state.RunManuallyModified += state_RunManuallyModified;
+                State = state;
             }
 
             if (OldShadowsColor != state.LayoutSettings.ShadowsColor)
@@ -610,6 +610,15 @@ namespace LiveSplit.UI.Components
 
         public void Dispose()
         {
+            State.OnScrollDown -= state_OnScrollDown;
+            State.OnScrollUp -= state_OnScrollUp;
+            State.OnStart -= state_OnStart;
+            State.OnReset -= state_OnReset;
+            State.OnSplit -= state_OnSplit;
+            State.OnSkipSplit -= state_OnSkipSplit;
+            State.OnUndoSplit -= state_OnUndoSplit;
+            State.ComparisonRenamed -= state_ComparisonRenamed;
+            State.RunManuallyModified -= state_RunManuallyModified;
         }
     }
 }
