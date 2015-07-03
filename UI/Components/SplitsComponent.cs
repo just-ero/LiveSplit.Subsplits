@@ -27,6 +27,7 @@ namespace LiveSplit.UI.Components
 
         private int visualSplitCount;
         private int settingsSplitCount;
+        private IRun previousRun;
 
         private SectionList sectionList;
 
@@ -81,6 +82,7 @@ namespace LiveSplit.UI.Components
             ScrollOffset = 0;
             RebuildVisualSplits();
             sectionList = new SectionList();
+            previousRun = state.Run;
             sectionList.UpdateSplits(state.Run);
         }
 
@@ -384,6 +386,12 @@ namespace LiveSplit.UI.Components
                 RebuildVisualSplits();
             }
             settingsSplitCount = Settings.VisualSplitCount;
+
+            if (state.Run != previousRun)
+            {
+                sectionList.UpdateSplits(state.Run);
+                previousRun = state.Run;
+            }
 
             var runningSectionIndex = Math.Min(Math.Max(state.CurrentSplitIndex, 0), state.Run.Count - 1);
             ScrollOffset = Math.Min(Math.Max(ScrollOffset, -runningSectionIndex), state.Run.Count - runningSectionIndex - 1);
