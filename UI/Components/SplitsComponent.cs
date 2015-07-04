@@ -152,6 +152,15 @@ namespace LiveSplit.UI.Components
                 State = state;
             }
 
+            var previousSplitCount = visualSplitCount;
+            visualSplitCount = Math.Min(state.Run.Count, Settings.VisualSplitCount);
+            if (previousSplitCount != visualSplitCount
+                || (Settings.ShowBlankSplits && settingsSplitCount != Settings.VisualSplitCount))
+            {
+                RebuildVisualSplits();
+            }
+            settingsSplitCount = Settings.VisualSplitCount;
+
             if (OldShadowsColor != state.LayoutSettings.ShadowsColor)
                 ShadowImages.Clear();
 
@@ -378,15 +387,6 @@ namespace LiveSplit.UI.Components
 
         public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
-            var previousSplitCount = visualSplitCount;
-            visualSplitCount = Math.Min(state.Run.Count, Settings.VisualSplitCount);
-            if (previousSplitCount != visualSplitCount
-                || (Settings.ShowBlankSplits && settingsSplitCount != Settings.VisualSplitCount))
-            {
-                RebuildVisualSplits();
-            }
-            settingsSplitCount = Settings.VisualSplitCount;
-
             if (state.Run != previousRun)
             {
                 sectionList.UpdateSplits(state.Run);
@@ -537,40 +537,10 @@ namespace LiveSplit.UI.Components
 
             if (addHeader)
             {
-                /*
-                if (Settings.MultipleHeaders)
-                {
-                    int firstSection = sectionList.getSection(visibleSplits[0]);
-                    int lastSection = sectionList.getSection(visibleSplits.Last());
-                    for (int sectionIndex = firstSection; sectionIndex <= lastSection; sectionIndex++)
-                    {
-                        int sectionTop = sectionList.Sections[sectionIndex].startIndex;
-                        int sectionBottom = sectionList.Sections[sectionIndex].endIndex;
-                        if (sectionTop == sectionBottom)
-                            continue;
-
-                        int insertIndex;
-                        do
-                        {
-                            insertIndex = visibleSplits.IndexOf(sectionTop++);
-                        } while ((insertIndex == -1) && (sectionTop > sectionBottom));
-
-                        if (sectionTop <= sectionBottom)
-                            visibleSplits.Insert(insertIndex, -(sectionIndex + 1));
-                    }
-                }
-                else
-                {
-                */
-                    int sectionTop = sectionList.Sections[currentSection].startIndex;
-                    int insertIndex;
-                    do
-                    {
-                        insertIndex = visibleSplits.IndexOf(sectionTop++);
-                    } while (insertIndex == -1);
-
+                int sectionTop = sectionList.Sections[currentSection].startIndex;
+                int insertIndex = visibleSplits.IndexOf(sectionTop++);
+                if (insertIndex >= 0)
                     visibleSplits.Insert(insertIndex, -(currentSection + 1));
-                //}
             }
 
             int i = 0;
