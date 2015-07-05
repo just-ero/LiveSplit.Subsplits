@@ -79,6 +79,7 @@ namespace LiveSplit.UI.Components
 
         public bool ShowHeader { get; set; }
         public bool IndentSectionSplit { get; set; }
+        public bool ShowIconSectionSplit { get; set; }
         public bool ShowSectionIcon { get; set; }
         public Color HeaderTopColor { get; set; }
         public Color HeaderBottomColor { get; set; }
@@ -173,7 +174,8 @@ namespace LiveSplit.UI.Components
             SubsplitBottomColor = Color.Transparent;
             SubsplitGradient = GradientType.Plain;
             ShowHeader = true;
-            IndentSectionSplit = true; 
+            IndentSectionSplit = true;
+            ShowIconSectionSplit = true;
             ShowSectionIcon = true;
             HeaderTopColor = Color.FromArgb(0x2B, 0xFF, 0xFF, 0xFF);
             HeaderBottomColor = Color.FromArgb(0xD8, 0x00, 0x00, 0x00);
@@ -223,6 +225,7 @@ namespace LiveSplit.UI.Components
 
             chkShowHeader.DataBindings.Add("Checked", this, "ShowHeader", false, DataSourceUpdateMode.OnPropertyChanged);
             chkIndentSectionSplit.DataBindings.Add("Checked", this, "IndentSectionSplit", false, DataSourceUpdateMode.OnPropertyChanged);
+            chkShowIconSectionSplit.DataBindings.Add("Checked", this, "ShowIconSectionSplit", false, DataSourceUpdateMode.OnPropertyChanged);
             chkShowSectionIcon.DataBindings.Add("Checked", this, "ShowSectionIcon", false, DataSourceUpdateMode.OnPropertyChanged);
             btnHeaderTopColor.DataBindings.Add("BackColor", this, "HeaderTopColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnHeaderBottomColor.DataBindings.Add("BackColor", this, "HeaderBottomColor", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -456,6 +459,11 @@ namespace LiveSplit.UI.Components
             var element = (XmlElement)node;
             Version version = SettingsHelper.ParseVersion(element["Version"]);
 
+            if (version >= new Version(1, 6))
+                ShowIconSectionSplit = SettingsHelper.ParseBool(element["ShowIconSectionSplit"], true);
+            else
+                ShowIconSectionSplit = true;
+
             CurrentSplitTopColor = SettingsHelper.ParseColor(element["CurrentSplitTopColor"]);
             CurrentSplitBottomColor = SettingsHelper.ParseColor(element["CurrentSplitBottomColor"]);
             VisualSplitCount = SettingsHelper.ParseInt(element["VisualSplitCount"]);
@@ -536,7 +544,7 @@ namespace LiveSplit.UI.Components
         public XmlNode GetSettings(XmlDocument document)
         {
             var parent = document.CreateElement("Settings");
-            parent.AppendChild(SettingsHelper.ToElement(document, "Version", "1.4.1"));
+            parent.AppendChild(SettingsHelper.ToElement(document, "Version", "1.6.0"));
             parent.AppendChild(SettingsHelper.ToElement(document, CurrentSplitTopColor, "CurrentSplitTopColor"));
             parent.AppendChild(SettingsHelper.ToElement(document, CurrentSplitBottomColor, "CurrentSplitBottomColor"));
             parent.AppendChild(SettingsHelper.ToElement(document, "VisualSplitCount", VisualSplitCount));
@@ -580,6 +588,7 @@ namespace LiveSplit.UI.Components
             parent.AppendChild(SettingsHelper.ToElement(document, "SubsplitGradient", SubsplitGradient));
             parent.AppendChild(SettingsHelper.ToElement(document, "ShowHeader", ShowHeader));
             parent.AppendChild(SettingsHelper.ToElement(document, "IndentSectionSplit", IndentSectionSplit));
+            parent.AppendChild(SettingsHelper.ToElement(document, "ShowIconSectionSplit", ShowIconSectionSplit));
             parent.AppendChild(SettingsHelper.ToElement(document, "ShowSectionIcon", ShowSectionIcon));
             parent.AppendChild(SettingsHelper.ToElement(document, "HeaderGradient", HeaderGradient));
             parent.AppendChild(SettingsHelper.ToElement(document, "OverrideHeaderColor", OverrideHeaderColor));
@@ -634,7 +643,7 @@ namespace LiveSplit.UI.Components
 
         private void chkShowHeader_CheckedChanged(object sender, EventArgs e)
         {
-            IndentSectionSplit = chkIndentSectionSplit.Enabled = chkShowSectionIcon.Enabled = groupBox12.Enabled = groupBox13.Enabled = chkShowHeader.Checked;
+            chkShowSectionIcon.Enabled = groupBox12.Enabled = groupBox13.Enabled = chkShowHeader.Checked;
         }
 
         private void cmbHeaderGradient_SelectedIndexChanged(object sender, EventArgs e)

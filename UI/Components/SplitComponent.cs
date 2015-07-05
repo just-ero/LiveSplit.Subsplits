@@ -49,7 +49,7 @@ namespace LiveSplit.UI.Components
         protected ITimeFormatter HeaderTimesFormatter { get; set; }
         protected ITimeFormatter SectionTimerFormatter { get; set; }
 
-        protected int IconWidth { get { return ((!Header && DisplayIcon) || (Header && Settings.ShowSectionIcon)) ? (int)(Settings.IconSize+7.5f) : 0; } }
+        protected int IconWidth { get { return ((!Header && DisplayIcon && Settings.ShowIconSectionSplit) || (Header && Settings.ShowSectionIcon)) ? (int)(Settings.IconSize + 7.5f) : 0; } }
 
         public bool DisplayIcon { get; set; }
 
@@ -241,7 +241,7 @@ namespace LiveSplit.UI.Components
                     g.DrawRectangle(highlightPen, 0, 0, width - 1, height - 1);
                 }
 
-                if (DisplayIcon)
+                if (DisplayIcon && Settings.ShowIconSectionSplit)
                 {
                     var icon = Split.Icon ?? NoIconImage;
                     var shadow = (Split.Icon != null) ? ShadowImage : NoIconShadow;
