@@ -127,21 +127,21 @@ namespace LiveSplit.UI.Components
         public SplitsSettings()
         {
             InitializeComponent();
-            VisualSplitCount = 16;
+            VisualSplitCount = 8;
             SplitPreviewCount = 1;
-            DisplayIcons = false;
+            DisplayIcons = true;
             IconShadows = true;
-            ShowThinSeparators = true;
+            ShowThinSeparators = false;
             AlwaysShowLastSplit = true;
             ShowSplitTimes = false;
             ShowBlankSplits = true;
             LockLastSplit = true;
             SeparatorLastSplit = true;
             SplitTimesAccuracy = TimeAccuracy.Seconds;
-            CurrentSplitTopColor = Color.FromArgb(0x00, 0xA2, 0xFF);
-            CurrentSplitBottomColor = Color.FromArgb(0x07, 0x44, 0x67);
+            CurrentSplitTopColor = Color.FromArgb(51, 115, 244);
+            CurrentSplitBottomColor = Color.FromArgb(21, 53, 116);
             SplitWidth = 20;
-            SplitHeight = 6;
+            SplitHeight = 3.6f;
             ScaledSplitHeight = 60;
             IconSize = 24f;
             BeforeNamesColor = Color.FromArgb(255, 255, 255);
@@ -154,8 +154,8 @@ namespace LiveSplit.UI.Components
             OverrideTimesColor = false;
             CurrentSplitGradient = GradientType.Vertical;
             cmbSplitGradient.SelectedIndexChanged += cmbSplitGradient_SelectedIndexChanged;
-            BackgroundColor = Color.FromArgb(0x00, 0x03, 0x83);
-            BackgroundColor2 = Color.FromArgb(0x1D, 0x20, 0x9C);
+            BackgroundColor = Color.Transparent;
+            BackgroundColor2 = Color.FromArgb(1, 255, 255, 255);
             BackgroundGradient = ExtendedGradientType.Alternating;
             DropDecimals = true;
             DeltasAccuracy = TimeAccuracy.Tenths;
@@ -169,7 +169,7 @@ namespace LiveSplit.UI.Components
             HideSubsplits = false;
             ShowSubsplits = false;
             CurrentSectionOnly = false;
-            OverrideSubsplitColor = true;
+            OverrideSubsplitColor = false;
             SubsplitTopColor = Color.FromArgb(0x8D, 0x00, 0x00, 0x00);
             SubsplitBottomColor = Color.Transparent;
             SubsplitGradient = GradientType.Plain;
@@ -182,7 +182,7 @@ namespace LiveSplit.UI.Components
             HeaderGradient = GradientType.Vertical;
             OverrideHeaderColor = false;
             HeaderTextColor = Color.FromArgb(255, 255, 255);
-            HeaderText = false;
+            HeaderText = true;
             HeaderTimesColor = Color.FromArgb(255, 255, 255);
             HeaderTimes = true;
             HeaderAccuracy = TimeAccuracy.Tenths;
@@ -459,19 +459,14 @@ namespace LiveSplit.UI.Components
             var element = (XmlElement)node;
             Version version = SettingsHelper.ParseVersion(element["Version"]);
 
-            if (version >= new Version(1, 6))
-                ShowIconSectionSplit = SettingsHelper.ParseBool(element["ShowIconSectionSplit"], true);
-            else
-                ShowIconSectionSplit = true;
-
-            CurrentSplitTopColor = SettingsHelper.ParseColor(element["CurrentSplitTopColor"]);
-            CurrentSplitBottomColor = SettingsHelper.ParseColor(element["CurrentSplitBottomColor"]);
-            VisualSplitCount = SettingsHelper.ParseInt(element["VisualSplitCount"]);
-            SplitPreviewCount = SettingsHelper.ParseInt(element["SplitPreviewCount"]);
-            DisplayIcons = SettingsHelper.ParseBool(element["DisplayIcons"]);
-            ShowThinSeparators = SettingsHelper.ParseBool(element["ShowThinSeparators"]);
-            AlwaysShowLastSplit = SettingsHelper.ParseBool(element["AlwaysShowLastSplit"]);
-            SplitWidth = SettingsHelper.ParseFloat(element["SplitWidth"]);
+            CurrentSplitTopColor = SettingsHelper.ParseColor(element["CurrentSplitTopColor"], Color.FromArgb(51, 115, 244));
+            CurrentSplitBottomColor = SettingsHelper.ParseColor(element["CurrentSplitBottomColor"], Color.FromArgb(21, 53, 116));
+            VisualSplitCount = SettingsHelper.ParseInt(element["VisualSplitCount"], 8);
+            SplitPreviewCount = SettingsHelper.ParseInt(element["SplitPreviewCount"], 1);
+            DisplayIcons = SettingsHelper.ParseBool(element["DisplayIcons"], true);
+            ShowThinSeparators = SettingsHelper.ParseBool(element["ShowThinSeparators"], false);
+            AlwaysShowLastSplit = SettingsHelper.ParseBool(element["AlwaysShowLastSplit"], true);
+            SplitWidth = SettingsHelper.ParseFloat(element["SplitWidth"], 20);
             HideBlankIcons = SettingsHelper.ParseBool(element["HideBlankIcons"], true);
             IndentSubsplits = SettingsHelper.ParseBool(element["IndentSubsplits"], true);
             HideSubsplits = SettingsHelper.ParseBool(element["HideSubsplits"], false);
@@ -483,13 +478,14 @@ namespace LiveSplit.UI.Components
             SubsplitGradientString = SettingsHelper.ParseString(element["SubsplitGradient"], GradientType.Plain.ToString());
             ShowHeader = SettingsHelper.ParseBool(element["ShowHeader"], true);
             IndentSectionSplit = SettingsHelper.ParseBool(element["IndentSectionSplit"], true);
+            ShowIconSectionSplit = SettingsHelper.ParseBool(element["ShowIconSectionSplit"], true);
             ShowSectionIcon = SettingsHelper.ParseBool(element["ShowSectionIcon"], true);
             HeaderTopColor = SettingsHelper.ParseColor(element["HeaderTopColor"], Color.FromArgb(0x2B, 0xFF, 0xFF, 0xFF));
             HeaderBottomColor = SettingsHelper.ParseColor(element["HeaderBottomColor"], Color.FromArgb(0xD8, 0x00, 0x00, 0x00));
             HeaderGradientString = SettingsHelper.ParseString(element["HeaderGradient"], GradientType.Vertical.ToString());
             OverrideHeaderColor = SettingsHelper.ParseBool(element["OverrideHeaderColor"], false);
             HeaderTextColor = SettingsHelper.ParseColor(element["HeaderTextColor"], Color.FromArgb(255, 255, 255));
-            HeaderText = SettingsHelper.ParseBool(element["HeaderText"], false);
+            HeaderText = SettingsHelper.ParseBool(element["HeaderText"], true);
             HeaderTimesColor = SettingsHelper.ParseColor(element["HeaderTimesColor"], Color.FromArgb(255, 255, 255));
             HeaderTimes = SettingsHelper.ParseBool(element["HeaderTimes"], true);
             HeaderAccuracy = SettingsHelper.ParseEnum<TimeAccuracy>(element["HeaderAccuracy"], TimeAccuracy.Tenths);
@@ -501,10 +497,10 @@ namespace LiveSplit.UI.Components
             BeforeTimesColor = SettingsHelper.ParseColor(element["BeforeTimesColor"], Color.FromArgb(255, 255, 255));
             CurrentTimesColor = SettingsHelper.ParseColor(element["CurrentTimesColor"], Color.FromArgb(255, 255, 255));
             AfterTimesColor = SettingsHelper.ParseColor(element["AfterTimesColor"], Color.FromArgb(255, 255, 255));
-            SplitHeight = SettingsHelper.ParseFloat(element["SplitHeight"], 6);
+            SplitHeight = SettingsHelper.ParseFloat(element["SplitHeight"], 3.6f);
             SplitGradientString = SettingsHelper.ParseString(element["CurrentSplitGradient"], GradientType.Vertical.ToString());
-            BackgroundColor = SettingsHelper.ParseColor(element["BackgroundColor"], Color.FromArgb(0x00, 0x03, 0x83));
-            BackgroundColor2 = SettingsHelper.ParseColor(element["BackgroundColor2"], Color.FromArgb(0x1D, 0x20, 0x9C));
+            BackgroundColor = SettingsHelper.ParseColor(element["BackgroundColor"], Color.Transparent);
+            BackgroundColor2 = SettingsHelper.ParseColor(element["BackgroundColor2"], Color.FromArgb(1, 255, 255, 255));
             GradientString = SettingsHelper.ParseString(element["BackgroundGradient"], ExtendedGradientType.Alternating.ToString());
             SeparatorLastSplit = SettingsHelper.ParseBool(element["SeparatorLastSplit"], true);
             DropDecimals = SettingsHelper.ParseBool(element["DropDecimals"], true);
@@ -516,7 +512,7 @@ namespace LiveSplit.UI.Components
             ShowSplitTimes = SettingsHelper.ParseBool(element["ShowSplitTimes"], false);
             SplitTimesAccuracy = SettingsHelper.ParseEnum<TimeAccuracy>(element["SplitTimesAccuracy"], TimeAccuracy.Seconds);
             ShowBlankSplits = SettingsHelper.ParseBool(element["ShowBlankSplits"], true);
-            LockLastSplit = SettingsHelper.ParseBool(element["LockLastSplit"], false);
+            LockLastSplit = SettingsHelper.ParseBool(element["LockLastSplit"], true);
             IconSize = SettingsHelper.ParseFloat(element["IconSize"], 24f);
             IconShadows = SettingsHelper.ParseBool(element["IconShadows"], true);
 
