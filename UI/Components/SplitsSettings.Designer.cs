@@ -248,7 +248,7 @@
             this.cmbComparison.Name = "cmbComparison";
             this.cmbComparison.Size = new System.Drawing.Size(245, 21);
             this.cmbComparison.TabIndex = 3;
-            this.cmbComparison.SelectedIndexChanged += new System.EventHandler(cmbComparison_SelectedIndexChanged);
+            this.cmbComparison.SelectedIndexChanged += new System.EventHandler(this.cmbComparison_SelectedIndexChanged);
             // 
             // label12
             // 
@@ -274,7 +274,7 @@
             this.cmbGradientType.Name = "cmbGradientType";
             this.cmbGradientType.Size = new System.Drawing.Size(187, 21);
             this.cmbGradientType.TabIndex = 2;
-            this.cmbGradientType.SelectedIndexChanged += new System.EventHandler(cmbGradientType_SelectedIndexChanged);
+            this.cmbGradientType.SelectedIndexChanged += new System.EventHandler(this.cmbGradientType_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -396,7 +396,7 @@
             this.chkOverrideTextColor.TabIndex = 0;
             this.chkOverrideTextColor.Text = "Override Layout Settings";
             this.chkOverrideTextColor.UseVisualStyleBackColor = true;
-            this.chkOverrideTextColor.CheckedChanged += new System.EventHandler(chkOverrideTextColor_CheckedChanged);
+            this.chkOverrideTextColor.CheckedChanged += new System.EventHandler(this.chkOverrideTextColor_CheckedChanged);
             // 
             // btnBeforeNamesColor
             // 
@@ -467,7 +467,7 @@
             this.chkThinSeparators.TabIndex = 6;
             this.chkThinSeparators.Text = "Show Thin Separators";
             this.chkThinSeparators.UseVisualStyleBackColor = true;
-            this.chkThinSeparators.CheckedChanged += new System.EventHandler(chkThinSeparators_CheckedChanged);
+            this.chkThinSeparators.CheckedChanged += new System.EventHandler(this.chkThinSeparators_CheckedChanged);
             // 
             // chkLastSplit
             // 
@@ -482,7 +482,7 @@
             this.chkLastSplit.TabIndex = 8;
             this.chkLastSplit.Text = "Always Show Last Split";
             this.chkLastSplit.UseVisualStyleBackColor = true;
-            this.chkLastSplit.CheckedChanged += new System.EventHandler(chkLastSplit_CheckedChanged);
+            this.chkLastSplit.CheckedChanged += new System.EventHandler(this.chkLastSplit_CheckedChanged);
             // 
             // groupBox3
             // 
@@ -543,7 +543,7 @@
             this.chkDisplayIcons.TabIndex = 0;
             this.chkDisplayIcons.Text = "Display Icons";
             this.chkDisplayIcons.UseVisualStyleBackColor = true;
-            this.chkDisplayIcons.CheckedChanged += new System.EventHandler(chkDisplayIcons_CheckedChanged);
+            this.chkDisplayIcons.CheckedChanged += new System.EventHandler(this.chkDisplayIcons_CheckedChanged);
             // 
             // label5
             // 
@@ -689,7 +689,7 @@
             this.chkOverrideTimesColor.TabIndex = 0;
             this.chkOverrideTimesColor.Text = "Override Layout Settings";
             this.chkOverrideTimesColor.UseVisualStyleBackColor = true;
-            this.chkOverrideTimesColor.CheckedChanged += new System.EventHandler(chkOverrideTimesColor_CheckedChanged);
+            this.chkOverrideTimesColor.CheckedChanged += new System.EventHandler(this.chkOverrideTimesColor_CheckedChanged);
             // 
             // btnBeforeTimesColor
             // 
@@ -776,7 +776,7 @@
             this.rdoSeconds.TabStop = true;
             this.rdoSeconds.Text = "Seconds";
             this.rdoSeconds.UseVisualStyleBackColor = true;
-            this.rdoSeconds.CheckedChanged += new System.EventHandler(rdoSeconds_CheckedChanged);
+            this.rdoSeconds.CheckedChanged += new System.EventHandler(this.rdoSeconds_CheckedChanged);
             // 
             // rdoTenths
             // 
@@ -789,7 +789,7 @@
             this.rdoTenths.TabStop = true;
             this.rdoTenths.Text = "Tenths";
             this.rdoTenths.UseVisualStyleBackColor = true;
-            this.rdoTenths.CheckedChanged += new System.EventHandler(rdoTenths_CheckedChanged);
+            this.rdoTenths.CheckedChanged += new System.EventHandler(this.rdoTenths_CheckedChanged);
             // 
             // rdoHundredths
             // 
@@ -866,7 +866,7 @@
             this.chkSeparatorLastSplit.TabIndex = 7;
             this.chkSeparatorLastSplit.Text = "Show Separator Before Last Split";
             this.chkSeparatorLastSplit.UseVisualStyleBackColor = true;
-            this.chkSeparatorLastSplit.CheckedChanged += new System.EventHandler(chkSeparatorLastSplit_CheckedChanged);
+            this.chkSeparatorLastSplit.CheckedChanged += new System.EventHandler(this.chkSeparatorLastSplit_CheckedChanged);
             // 
             // groupBox6
             // 
@@ -950,7 +950,7 @@
             this.chkOverrideDeltaColor.TabIndex = 0;
             this.chkOverrideDeltaColor.Text = "Override Layout Settings";
             this.chkOverrideDeltaColor.UseVisualStyleBackColor = true;
-            this.chkOverrideDeltaColor.CheckedChanged += new System.EventHandler(chkOverrideDeltaColor_CheckedChanged);
+            this.chkOverrideDeltaColor.CheckedChanged += new System.EventHandler(this.chkOverrideDeltaColor_CheckedChanged);
             // 
             // label8
             // 
@@ -1003,7 +1003,7 @@
             this.rdoDeltaSeconds.TabStop = true;
             this.rdoDeltaSeconds.Text = "Seconds";
             this.rdoDeltaSeconds.UseVisualStyleBackColor = true;
-            this.rdoDeltaSeconds.CheckedChanged += new System.EventHandler(rdoDeltaSeconds_CheckedChanged);
+            this.rdoDeltaSeconds.CheckedChanged += new System.EventHandler(this.rdoDeltaSeconds_CheckedChanged);
             // 
             // chkDropDecimals
             // 
@@ -1029,7 +1029,7 @@
             this.rdoDeltaTenths.TabStop = true;
             this.rdoDeltaTenths.Text = "Tenths";
             this.rdoDeltaTenths.UseVisualStyleBackColor = true;
-            this.rdoDeltaTenths.CheckedChanged += new System.EventHandler(rdoDeltaTenths_CheckedChanged);
+            this.rdoDeltaTenths.CheckedChanged += new System.EventHandler(this.rdoDeltaTenths_CheckedChanged);
             // 
             // rdoDeltaHundredths
             // 
@@ -1054,7 +1054,7 @@
             this.chkLockLastSplit.TabIndex = 9;
             this.chkLockLastSplit.Text = "Lock Last Split to Bottom";
             this.chkLockLastSplit.UseVisualStyleBackColor = true;
-            this.chkLockLastSplit.CheckedChanged += new System.EventHandler(chkLockLastSplit_CheckedChanged);
+            this.chkLockLastSplit.CheckedChanged += new System.EventHandler(this.chkLockLastSplit_CheckedChanged);
             // 
             // chkShowBlankSplits
             // 
@@ -1071,7 +1071,7 @@
             this.chkShowBlankSplits.TabIndex = 10;
             this.chkShowBlankSplits.Text = "Fill with Blank Space if Not Enough Splits";
             this.chkShowBlankSplits.UseVisualStyleBackColor = true;
-            this.chkShowBlankSplits.CheckedChanged += new System.EventHandler(chkShowBlankSplits_CheckedChanged);
+            this.chkShowBlankSplits.CheckedChanged += new System.EventHandler(this.chkShowBlankSplits_CheckedChanged);
             // 
             // GroupBox9
             // 
@@ -1578,7 +1578,7 @@
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.4486F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.5514F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 192F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 193F));
             this.tableLayoutPanel10.Controls.Add(this.label15, 0, 1);
             this.tableLayoutPanel10.Controls.Add(this.chkOverrideSubsplitColor, 0, 0);
             this.tableLayoutPanel10.Controls.Add(this.cmbSubsplitGradient, 3, 1);
@@ -1601,7 +1601,7 @@
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(3, 36);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(172, 13);
+            this.label15.Size = new System.Drawing.Size(171, 13);
             this.label15.TabIndex = 28;
             this.label15.Text = "Subsplit Background Color:";
             // 
@@ -1612,7 +1612,7 @@
             this.chkOverrideSubsplitColor.Location = new System.Drawing.Point(7, 5);
             this.chkOverrideSubsplitColor.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkOverrideSubsplitColor.Name = "chkOverrideSubsplitColor";
-            this.chkOverrideSubsplitColor.Size = new System.Drawing.Size(168, 17);
+            this.chkOverrideSubsplitColor.Size = new System.Drawing.Size(167, 17);
             this.chkOverrideSubsplitColor.TabIndex = 1;
             this.chkOverrideSubsplitColor.Text = "Override Layout Settings";
             this.chkOverrideSubsplitColor.UseVisualStyleBackColor = true;
@@ -1627,9 +1627,9 @@
             "Plain",
             "Vertical",
             "Horizontal"});
-            this.cmbSubsplitGradient.Location = new System.Drawing.Point(237, 32);
+            this.cmbSubsplitGradient.Location = new System.Drawing.Point(236, 32);
             this.cmbSubsplitGradient.Name = "cmbSubsplitGradient";
-            this.cmbSubsplitGradient.Size = new System.Drawing.Size(187, 21);
+            this.cmbSubsplitGradient.Size = new System.Drawing.Size(188, 21);
             this.cmbSubsplitGradient.TabIndex = 4;
             this.cmbSubsplitGradient.SelectedIndexChanged += new System.EventHandler(this.cmbSubsplitGradient_SelectedIndexChanged);
             // 
@@ -1639,7 +1639,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSubsplitBottomColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSubsplitBottomColor.Location = new System.Drawing.Point(208, 31);
+            this.btnSubsplitBottomColor.Location = new System.Drawing.Point(207, 31);
             this.btnSubsplitBottomColor.Name = "btnSubsplitBottomColor";
             this.btnSubsplitBottomColor.Size = new System.Drawing.Size(23, 23);
             this.btnSubsplitBottomColor.TabIndex = 3;
@@ -1652,7 +1652,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSubsplitTopColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSubsplitTopColor.Location = new System.Drawing.Point(181, 31);
+            this.btnSubsplitTopColor.Location = new System.Drawing.Point(180, 31);
             this.btnSubsplitTopColor.Name = "btnSubsplitTopColor";
             this.btnSubsplitTopColor.Size = new System.Drawing.Size(21, 23);
             this.btnSubsplitTopColor.TabIndex = 2;
@@ -1695,7 +1695,8 @@
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(427, 32);
             this.label14.TabIndex = 1;
-            this.label14.Text = "To set a split as a subsplit, add a - (dash) to the beginning of the split name";
+            this.label14.Text = "To set a split as a subsplit, add a - (dash) to the beginning of the split name.\r" +
+    "\nOptional: Add a section name with {}. Ex: \"{Section Name} Split Name\"";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // rdoHideSubsplits
@@ -1842,7 +1843,7 @@
             this.cmbSplitGradient.Name = "cmbSplitGradient";
             this.cmbSplitGradient.Size = new System.Drawing.Size(187, 21);
             this.cmbSplitGradient.TabIndex = 15;
-            this.cmbSplitGradient.SelectedIndexChanged += new System.EventHandler(cmbSplitGradient_SelectedIndexChanged);
+            this.cmbSplitGradient.SelectedIndexChanged += new System.EventHandler(this.cmbSplitGradient_SelectedIndexChanged);
             // 
             // SplitsSettings
             // 
@@ -1852,7 +1853,7 @@
             this.Name = "SplitsSettings";
             this.Padding = new System.Windows.Forms.Padding(7);
             this.Size = new System.Drawing.Size(459, 1516);
-            this.Load += new System.EventHandler(SplitsSettings_Load);
+            this.Load += new System.EventHandler(this.SplitsSettings_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dmnTotalSegments)).EndInit();

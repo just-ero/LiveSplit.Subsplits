@@ -8,6 +8,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace LiveSplit.UI.Components
 {
@@ -63,6 +64,8 @@ namespace LiveSplit.UI.Components
         public float PaddingLeft { get { return 0f; } }
         public float PaddingBottom { get { return 0f; } }
         public float PaddingRight { get { return 0f; } }
+
+        private Regex SubsplitRegex = new Regex(@"^{(.+)}\s*(.+)$", RegexOptions.Compiled);
 
         public float VerticalHeight
         {
@@ -655,9 +658,17 @@ namespace LiveSplit.UI.Components
             {
                 if (IsSubsplit)
                     NameLabel.Text = Split.Name.Substring(1);
-                else
-                    NameLabel.Text = Split.Name;
-                
+                else {
+                    Match match = SubsplitRegex.Match(Split.Name);
+                    if (match.Success) {
+                        if (CollapsedSplit || Header)
+                            NameLabel.Text = match.Groups[1].Value;
+                        else
+                            NameLabel.Text = match.Groups[2].Value;
+                    } else
+                        NameLabel.Text = Split.Name;
+                }
+          
                 var comparison = Settings.Comparison == "Current Comparison" ? state.CurrentComparison : Settings.Comparison;
                 if (!state.Run.Comparisons.Contains(comparison))
                     comparison = state.CurrentComparison;
