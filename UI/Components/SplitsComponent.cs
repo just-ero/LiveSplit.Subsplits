@@ -537,8 +537,7 @@ namespace LiveSplit.UI.Components
 
             if (addHeader)
             {
-                int sectionTop = sectionList.Sections[currentSection].startIndex;
-                int insertIndex = visibleSplits.IndexOf(sectionTop++);
+                int insertIndex = visibleSplits.IndexOf(sectionList.Sections[currentSection].startIndex);
                 if (insertIndex >= 0)
                     visibleSplits.Insert(insertIndex, -(currentSection + 1));
             }
