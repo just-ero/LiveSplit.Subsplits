@@ -566,8 +566,9 @@ namespace LiveSplit.UI.Components
                     SplitComponents[i].Split = state.Run[split];
                     SplitComponents[i].oddSplit = ((sectionList.getSection(split) % 2) == 0);
 
-                    if ((sectionList.getSection(split) != currentSection)
-                        && (sectionList.Sections[sectionList.getSection(split)].getSubsplitCount() > 0))
+                    if ((Settings.HideSubsplits || sectionList.getSection(split) != currentSection)
+                        && sectionList.Sections[sectionList.getSection(split)].getSubsplitCount() > 0
+                        && !Settings.ShowSubsplits)
                     {
                         SplitComponents[i].CollapsedSplit = true;
                         SplitComponents[i].TopSplit = sectionList.Sections[sectionList.getSection(split)].startIndex;                      
