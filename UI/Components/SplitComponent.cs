@@ -831,7 +831,7 @@ namespace LiveSplit.UI.Components
                     }
                     TimeLabel.Text = TimeFormatter.Format(Split.Comparisons[comparison][state.CurrentTimingMethod]);
                     //Live Delta
-                    var bestDelta = LiveSplitStateHelper.CheckLiveDelta(state, false, comparison, state.CurrentTimingMethod);
+                    var bestDelta = LiveSplitStateHelper.CheckLiveDelta(state, true, comparison, state.CurrentTimingMethod);
                     if (bestDelta != null && Split == state.CurrentSplit)
                     {
                         if (!Settings.ShowSplitTimes)
