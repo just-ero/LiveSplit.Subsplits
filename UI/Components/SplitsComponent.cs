@@ -188,25 +188,6 @@ namespace LiveSplit.UI.Components
                         else if (((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
                             separator.LockToBottom = false;
                     }
-                    //if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit && index == LastSplitSeparatorIndex)
-                    //{
-                    //    int secondLast = state.Run.Count() - 2;
-                    //    int visualSecondLast = SplitComponents.Count() - 2;
-                    //    if ((secondLast < 0) || (visualSecondLast < 0) || (state.Run.IndexOf(SplitComponents[visualSecondLast]) == secondLast))//(skipCount >= state.Run.Count - visualSplitCount)
-                    //    {
-                    //        if (Settings.ShowThinSeparators)
-                    //            separator.DisplayedSize = 1f;
-                    //        else
-                    //            separator.DisplayedSize = 0f;
-
-                    //        separator.UseSeparatorColor = false;
-                    //    }
-                    //    else
-                    //    {
-                    //        separator.DisplayedSize = 2f;
-                    //        separator.UseSeparatorColor = true;
-                    //    }
-                    //}
                 }
                 else if (component is ThinSeparatorComponent)
                 {
@@ -243,17 +224,21 @@ namespace LiveSplit.UI.Components
             ScrollOffset = 0;
         }
 
-        class SectionList {
-            public class Section {
+        class SectionList
+        {
+            public class Section
+            {
                 public int startIndex;
                 public int endIndex;
 
-                public Section (int topIndex, int bottomIndex) {
+                public Section(int topIndex, int bottomIndex)
+                {
                     startIndex = topIndex;
                     endIndex = bottomIndex;
                 }
 
-                public bool splitInRange(int splitIndex) {
+                public bool splitInRange(int splitIndex)
+                {
                     return (splitIndex >= startIndex && splitIndex <= endIndex);
                 }
 
@@ -264,25 +249,26 @@ namespace LiveSplit.UI.Components
             }
 
             public List<Section> Sections;
-            IRun oldSplits;
 
-            public void UpdateSplits(IRun splits) {
-                oldSplits = (IRun)splits.Clone();
-
+            public void UpdateSplits(IRun splits)
+            {
                 Sections = new List<Section>();
                 for (int splitIndex = splits.Count() - 1; splitIndex >= 0; splitIndex--)
                 {
                     int sectionIndex = splitIndex;
-                    while ((splitIndex > 0) && (splits[splitIndex - 1].Name.StartsWith("-") && splitIndex != splits.Count()))
+                    while ((splitIndex > 0) && (splits[splitIndex - 1].Name.StartsWith("-") && splitIndex != splits.Count() - 1))
                         splitIndex--;
 
                     Sections.Insert(0, new Section(splitIndex, sectionIndex));
                 }
             }
 
-            public int getSection(int splitIndex) {
-                foreach(Section section in Sections) {
-                    if (section.splitInRange(splitIndex)) {
+            public int getSection(int splitIndex)
+            {
+                foreach (Section section in Sections)
+                {
+                    if (section.splitInRange(splitIndex))
+                    {
                         return Sections.IndexOf(section);
                     }
                 }
@@ -303,7 +289,7 @@ namespace LiveSplit.UI.Components
             public int getMajorSplit(int splitIndex)
             {
                 int sectionIndex = getSection(splitIndex);
-                
+
                 if (sectionIndex == -1)
                     return splitIndex;
 
@@ -398,7 +384,8 @@ namespace LiveSplit.UI.Components
                 {
                     currentSplit = sectionList.getMajorSplit(currentSplit);
                     SplitsSettings.HilightSplit = state.Run[currentSplit];
-                } else
+                }
+                else
                     SplitsSettings.HilightSplit = null;
 
 
@@ -434,9 +421,9 @@ namespace LiveSplit.UI.Components
             int previewCount = 0;
             while ((previewCount < Settings.SplitPreviewCount) && (bottomSplit < state.Run.Count() - (addLast ? 1 : 0)) && (freeSplits > 0))
             {
-                if ((sectionList.isMajorSplit(bottomSplit) 
+                if ((sectionList.isMajorSplit(bottomSplit)
                         && (!Settings.CurrentSectionOnly || sectionList.getSection(bottomSplit) == currentSection)) ||
-                    (!sectionList.isMajorSplit(bottomSplit) 
+                    (!sectionList.isMajorSplit(bottomSplit)
                         && (Settings.ShowSubsplits || (!Settings.HideSubsplits && sectionList.getSection(bottomSplit) == currentSection))))
                 {
                     visibleSplits.Add(bottomSplit);
@@ -454,15 +441,15 @@ namespace LiveSplit.UI.Components
                 {
                     visibleSplits.Insert(0, topSplit);
                     freeSplits--;
-                }                
+                }
                 topSplit--;
             }
 
             while ((bottomSplit < state.Run.Count() - (addLast ? 1 : 0)) && (freeSplits > 0))
             {
-                if ((sectionList.isMajorSplit(bottomSplit) 
+                if ((sectionList.isMajorSplit(bottomSplit)
                         && (!Settings.CurrentSectionOnly || sectionList.getSection(bottomSplit) == currentSection)) ||
-                    (!sectionList.isMajorSplit(bottomSplit) 
+                    (!sectionList.isMajorSplit(bottomSplit)
                         && (Settings.ShowSubsplits || (!Settings.HideSubsplits && sectionList.getSection(bottomSplit) == currentSection))))
                 {
                     visibleSplits.Add(bottomSplit);
@@ -522,7 +509,7 @@ namespace LiveSplit.UI.Components
             if (Settings.ShowBlankSplits)
             {
                 for (; freeSplits > 0; freeSplits--)
-                    visibleSplits.Add(int.MinValue); 
+                    visibleSplits.Add(int.MinValue);
             }
 
             if (Settings.LockLastSplit && addLast)
@@ -537,23 +524,26 @@ namespace LiveSplit.UI.Components
             int i = 0;
             foreach (int split in visibleSplits)
             {
-                SplitComponents[i].ForceIndent = Settings.IndentSectionSplit && (split == sectionList.Sections[currentSection].endIndex) 
+                SplitComponents[i].ForceIndent = Settings.IndentSectionSplit && (split == sectionList.Sections[currentSection].endIndex)
                     && (sectionList.Sections[currentSection].getSubsplitCount() > 0);
 
-                if (split == int.MinValue) {
+                if (split == int.MinValue)
+                {
                     SplitComponents[i].Header = false;
                     SplitComponents[i].CollapsedSplit = false;
                     SplitComponents[i].Split = null;
-                    SplitComponents[i].oddSplit = true ;
+                    SplitComponents[i].oddSplit = true;
                 }
-                else if (split < 0) {
+                else if (split < 0)
+                {
                     SplitComponents[i].Header = true;
                     SplitComponents[i].CollapsedSplit = false;
                     SplitComponents[i].TopSplit = sectionList.Sections[-split - 1].startIndex;
                     SplitComponents[i].Split = state.Run[sectionList.Sections[-split - 1].endIndex];
                     SplitComponents[i].oddSplit = (((-split - 1) % 2) == 0);
                 }
-                else {
+                else
+                {
                     SplitComponents[i].Header = false;
                     SplitComponents[i].Split = state.Run[split];
                     SplitComponents[i].oddSplit = ((sectionList.getSection(split) % 2) == 0);
@@ -563,7 +553,7 @@ namespace LiveSplit.UI.Components
                         && !Settings.ShowSubsplits)
                     {
                         SplitComponents[i].CollapsedSplit = true;
-                        SplitComponents[i].TopSplit = sectionList.Sections[sectionList.getSection(split)].startIndex;                      
+                        SplitComponents[i].TopSplit = sectionList.Sections[sectionList.getSection(split)].startIndex;
                     }
                     else
                     {
