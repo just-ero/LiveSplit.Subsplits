@@ -129,8 +129,6 @@ namespace LiveSplit.UI.Components
             if (NeedUpdateAll)
                 UpdateAll(state);
 
-            //g.SetClip(new Region(new RectangleF(0, 0, width, height / 2.0f)), CombineMode.Replace);
-
             if (Settings.BackgroundGradient == ExtendedGradientType.Alternating)
                 g.FillRectangle(new SolidBrush(
                     oddSplit
@@ -245,12 +243,6 @@ namespace LiveSplit.UI.Components
                 {
                     var icon = Split.Icon ?? NoIconImage;
                     var shadow = (Split.Icon != null) ? ShadowImage : NoIconShadow;
-
-                    /*if (DateTime.Now.Date.Month == 4 && DateTime.Now.Date.Day == 1)
-                    {
-                        icon = LiveSplit.Web.Share.TwitchEmoteResolver.Resolve("Kappa", true, false, false);
-                        shadow = null;
-                    }*/
 
                     if (OldImage != icon)
                     {
@@ -430,12 +422,6 @@ namespace LiveSplit.UI.Components
                 var icon = Split.Icon ?? NoIconImage;
                 var shadow = (Split.Icon != null) ? ShadowImage : NoIconShadow;
 
-                /*if (DateTime.Now.Date.Month == 4 && DateTime.Now.Date.Day == 1)
-                {
-                    icon = LiveSplit.Web.Share.TwitchEmoteResolver.Resolve("Kappa", true, false, false);
-                    shadow = null;
-                }*/
-
                 if (OldImage != icon)
                 {
                     ImageAnimator.Animate(icon, (s, o) => { });
@@ -554,7 +540,6 @@ namespace LiveSplit.UI.Components
         public void DrawHorizontal(Graphics g, LiveSplitState state, float height, Region clipRegion)
         {
             DrawGeneral(g, state, HorizontalWidth, height, LayoutMode.Horizontal, clipRegion);
-            //DrawGeneral(g, state, HorizontalWidth, height, LayoutMode.Vertical);
         }
 
         public string ComponentName
@@ -656,6 +641,13 @@ namespace LiveSplit.UI.Components
         {
             if (Split != null)
             {
+                IsActive = (state.CurrentPhase == TimerPhase.Running
+                            || state.CurrentPhase == TimerPhase.Paused) &&
+                            ((!Settings.HideSubsplits && state.CurrentSplit == Split) ||
+                            (SplitsSettings.SectionSplit != null && SplitsSettings.SectionSplit == Split));
+                IsHighlight = (SplitsSettings.HilightSplit == Split);
+                IsSubsplit = Split.Name.StartsWith("-") && Split != state.Run.Last();
+
                 if (IsSubsplit)
                     NameLabel.Text = Split.Name.Substring(1);
                 else {
@@ -856,16 +848,8 @@ namespace LiveSplit.UI.Components
 
         public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
-
             if (Split != null)
             {
-                IsActive = (state.CurrentPhase == TimerPhase.Running
-                            || state.CurrentPhase == TimerPhase.Paused) &&
-                            ((!Settings.HideSubsplits && state.CurrentSplit == Split) ||
-                            (SplitsSettings.SectionSplit != null && SplitsSettings.SectionSplit == Split));
-                IsHighlight = (SplitsSettings.HilightSplit == Split);
-                IsSubsplit = Split.Name.StartsWith("-") && Split != state.Run.Last();
-
                 UpdateAll(state);
                 NeedUpdateAll = false;
 
