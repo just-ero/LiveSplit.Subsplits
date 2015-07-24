@@ -256,7 +256,7 @@ namespace LiveSplit.UI.Components
                 for (int splitIndex = splits.Count() - 1; splitIndex >= 0; splitIndex--)
                 {
                     int sectionIndex = splitIndex;
-                    while ((splitIndex > 0) && (splits[splitIndex - 1].Name.StartsWith("-") && splitIndex != splits.Count() - 1))
+                    while ((splitIndex > 0) && (splits[splitIndex - 1].Name.StartsWith("-")))
                         splitIndex--;
 
                     Sections.Insert(0, new Section(splitIndex, sectionIndex));
