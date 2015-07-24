@@ -706,7 +706,7 @@ namespace LiveSplit.UI.Components
                 else if (CollapsedSplit)
                 {
                     int currentSplit = state.CurrentSplitIndex;
-                    if (SplitsSettings.SectionSplit != null)
+                    if (SplitsSettings.SectionSplit != null && currentSplit < state.Run.Count && currentSplit >= 0)
                         currentSplit = state.Run.IndexOf(SplitsSettings.SectionSplit);
 
                     TimeSpan? deltaTime = getSectionDelta(state, splitIndex, TopSplit, comparison, state.CurrentTimingMethod, currentSplit);
