@@ -524,40 +524,43 @@ namespace LiveSplit.UI.Components
             int i = 0;
             foreach (int split in visibleSplits)
             {
-                SplitComponents[i].ForceIndent = Settings.IndentSectionSplit && (split == sectionList.Sections[currentSection].endIndex)
-                    && (sectionList.Sections[currentSection].getSubsplitCount() > 0);
+                if (i < SplitComponents.Count)
+                {
+                    SplitComponents[i].ForceIndent = Settings.IndentSectionSplit && (split == sectionList.Sections[currentSection].endIndex)
+                        && (sectionList.Sections[currentSection].getSubsplitCount() > 0);
 
-                if (split == int.MinValue)
-                {
-                    SplitComponents[i].Header = false;
-                    SplitComponents[i].CollapsedSplit = false;
-                    SplitComponents[i].Split = null;
-                    SplitComponents[i].oddSplit = true;
-                }
-                else if (split < 0)
-                {
-                    SplitComponents[i].Header = true;
-                    SplitComponents[i].CollapsedSplit = false;
-                    SplitComponents[i].TopSplit = sectionList.Sections[-split - 1].startIndex;
-                    SplitComponents[i].Split = state.Run[sectionList.Sections[-split - 1].endIndex];
-                    SplitComponents[i].oddSplit = (((-split - 1) % 2) == 0);
-                }
-                else
-                {
-                    SplitComponents[i].Header = false;
-                    SplitComponents[i].Split = state.Run[split];
-                    SplitComponents[i].oddSplit = ((sectionList.getSection(split) % 2) == 0);
-
-                    if ((Settings.HideSubsplits || sectionList.getSection(split) != currentSection)
-                        && sectionList.Sections[sectionList.getSection(split)].getSubsplitCount() > 0
-                        && !Settings.ShowSubsplits)
+                    if (split == int.MinValue)
                     {
-                        SplitComponents[i].CollapsedSplit = true;
-                        SplitComponents[i].TopSplit = sectionList.Sections[sectionList.getSection(split)].startIndex;
+                        SplitComponents[i].Header = false;
+                        SplitComponents[i].CollapsedSplit = false;
+                        SplitComponents[i].Split = null;
+                        SplitComponents[i].oddSplit = true;
+                    }
+                    else if (split < 0)
+                    {
+                        SplitComponents[i].Header = true;
+                        SplitComponents[i].CollapsedSplit = false;
+                        SplitComponents[i].TopSplit = sectionList.Sections[-split - 1].startIndex;
+                        SplitComponents[i].Split = state.Run[sectionList.Sections[-split - 1].endIndex];
+                        SplitComponents[i].oddSplit = (((-split - 1) % 2) == 0);
                     }
                     else
                     {
-                        SplitComponents[i].CollapsedSplit = false;
+                        SplitComponents[i].Header = false;
+                        SplitComponents[i].Split = state.Run[split];
+                        SplitComponents[i].oddSplit = ((sectionList.getSection(split) % 2) == 0);
+
+                        if ((Settings.HideSubsplits || sectionList.getSection(split) != currentSection)
+                            && sectionList.Sections[sectionList.getSection(split)].getSubsplitCount() > 0
+                            && !Settings.ShowSubsplits)
+                        {
+                            SplitComponents[i].CollapsedSplit = true;
+                            SplitComponents[i].TopSplit = sectionList.Sections[sectionList.getSection(split)].startIndex;
+                        }
+                        else
+                        {
+                            SplitComponents[i].CollapsedSplit = false;
+                        }
                     }
                 }
 
