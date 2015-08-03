@@ -470,7 +470,7 @@ namespace LiveSplit.UI.Components
                     {
                         int lastIndex = state.Run.Count() - 1;
 
-                        if ((freeSplits > 0) || ((visibleSplits.Count() > 0) && (visibleSplits.Last() == lastIndex - 1)))
+                        if (freeSplits > 0 || visibleSplits.Any() && (visibleSplits.Last() == lastIndex - 1))
                         {
                             if (Settings.ShowThinSeparators)
                                 separator.DisplayedSize = 1f;
@@ -482,8 +482,7 @@ namespace LiveSplit.UI.Components
                         else
                         {
                             int prevSection = sectionList.getSection(lastIndex) - 1;
-                            if ((visibleSplits.Count() > 0) &&
-                                ((prevSection > 0) ? (visibleSplits.Last() == sectionList.Sections[prevSection].endIndex) : true))
+                            if (visibleSplits.Any() && (prevSection <= 0 || visibleSplits.Last() == sectionList.Sections[prevSection].endIndex))
                             {
                                 if (Settings.ShowThinSeparators)
                                     separator.DisplayedSize = 1f;
