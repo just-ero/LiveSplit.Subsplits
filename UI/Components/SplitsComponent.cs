@@ -224,12 +224,12 @@ namespace LiveSplit.UI.Components
             ScrollOffset = 0;
         }
 
-        class SectionList
+        private sealed class SectionList
         {
-            public class Section
+            public sealed class Section
             {
-                public int startIndex;
-                public int endIndex;
+                public readonly int startIndex;
+                public readonly int endIndex;
 
                 public Section(int topIndex, int bottomIndex)
                 {
