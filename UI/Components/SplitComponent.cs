@@ -54,11 +54,7 @@ namespace LiveSplit.UI.Components
         public bool DisplayIcon { get; set; }
 
         public Image ShadowImage { get; set; }
-
         protected Image OldImage { get; set; }
-
-        public Image NoIconImage = Resources.DefaultSplitIcon.ToBitmap();
-        public Image NoIconShadow = IconShadow.Generate(Resources.DefaultSplitIcon.ToBitmap(), Color.Black);
 
         public float PaddingTop { get { return 0f; } }
         public float PaddingLeft { get { return 0f; } }
@@ -88,7 +84,6 @@ namespace LiveSplit.UI.Components
 
         public SplitComponent(SplitsSettings settings)
         {
-            NoIconShadow = IconShadow.Generate(NoIconImage, Color.Black);
             NameLabel = new SimpleLabel()
             {
                 HorizontalAlignment = StringAlignment.Near,
@@ -239,10 +234,10 @@ namespace LiveSplit.UI.Components
                     g.DrawRectangle(highlightPen, 0, 0, width - 1, height - 1);
                 }
 
-                if (DisplayIcon && Settings.ShowIconSectionSplit)
+                var icon = Split.Icon;
+                if (DisplayIcon && icon != null && Settings.ShowIconSectionSplit)
                 {
-                    var icon = Split.Icon ?? NoIconImage;
-                    var shadow = (Split.Icon != null) ? ShadowImage : NoIconShadow;
+                    var shadow = ShadowImage;
 
                     if (OldImage != icon)
                     {
@@ -417,10 +412,10 @@ namespace LiveSplit.UI.Components
                 TimeLabel.Height = 50;
             }
 
-            if (Settings.ShowSectionIcon)
+            var icon = Split.Icon;
+            if (Settings.ShowSectionIcon && icon != null)
             {
-                var icon = Split.Icon ?? NoIconImage;
-                var shadow = (Split.Icon != null) ? ShadowImage : NoIconShadow;
+                var shadow = ShadowImage;
 
                 if (OldImage != icon)
                 {
@@ -493,9 +488,9 @@ namespace LiveSplit.UI.Components
             if (Settings.SectionTimer && Settings.SectionTimerGradient)
             {
                 var bigFont = state.LayoutSettings.TimerFont;
-                var sizeMultiplier = bigFont.Size / ((16f / 2048) * bigFont.FontFamily.GetEmHeight(bigFont.Style));
-                var ascent = sizeMultiplier * (16f / 2048) * bigFont.FontFamily.GetCellAscent(bigFont.Style);
-                var descent = sizeMultiplier * (16f / 2048) * bigFont.FontFamily.GetCellDescent(bigFont.Style);
+                var sizeMultiplier = bigFont.Size / (bigFont.FontFamily.GetEmHeight(bigFont.Style));
+                var ascent = sizeMultiplier * bigFont.FontFamily.GetCellAscent(bigFont.Style);
+                var descent = sizeMultiplier * bigFont.FontFamily.GetCellDescent(bigFont.Style);
                 
                 if (state.Run.IndexOf(Split) >= state.CurrentSplitIndex)
                 {

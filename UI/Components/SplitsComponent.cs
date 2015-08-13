@@ -164,9 +164,11 @@ namespace LiveSplit.UI.Components
                     ShadowImages.Add(split.Icon, IconShadow.Generate(split.Icon, state.LayoutSettings.ShadowsColor));
                 }
             }
+
+            var iconsNotBlank = state.Run.Where(x => x.Icon != null).Count() > 0;
             foreach (var split in SplitComponents)
             {
-                split.DisplayIcon = Settings.DisplayIcons && !((split.Split != null) && (split.Split.Icon == null) && Settings.HideBlankIcons);
+                split.DisplayIcon = Settings.DisplayIcons && iconsNotBlank && (split.Split == null || split.Split.Icon != null || Settings.IndentBlankIcons);
 
                 if (split.Split != null && split.Split.Icon != null)
                     split.ShadowImage = ShadowImages[split.Split.Icon];

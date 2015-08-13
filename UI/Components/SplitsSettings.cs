@@ -52,7 +52,7 @@ namespace LiveSplit.UI.Components
 
         public bool DisplayIcons { get; set; }
         public bool IconShadows { get; set; }
-        public bool HideBlankIcons { get; set; }
+        public bool IndentBlankIcons { get; set; }
         public bool ShowThinSeparators { get; set; }
         public bool AlwaysShowLastSplit { get; set; }
         public bool ShowSplitTimes { get; set; }
@@ -161,7 +161,7 @@ namespace LiveSplit.UI.Components
             Comparison = "Current Comparison";
             Display2Rows = false;
 
-            HideBlankIcons = true;
+            IndentBlankIcons = true;
             IndentSubsplits = true;
             HideSubsplits = false;
             ShowSubsplits = false;
@@ -200,7 +200,7 @@ namespace LiveSplit.UI.Components
             btnAfterTimesColor.DataBindings.Add("BackColor", this, "AfterTimesColor", false, DataSourceUpdateMode.OnPropertyChanged);
             chkDisplayIcons.DataBindings.Add("Checked", this, "DisplayIcons", false, DataSourceUpdateMode.OnPropertyChanged);
             chkIconShadows.DataBindings.Add("Checked", this, "IconShadows", false, DataSourceUpdateMode.OnPropertyChanged);
-            chkHideBlankIcons.DataBindings.Add("Checked", this, "HideBlankIcons", false, DataSourceUpdateMode.OnPropertyChanged);
+            chkIndentBlankIcons.DataBindings.Add("Checked", this, "IndentBlankIcons", false, DataSourceUpdateMode.OnPropertyChanged);
             chkThinSeparators.DataBindings.Add("Checked", this, "ShowThinSeparators", false, DataSourceUpdateMode.OnPropertyChanged);
             chkLastSplit.DataBindings.Add("Checked", this, "AlwaysShowLastSplit", false, DataSourceUpdateMode.OnPropertyChanged);
             chkShowTimes.DataBindings.Add("Checked", this, "ShowSplitTimes", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -249,7 +249,7 @@ namespace LiveSplit.UI.Components
             trkIconSize.Enabled = label5.Enabled = chkIconShadows.Enabled = chkDisplayIcons.Checked;
         }
 
-        void chkHideBlankIcons_CheckedChanged(object sender, EventArgs e)
+        void chkIndentBlankIcons_CheckedChanged(object sender, EventArgs e)
         {
             SplitLayoutChanged(this, null);
         }
@@ -464,7 +464,7 @@ namespace LiveSplit.UI.Components
             ShowThinSeparators = SettingsHelper.ParseBool(element["ShowThinSeparators"], false);
             AlwaysShowLastSplit = SettingsHelper.ParseBool(element["AlwaysShowLastSplit"], true);
             SplitWidth = SettingsHelper.ParseFloat(element["SplitWidth"], 20);
-            HideBlankIcons = SettingsHelper.ParseBool(element["HideBlankIcons"], true);
+            IndentBlankIcons = SettingsHelper.ParseBool(element["IndentBlankIcons"], true);
             IndentSubsplits = SettingsHelper.ParseBool(element["IndentSubsplits"], true);
             HideSubsplits = SettingsHelper.ParseBool(element["HideSubsplits"], false);
             ShowSubsplits = SettingsHelper.ParseBool(element["ShowSubsplits"], false);
@@ -572,7 +572,7 @@ namespace LiveSplit.UI.Components
             parent.AppendChild(SettingsHelper.ToElement(document, DeltasColor, "DeltasColor"));
             parent.AppendChild(SettingsHelper.ToElement(document, "Comparison", Comparison));
             parent.AppendChild(SettingsHelper.ToElement(document, "Display2Rows", Display2Rows));
-            parent.AppendChild(SettingsHelper.ToElement(document, "HideBlankIcons", HideBlankIcons));
+            parent.AppendChild(SettingsHelper.ToElement(document, "IndentBlankIcons", IndentBlankIcons));
             parent.AppendChild(SettingsHelper.ToElement(document, "IndentSubsplits", IndentSubsplits));
             parent.AppendChild(SettingsHelper.ToElement(document, "HideSubsplits", HideSubsplits));
             parent.AppendChild(SettingsHelper.ToElement(document, "ShowSubsplits", ShowSubsplits));

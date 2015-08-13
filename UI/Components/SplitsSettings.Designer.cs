@@ -49,7 +49,7 @@
             this.chkLastSplit = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.chkHideBlankIcons = new System.Windows.Forms.CheckBox();
+            this.chkIndentBlankIcons = new System.Windows.Forms.CheckBox();
             this.chkDisplayIcons = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.trkIconSize = new System.Windows.Forms.TrackBar();
@@ -125,6 +125,7 @@
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.chkShowHeader = new System.Windows.Forms.CheckBox();
             this.chkShowSectionIcon = new System.Windows.Forms.CheckBox();
+            this.chkShowIconSectionSplit = new System.Windows.Forms.CheckBox();
             this.chkIndentSectionSplit = new System.Windows.Forms.CheckBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
@@ -146,7 +147,6 @@
             this.btnTopColor = new System.Windows.Forms.Button();
             this.btnBottomColor = new System.Windows.Forms.Button();
             this.cmbSplitGradient = new System.Windows.Forms.ComboBox();
-            this.chkShowIconSectionSplit = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dmnTotalSegments)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dmnUpcomingSegments)).BeginInit();
@@ -503,7 +503,7 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel4.Controls.Add(this.chkHideBlankIcons, 2, 0);
+            this.tableLayoutPanel4.Controls.Add(this.chkIndentBlankIcons, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.chkDisplayIcons, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.label5, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.trkIconSize, 1, 1);
@@ -518,20 +518,20 @@
             this.tableLayoutPanel4.Size = new System.Drawing.Size(433, 56);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
-            // chkHideBlankIcons
+            // chkIndentBlankIcons
             // 
-            this.chkHideBlankIcons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkHideBlankIcons.AutoSize = true;
-            this.chkHideBlankIcons.Checked = true;
-            this.chkHideBlankIcons.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkHideBlankIcons.Location = new System.Drawing.Point(295, 6);
-            this.chkHideBlankIcons.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
-            this.chkHideBlankIcons.Name = "chkHideBlankIcons";
-            this.chkHideBlankIcons.Size = new System.Drawing.Size(135, 17);
-            this.chkHideBlankIcons.TabIndex = 24;
-            this.chkHideBlankIcons.Text = "Hide Blank Icons";
-            this.chkHideBlankIcons.UseVisualStyleBackColor = true;
-            this.chkHideBlankIcons.CheckedChanged += new System.EventHandler(this.chkHideBlankIcons_CheckedChanged);
+            this.chkIndentBlankIcons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkIndentBlankIcons.AutoSize = true;
+            this.chkIndentBlankIcons.Checked = true;
+            this.chkIndentBlankIcons.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkIndentBlankIcons.Location = new System.Drawing.Point(295, 6);
+            this.chkIndentBlankIcons.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkIndentBlankIcons.Name = "chkIndentBlankIcons";
+            this.chkIndentBlankIcons.Size = new System.Drawing.Size(135, 17);
+            this.chkIndentBlankIcons.TabIndex = 24;
+            this.chkIndentBlankIcons.Text = "Indent Blank Icons";
+            this.chkIndentBlankIcons.UseVisualStyleBackColor = true;
+            this.chkIndentBlankIcons.CheckedChanged += new System.EventHandler(this.chkIndentBlankIcons_CheckedChanged);
             // 
             // chkDisplayIcons
             // 
@@ -1208,9 +1208,10 @@
             this.chkSectionTimer.AutoSize = true;
             this.chkSectionTimer.Checked = true;
             this.chkSectionTimer.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSectionTimer.Location = new System.Drawing.Point(3, 3);
+            this.chkSectionTimer.Location = new System.Drawing.Point(7, 3);
+            this.chkSectionTimer.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkSectionTimer.Name = "chkSectionTimer";
-            this.chkSectionTimer.Size = new System.Drawing.Size(176, 21);
+            this.chkSectionTimer.Size = new System.Drawing.Size(172, 21);
             this.chkSectionTimer.TabIndex = 0;
             this.chkSectionTimer.Text = "Show Section Timer";
             this.chkSectionTimer.UseVisualStyleBackColor = true;
@@ -1247,9 +1248,10 @@
             this.chkSectionTimerGradient.AutoSize = true;
             this.chkSectionTimerGradient.Checked = true;
             this.chkSectionTimerGradient.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSectionTimerGradient.Location = new System.Drawing.Point(3, 57);
+            this.chkSectionTimerGradient.Location = new System.Drawing.Point(7, 57);
+            this.chkSectionTimerGradient.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkSectionTimerGradient.Name = "chkSectionTimerGradient";
-            this.chkSectionTimerGradient.Size = new System.Drawing.Size(176, 22);
+            this.chkSectionTimerGradient.Size = new System.Drawing.Size(172, 22);
             this.chkSectionTimerGradient.TabIndex = 2;
             this.chkSectionTimerGradient.Text = "Show Gradient";
             this.chkSectionTimerGradient.UseVisualStyleBackColor = true;
@@ -1379,9 +1381,10 @@
             this.chkHeaderTimes.AutoSize = true;
             this.chkHeaderTimes.Checked = true;
             this.chkHeaderTimes.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkHeaderTimes.Location = new System.Drawing.Point(243, 84);
+            this.chkHeaderTimes.Location = new System.Drawing.Point(247, 84);
+            this.chkHeaderTimes.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkHeaderTimes.Name = "chkHeaderTimes";
-            this.chkHeaderTimes.Size = new System.Drawing.Size(175, 23);
+            this.chkHeaderTimes.Size = new System.Drawing.Size(171, 23);
             this.chkHeaderTimes.TabIndex = 7;
             this.chkHeaderTimes.Text = "Show Total Section Time";
             this.chkHeaderTimes.UseVisualStyleBackColor = true;
@@ -1495,9 +1498,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chkHeaderText.AutoSize = true;
-            this.chkHeaderText.Location = new System.Drawing.Point(243, 57);
+            this.chkHeaderText.Location = new System.Drawing.Point(247, 57);
+            this.chkHeaderText.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkHeaderText.Name = "chkHeaderText";
-            this.chkHeaderText.Size = new System.Drawing.Size(175, 21);
+            this.chkHeaderText.Size = new System.Drawing.Size(171, 21);
             this.chkHeaderText.TabIndex = 5;
             this.chkHeaderText.Text = "Show Split Name";
             this.chkHeaderText.UseVisualStyleBackColor = true;
@@ -1527,9 +1531,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chkShowHeader.AutoSize = true;
-            this.chkShowHeader.Location = new System.Drawing.Point(3, 3);
+            this.chkShowHeader.Location = new System.Drawing.Point(7, 3);
+            this.chkShowHeader.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkShowHeader.Name = "chkShowHeader";
-            this.chkShowHeader.Size = new System.Drawing.Size(207, 21);
+            this.chkShowHeader.Size = new System.Drawing.Size(203, 21);
             this.chkShowHeader.TabIndex = 0;
             this.chkShowHeader.Text = "Show Section Header";
             this.chkShowHeader.UseVisualStyleBackColor = true;
@@ -1541,12 +1546,29 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chkShowSectionIcon.AutoSize = true;
-            this.chkShowSectionIcon.Location = new System.Drawing.Point(216, 3);
+            this.chkShowSectionIcon.Location = new System.Drawing.Point(220, 3);
+            this.chkShowSectionIcon.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkShowSectionIcon.Name = "chkShowSectionIcon";
-            this.chkShowSectionIcon.Size = new System.Drawing.Size(208, 21);
+            this.chkShowSectionIcon.Size = new System.Drawing.Size(204, 21);
             this.chkShowSectionIcon.TabIndex = 2;
             this.chkShowSectionIcon.Text = "Show Icon";
             this.chkShowSectionIcon.UseVisualStyleBackColor = true;
+            // 
+            // chkShowIconSectionSplit
+            // 
+            this.chkShowIconSectionSplit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkShowIconSectionSplit.AutoSize = true;
+            this.chkShowIconSectionSplit.Checked = true;
+            this.chkShowIconSectionSplit.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowIconSectionSplit.Location = new System.Drawing.Point(220, 30);
+            this.chkShowIconSectionSplit.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkShowIconSectionSplit.Name = "chkShowIconSectionSplit";
+            this.chkShowIconSectionSplit.Size = new System.Drawing.Size(204, 21);
+            this.chkShowIconSectionSplit.TabIndex = 3;
+            this.chkShowIconSectionSplit.Text = "Show Icon of Last Split of Section";
+            this.chkShowIconSectionSplit.UseVisualStyleBackColor = true;
             // 
             // chkIndentSectionSplit
             // 
@@ -1556,9 +1578,10 @@
             this.chkIndentSectionSplit.AutoSize = true;
             this.chkIndentSectionSplit.Checked = true;
             this.chkIndentSectionSplit.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIndentSectionSplit.Location = new System.Drawing.Point(3, 30);
+            this.chkIndentSectionSplit.Location = new System.Drawing.Point(7, 30);
+            this.chkIndentSectionSplit.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkIndentSectionSplit.Name = "chkIndentSectionSplit";
-            this.chkIndentSectionSplit.Size = new System.Drawing.Size(207, 21);
+            this.chkIndentSectionSplit.Size = new System.Drawing.Size(203, 21);
             this.chkIndentSectionSplit.TabIndex = 1;
             this.chkIndentSectionSplit.Text = "Indent Last Split Of Section";
             this.chkIndentSectionSplit.UseVisualStyleBackColor = true;
@@ -1580,7 +1603,7 @@
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.4486F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.5514F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 194F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 196F));
             this.tableLayoutPanel10.Controls.Add(this.label15, 0, 1);
             this.tableLayoutPanel10.Controls.Add(this.chkOverrideSubsplitColor, 0, 0);
             this.tableLayoutPanel10.Controls.Add(this.cmbSubsplitGradient, 3, 1);
@@ -1603,7 +1626,7 @@
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(3, 36);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(170, 13);
+            this.label15.Size = new System.Drawing.Size(168, 13);
             this.label15.TabIndex = 28;
             this.label15.Text = "Subsplit Background Color:";
             // 
@@ -1614,7 +1637,7 @@
             this.chkOverrideSubsplitColor.Location = new System.Drawing.Point(7, 5);
             this.chkOverrideSubsplitColor.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkOverrideSubsplitColor.Name = "chkOverrideSubsplitColor";
-            this.chkOverrideSubsplitColor.Size = new System.Drawing.Size(166, 17);
+            this.chkOverrideSubsplitColor.Size = new System.Drawing.Size(164, 17);
             this.chkOverrideSubsplitColor.TabIndex = 1;
             this.chkOverrideSubsplitColor.Text = "Override Layout Settings";
             this.chkOverrideSubsplitColor.UseVisualStyleBackColor = true;
@@ -1629,9 +1652,9 @@
             "Plain",
             "Vertical",
             "Horizontal"});
-            this.cmbSubsplitGradient.Location = new System.Drawing.Point(235, 32);
+            this.cmbSubsplitGradient.Location = new System.Drawing.Point(233, 32);
             this.cmbSubsplitGradient.Name = "cmbSubsplitGradient";
-            this.cmbSubsplitGradient.Size = new System.Drawing.Size(189, 21);
+            this.cmbSubsplitGradient.Size = new System.Drawing.Size(191, 21);
             this.cmbSubsplitGradient.TabIndex = 4;
             this.cmbSubsplitGradient.SelectedIndexChanged += new System.EventHandler(this.cmbSubsplitGradient_SelectedIndexChanged);
             // 
@@ -1641,7 +1664,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSubsplitBottomColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSubsplitBottomColor.Location = new System.Drawing.Point(206, 31);
+            this.btnSubsplitBottomColor.Location = new System.Drawing.Point(204, 31);
             this.btnSubsplitBottomColor.Name = "btnSubsplitBottomColor";
             this.btnSubsplitBottomColor.Size = new System.Drawing.Size(23, 23);
             this.btnSubsplitBottomColor.TabIndex = 3;
@@ -1654,7 +1677,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSubsplitTopColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSubsplitTopColor.Location = new System.Drawing.Point(179, 31);
+            this.btnSubsplitTopColor.Location = new System.Drawing.Point(177, 31);
             this.btnSubsplitTopColor.Name = "btnSubsplitTopColor";
             this.btnSubsplitTopColor.Size = new System.Drawing.Size(21, 23);
             this.btnSubsplitTopColor.TabIndex = 2;
@@ -1847,21 +1870,6 @@
             this.cmbSplitGradient.TabIndex = 15;
             this.cmbSplitGradient.SelectedIndexChanged += new System.EventHandler(this.cmbSplitGradient_SelectedIndexChanged);
             // 
-            // chkShowIconSectionSplit
-            // 
-            this.chkShowIconSectionSplit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkShowIconSectionSplit.AutoSize = true;
-            this.chkShowIconSectionSplit.Checked = true;
-            this.chkShowIconSectionSplit.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkShowIconSectionSplit.Location = new System.Drawing.Point(216, 30);
-            this.chkShowIconSectionSplit.Name = "chkShowIconSectionSplit";
-            this.chkShowIconSectionSplit.Size = new System.Drawing.Size(208, 21);
-            this.chkShowIconSectionSplit.TabIndex = 3;
-            this.chkShowIconSectionSplit.Text = "Show Icon of Last Split of Section";
-            this.chkShowIconSectionSplit.UseVisualStyleBackColor = true;
-            // 
             // SplitsSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1996,7 +2004,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox chkDisplayRows;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.CheckBox chkHideBlankIcons;
+        private System.Windows.Forms.CheckBox chkIndentBlankIcons;
         private System.Windows.Forms.GroupBox GroupBox9;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel11;
         private System.Windows.Forms.CheckBox chkCurrentSectionOnly;
