@@ -49,7 +49,7 @@ namespace LiveSplit.UI.Components
         protected ITimeFormatter HeaderTimesFormatter { get; set; }
         protected ITimeFormatter SectionTimerFormatter { get; set; }
 
-        protected int IconWidth { get { return ((!Header && DisplayIcon && Settings.ShowIconSectionSplit) || (Header && Settings.ShowSectionIcon)) ? (int)(Settings.IconSize + 7.5f) : 0; } }
+        protected int IconWidth { get { return ((!Header && DisplayIcon) || (Header && Settings.ShowSectionIcon)) ? (int)(Settings.IconSize + 7.5f) : 0; } }
 
         public bool DisplayIcon { get; set; }
 
@@ -235,7 +235,7 @@ namespace LiveSplit.UI.Components
                 }
 
                 var icon = Split.Icon;
-                if (DisplayIcon && icon != null && Settings.ShowIconSectionSplit)
+                if (DisplayIcon && icon != null)
                 {
                     var shadow = ShadowImage;
 
@@ -866,6 +866,7 @@ namespace LiveSplit.UI.Components
                 Cache["TimeColor"] = TimeLabel.ForeColor.ToArgb();
                 Cache["DeltaColor"] = DeltaLabel.ForeColor.ToArgb();
                 Cache["Indent"] = ((IsSubsplit && Settings.IndentSubsplits) || (ForceIndent));
+                Cache["DisplayIcon"] = DisplayIcon;
 
                 if (invalidator != null && Cache.HasChanged || FrameCount > 1 || blankOut)
                 {

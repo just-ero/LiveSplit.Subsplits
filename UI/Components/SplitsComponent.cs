@@ -33,6 +33,7 @@ namespace LiveSplit.UI.Components
 
         protected int ScrollOffset { get; set; }
         protected int LastSplitSeparatorIndex { get; set; }
+        private int lastSplitOfSection { get; set; }
 
         protected LiveSplitState State { get; set; }
 
@@ -166,9 +167,13 @@ namespace LiveSplit.UI.Components
             }
 
             var iconsNotBlank = state.Run.Where(x => x.Icon != null).Count() > 0;
+
             foreach (var split in SplitComponents)
             {
-                split.DisplayIcon = Settings.DisplayIcons && iconsNotBlank && (split.Split == null || split.Split.Icon != null || Settings.IndentBlankIcons);
+                var hideIconSectionSplit = !Settings.ShowIconSectionSplit && split.Split != null && state.Run.IndexOf(split.Split) == lastSplitOfSection;
+                
+                split.DisplayIcon = Settings.DisplayIcons && !hideIconSectionSplit && iconsNotBlank 
+                    && (split.Split == null || split.Split.Icon != null || Settings.IndentBlankIcons);
 
                 if (split.Split != null && split.Split.Icon != null)
                     split.ShadowImage = ShadowImages[split.Split.Icon];
@@ -379,6 +384,10 @@ namespace LiveSplit.UI.Components
             var currentSplit = ScrollOffset + runningSectionIndex;
             var currentSection = sectionList.getSection(currentSplit);
             runningSectionIndex = sectionList.getSection(runningSectionIndex);
+            if (sectionList.Sections[currentSection].getSubsplitCount() > 0)
+                lastSplitOfSection = sectionList.Sections[currentSection].endIndex;
+            else
+                lastSplitOfSection = -1;
 
             if (Settings.HideSubsplits)
             {
@@ -527,8 +536,7 @@ namespace LiveSplit.UI.Components
             {
                 if (i < SplitComponents.Count)
                 {
-                    SplitComponents[i].ForceIndent = Settings.IndentSectionSplit && (split == sectionList.Sections[currentSection].endIndex)
-                        && (sectionList.Sections[currentSection].getSubsplitCount() > 0);
+                    SplitComponents[i].ForceIndent = Settings.IndentSectionSplit && split == lastSplitOfSection;
 
                     if (split == int.MinValue)
                     {
