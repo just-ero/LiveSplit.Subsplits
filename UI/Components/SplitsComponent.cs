@@ -584,5 +584,10 @@ namespace LiveSplit.UI.Components
             State.ComparisonRenamed -= state_ComparisonRenamed;
             State.RunManuallyModified -= state_RunManuallyModified;
         }
+
+        public int GetSettingsHashCode()
+        {
+            return Settings.GetSettingsHashCode();
+        }
     }
 }

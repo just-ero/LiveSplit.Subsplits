@@ -537,68 +537,78 @@ namespace LiveSplit.UI.Components
         public XmlNode GetSettings(XmlDocument document)
         {
             var parent = document.CreateElement("Settings");
-            parent.AppendChild(SettingsHelper.ToElement(document, "Version", "1.6.0"));
-            parent.AppendChild(SettingsHelper.ToElement(document, CurrentSplitTopColor, "CurrentSplitTopColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, CurrentSplitBottomColor, "CurrentSplitBottomColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, "VisualSplitCount", VisualSplitCount));
-            parent.AppendChild(SettingsHelper.ToElement(document, "SplitPreviewCount", SplitPreviewCount));
-            parent.AppendChild(SettingsHelper.ToElement(document, "DisplayIcons", DisplayIcons));
-            parent.AppendChild(SettingsHelper.ToElement(document, "ShowThinSeparators", ShowThinSeparators));
-            parent.AppendChild(SettingsHelper.ToElement(document, "AlwaysShowLastSplit", AlwaysShowLastSplit));
-            parent.AppendChild(SettingsHelper.ToElement(document, "SplitWidth", SplitWidth));
-            parent.AppendChild(SettingsHelper.ToElement(document, "ShowSplitTimes", ShowSplitTimes));
-            parent.AppendChild(SettingsHelper.ToElement(document, "SplitTimesAccuracy", SplitTimesAccuracy));
-            parent.AppendChild(SettingsHelper.ToElement(document, BeforeNamesColor, "BeforeNamesColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, CurrentNamesColor, "CurrentNamesColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, AfterNamesColor, "AfterNamesColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, "OverrideTextColor", OverrideTextColor));
-            parent.AppendChild(SettingsHelper.ToElement(document, BeforeTimesColor, "BeforeTimesColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, CurrentTimesColor, "CurrentTimesColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, AfterTimesColor, "AfterTimesColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, "OverrideTimesColor", OverrideTimesColor));
-            parent.AppendChild(SettingsHelper.ToElement(document, "ShowBlankSplits", ShowBlankSplits));
-            parent.AppendChild(SettingsHelper.ToElement(document, "LockLastSplit", LockLastSplit));
-            parent.AppendChild(SettingsHelper.ToElement(document, "IconSize", IconSize));
-            parent.AppendChild(SettingsHelper.ToElement(document, "IconShadows", IconShadows));
-            parent.AppendChild(SettingsHelper.ToElement(document, "SplitHeight", SplitHeight));
-            parent.AppendChild(SettingsHelper.ToElement(document, "CurrentSplitGradient", CurrentSplitGradient));
-            parent.AppendChild(SettingsHelper.ToElement(document, BackgroundColor, "BackgroundColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, BackgroundColor2, "BackgroundColor2"));
-            parent.AppendChild(SettingsHelper.ToElement(document, "BackgroundGradient", BackgroundGradient));
-            parent.AppendChild(SettingsHelper.ToElement(document, "SeparatorLastSplit", SeparatorLastSplit));
-            parent.AppendChild(SettingsHelper.ToElement(document, "DeltasAccuracy", DeltasAccuracy));
-            parent.AppendChild(SettingsHelper.ToElement(document, "DropDecimals", DropDecimals));
-            parent.AppendChild(SettingsHelper.ToElement(document, "OverrideDeltasColor", OverrideDeltasColor));
-            parent.AppendChild(SettingsHelper.ToElement(document, DeltasColor, "DeltasColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, "Comparison", Comparison));
-            parent.AppendChild(SettingsHelper.ToElement(document, "Display2Rows", Display2Rows));
-            parent.AppendChild(SettingsHelper.ToElement(document, "IndentBlankIcons", IndentBlankIcons));
-            parent.AppendChild(SettingsHelper.ToElement(document, "IndentSubsplits", IndentSubsplits));
-            parent.AppendChild(SettingsHelper.ToElement(document, "HideSubsplits", HideSubsplits));
-            parent.AppendChild(SettingsHelper.ToElement(document, "ShowSubsplits", ShowSubsplits));
-            parent.AppendChild(SettingsHelper.ToElement(document, "CurrentSectionOnly", CurrentSectionOnly));
-            parent.AppendChild(SettingsHelper.ToElement(document, "OverrideSubsplitColor", OverrideSubsplitColor));
-            parent.AppendChild(SettingsHelper.ToElement(document, "SubsplitGradient", SubsplitGradient));
-            parent.AppendChild(SettingsHelper.ToElement(document, "ShowHeader", ShowHeader));
-            parent.AppendChild(SettingsHelper.ToElement(document, "IndentSectionSplit", IndentSectionSplit));
-            parent.AppendChild(SettingsHelper.ToElement(document, "ShowIconSectionSplit", ShowIconSectionSplit));
-            parent.AppendChild(SettingsHelper.ToElement(document, "ShowSectionIcon", ShowSectionIcon));
-            parent.AppendChild(SettingsHelper.ToElement(document, "HeaderGradient", HeaderGradient));
-            parent.AppendChild(SettingsHelper.ToElement(document, "OverrideHeaderColor", OverrideHeaderColor));
-            parent.AppendChild(SettingsHelper.ToElement(document, "HeaderText", HeaderText));
-            parent.AppendChild(SettingsHelper.ToElement(document, "HeaderTimes", HeaderTimes));
-            parent.AppendChild(SettingsHelper.ToElement(document, "HeaderAccuracy", HeaderAccuracy));
-            parent.AppendChild(SettingsHelper.ToElement(document, "SectionTimer", SectionTimer));
-            parent.AppendChild(SettingsHelper.ToElement(document, "SectionTimerGradient", SectionTimerGradient));
-            parent.AppendChild(SettingsHelper.ToElement(document, "SectionTimerAccuracy", SectionTimerAccuracy));
-            parent.AppendChild(SettingsHelper.ToElement(document, SubsplitTopColor, "SubsplitTopColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, SubsplitBottomColor, "SubsplitBottomColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, HeaderTopColor, "HeaderTopColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, HeaderBottomColor, "HeaderBottomColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, HeaderTextColor, "HeaderTextColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, HeaderTimesColor, "HeaderTimesColor"));
-            parent.AppendChild(SettingsHelper.ToElement(document, SectionTimerColor, "SectionTimerColor"));
+            CreateSettingsNode(document, parent);
             return parent;
+        }
+
+        public int GetSettingsHashCode()
+        {
+            return CreateSettingsNode(null, null);
+        }
+
+        private int CreateSettingsNode(XmlDocument document, XmlElement parent)
+        {
+            return SettingsHelper.CreateSetting(document, parent, "Version", "1.6.0") ^
+            SettingsHelper.CreateSetting(document, parent, "CurrentSplitTopColor", CurrentSplitTopColor) ^
+            SettingsHelper.CreateSetting(document, parent, "CurrentSplitBottomColor", CurrentSplitBottomColor) ^
+            SettingsHelper.CreateSetting(document, parent, "VisualSplitCount", VisualSplitCount) ^
+            SettingsHelper.CreateSetting(document, parent, "SplitPreviewCount", SplitPreviewCount) ^
+            SettingsHelper.CreateSetting(document, parent, "DisplayIcons", DisplayIcons) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowThinSeparators", ShowThinSeparators) ^
+            SettingsHelper.CreateSetting(document, parent, "AlwaysShowLastSplit", AlwaysShowLastSplit) ^
+            SettingsHelper.CreateSetting(document, parent, "SplitWidth", SplitWidth) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowSplitTimes", ShowSplitTimes) ^
+            SettingsHelper.CreateSetting(document, parent, "SplitTimesAccuracy", SplitTimesAccuracy) ^
+            SettingsHelper.CreateSetting(document, parent, "BeforeNamesColor", BeforeNamesColor) ^
+            SettingsHelper.CreateSetting(document, parent, "CurrentNamesColor", CurrentNamesColor) ^
+            SettingsHelper.CreateSetting(document, parent, "AfterNamesColor", AfterNamesColor) ^
+            SettingsHelper.CreateSetting(document, parent, "OverrideTextColor", OverrideTextColor) ^
+            SettingsHelper.CreateSetting(document, parent, "BeforeTimesColor", BeforeTimesColor) ^
+            SettingsHelper.CreateSetting(document, parent, "CurrentTimesColor", CurrentTimesColor) ^
+            SettingsHelper.CreateSetting(document, parent, "AfterTimesColor", AfterTimesColor) ^
+            SettingsHelper.CreateSetting(document, parent, "OverrideTimesColor", OverrideTimesColor) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowBlankSplits", ShowBlankSplits) ^
+            SettingsHelper.CreateSetting(document, parent, "LockLastSplit", LockLastSplit) ^
+            SettingsHelper.CreateSetting(document, parent, "IconSize", IconSize) ^
+            SettingsHelper.CreateSetting(document, parent, "IconShadows", IconShadows) ^
+            SettingsHelper.CreateSetting(document, parent, "SplitHeight", SplitHeight) ^
+            SettingsHelper.CreateSetting(document, parent, "CurrentSplitGradient", CurrentSplitGradient) ^
+            SettingsHelper.CreateSetting(document, parent, "BackgroundColor", BackgroundColor) ^
+            SettingsHelper.CreateSetting(document, parent, "BackgroundColor2", BackgroundColor2) ^
+            SettingsHelper.CreateSetting(document, parent, "BackgroundGradient", BackgroundGradient) ^
+            SettingsHelper.CreateSetting(document, parent, "SeparatorLastSplit", SeparatorLastSplit) ^
+            SettingsHelper.CreateSetting(document, parent, "DeltasAccuracy", DeltasAccuracy) ^
+            SettingsHelper.CreateSetting(document, parent, "DropDecimals", DropDecimals) ^
+            SettingsHelper.CreateSetting(document, parent, "OverrideDeltasColor", OverrideDeltasColor) ^
+            SettingsHelper.CreateSetting(document, parent, "DeltasColor", DeltasColor) ^
+            SettingsHelper.CreateSetting(document, parent, "Comparison", Comparison) ^
+            SettingsHelper.CreateSetting(document, parent, "Display2Rows", Display2Rows) ^
+            SettingsHelper.CreateSetting(document, parent, "IndentBlankIcons", IndentBlankIcons) ^
+            SettingsHelper.CreateSetting(document, parent, "IndentSubsplits", IndentSubsplits) ^
+            SettingsHelper.CreateSetting(document, parent, "HideSubsplits", HideSubsplits) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowSubsplits", ShowSubsplits) ^
+            SettingsHelper.CreateSetting(document, parent, "CurrentSectionOnly", CurrentSectionOnly) ^
+            SettingsHelper.CreateSetting(document, parent, "OverrideSubsplitColor", OverrideSubsplitColor) ^
+            SettingsHelper.CreateSetting(document, parent, "SubsplitGradient", SubsplitGradient) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowHeader", ShowHeader) ^
+            SettingsHelper.CreateSetting(document, parent, "IndentSectionSplit", IndentSectionSplit) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowIconSectionSplit", ShowIconSectionSplit) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowSectionIcon", ShowSectionIcon) ^
+            SettingsHelper.CreateSetting(document, parent, "HeaderGradient", HeaderGradient) ^
+            SettingsHelper.CreateSetting(document, parent, "OverrideHeaderColor", OverrideHeaderColor) ^
+            SettingsHelper.CreateSetting(document, parent, "HeaderText", HeaderText) ^
+            SettingsHelper.CreateSetting(document, parent, "HeaderTimes", HeaderTimes) ^
+            SettingsHelper.CreateSetting(document, parent, "HeaderAccuracy", HeaderAccuracy) ^
+            SettingsHelper.CreateSetting(document, parent, "SectionTimer", SectionTimer) ^
+            SettingsHelper.CreateSetting(document, parent, "SectionTimerGradient", SectionTimerGradient) ^
+            SettingsHelper.CreateSetting(document, parent, "SectionTimerAccuracy", SectionTimerAccuracy) ^
+            SettingsHelper.CreateSetting(document, parent, "SubsplitTopColor", SubsplitTopColor) ^
+            SettingsHelper.CreateSetting(document, parent, "SubsplitBottomColor", SubsplitBottomColor) ^
+            SettingsHelper.CreateSetting(document, parent, "HeaderTopColor", HeaderTopColor) ^
+            SettingsHelper.CreateSetting(document, parent, "HeaderBottomColor", HeaderBottomColor) ^
+            SettingsHelper.CreateSetting(document, parent, "HeaderTextColor", HeaderTextColor) ^
+            SettingsHelper.CreateSetting(document, parent, "HeaderTimesColor", HeaderTimesColor) ^
+            SettingsHelper.CreateSetting(document, parent, "SectionTimerColor", SectionTimerColor);
         }
 
         private void ColorButtonClick(object sender, EventArgs e)
