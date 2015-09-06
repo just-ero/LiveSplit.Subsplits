@@ -13,10 +13,10 @@ namespace LiveSplit.UI.Components
     {
         public ComponentRendererComponent InternalComponent { get; protected set; }
 
-        public float PaddingTop { get { return InternalComponent.PaddingTop; } }
-        public float PaddingLeft { get { return InternalComponent.PaddingLeft; } }
-        public float PaddingBottom { get { return InternalComponent.PaddingBottom; } }
-        public float PaddingRight { get { return InternalComponent.PaddingRight; } }
+        public float PaddingTop => InternalComponent.PaddingTop;
+        public float PaddingLeft => InternalComponent.PaddingLeft;
+        public float PaddingBottom =>  InternalComponent.PaddingBottom;
+        public float PaddingRight => InternalComponent.PaddingRight;
 
         protected IList<IComponent> Components { get; set; }
         protected IList<SplitComponent> SplitComponents { get; set; }
@@ -40,34 +40,19 @@ namespace LiveSplit.UI.Components
         protected Color OldShadowsColor { get; set; }
 
         public string ComponentName
-        {
-            get { return "Subsplits" + (Settings.Comparison == "Current Comparison" ? "" : " (" + CompositeComparisons.GetShortComparisonName(Settings.Comparison) + ")"); }
-        }
+          => "Subsplits" + (Settings.Comparison == "Current Comparison" 
+            ? "" 
+            : $" ({ CompositeComparisons.GetShortComparisonName(Settings.Comparison) })");
 
-        public float VerticalHeight
-        {
-            get { return InternalComponent.VerticalHeight; }
-        }
+        public float VerticalHeight => InternalComponent.VerticalHeight;
 
-        public float MinimumWidth
-        {
-            get { return InternalComponent.MinimumWidth; }
-        }
+        public float MinimumWidth => InternalComponent.MinimumWidth;
 
-        public float HorizontalWidth
-        {
-            get { return InternalComponent.HorizontalWidth; }
-        }
+        public float HorizontalWidth => InternalComponent.HorizontalWidth;
 
-        public float MinimumHeight
-        {
-            get { return InternalComponent.MinimumHeight; }
-        }
+        public float MinimumHeight => InternalComponent.MinimumHeight;
 
-        public IDictionary<string, Action> ContextMenuControls
-        {
-            get { return null; }
-        }
+        public IDictionary<string, Action> ContextMenuControls => null;
 
         public SplitsComponent(LiveSplitState state)
         {
@@ -365,7 +350,6 @@ namespace LiveSplit.UI.Components
             RebuildVisualSplits();
         }
 
-
         public System.Xml.XmlNode GetSettings(System.Xml.XmlDocument document)
         {
             return Settings.GetSettings(document);
@@ -593,9 +577,6 @@ namespace LiveSplit.UI.Components
             State.RunManuallyModified -= state_RunManuallyModified;
         }
 
-        public int GetSettingsHashCode()
-        {
-            return Settings.GetSettingsHashCode();
-        }
+        public int GetSettingsHashCode() => Settings.GetSettingsHashCode();
     }
 }

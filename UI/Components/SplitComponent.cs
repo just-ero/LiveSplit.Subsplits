@@ -1,5 +1,4 @@
 ﻿using LiveSplit.Model;
-using LiveSplit.Properties;
 using LiveSplit.TimeFormatters;
 using System;
 using System.Collections.Generic;
@@ -49,38 +48,32 @@ namespace LiveSplit.UI.Components
         protected ITimeFormatter HeaderTimesFormatter { get; set; }
         protected ITimeFormatter SectionTimerFormatter { get; set; }
 
-        protected int IconWidth { get { return ((!Header && DisplayIcon) || (Header && Settings.ShowSectionIcon)) ? (int)(Settings.IconSize + 7.5f) : 0; } }
+        protected int IconWidth => ((!Header && DisplayIcon) || (Header && Settings.ShowSectionIcon)) ? (int)(Settings.IconSize + 7.5f) : 0;
 
         public bool DisplayIcon { get; set; }
 
         public Image ShadowImage { get; set; }
         protected Image OldImage { get; set; }
 
-        public float PaddingTop { get { return 0f; } }
-        public float PaddingLeft { get { return 0f; } }
-        public float PaddingBottom { get { return 0f; } }
-        public float PaddingRight { get { return 0f; } }
+        public float PaddingTop => 0f;
+        public float PaddingLeft => 0f;
+        public float PaddingBottom => 0f;
+        public float PaddingRight => 0f;
 
         private Regex SubsplitRegex = new Regex(@"^{(.+)}\s*(.+)$", RegexOptions.Compiled);
 
-        public float VerticalHeight
-        {
-            get { return 25f + Settings.SplitHeight; }
-        }
+        public float VerticalHeight => 25f + Settings.SplitHeight;
 
         public float MinimumWidth { get; set; }
 
         public float HorizontalWidth
-        {
-            get { return Settings.SplitWidth + (((!Header && Settings.ShowSplitTimes) || (Header && Settings.SectionTimer)) ? MeasureDeltaLabel.ActualWidth : 0) + MeasureTimeLabel.ActualWidth + IconWidth; }
-        }
+            => Settings.SplitWidth + (((!Header && Settings.ShowSplitTimes) || (Header && Settings.SectionTimer)) 
+                ? MeasureDeltaLabel.ActualWidth 
+                : 0) + MeasureTimeLabel.ActualWidth + IconWidth;
 
         public float MinimumHeight { get; set; }
 
-        public IDictionary<string, Action> ContextMenuControls
-        {
-            get { return null; }
-        }
+        public IDictionary<string, Action> ContextMenuControls => null;
 
         public SplitComponent(SplitsSettings settings)
         {
@@ -316,9 +309,9 @@ namespace LiveSplit.UI.Components
                 DeltaLabel.IsMonospaced = true;
 
                 if ((Settings.IndentSubsplits && IsSubsplit) || ForceIndent)
-                    NameLabel.Width = -20 + width - IconWidth - (mode == LayoutMode.Vertical ? DeltaLabel.ActualWidth + (String.IsNullOrEmpty(DeltaLabel.Text) ? TimeLabel.ActualWidth : MeasureTimeLabel.ActualWidth + 5) + 10 : 10);
+                    NameLabel.Width = -20 + width - IconWidth - (mode == LayoutMode.Vertical ? DeltaLabel.ActualWidth + (string.IsNullOrEmpty(DeltaLabel.Text) ? TimeLabel.ActualWidth : MeasureTimeLabel.ActualWidth + 5) + 10 : 10);
                 else
-                    NameLabel.Width = width - IconWidth - (mode == LayoutMode.Vertical ? DeltaLabel.ActualWidth + (String.IsNullOrEmpty(DeltaLabel.Text) ? TimeLabel.ActualWidth : MeasureTimeLabel.ActualWidth + 5) + 10 : 10);
+                    NameLabel.Width = width - IconWidth - (mode == LayoutMode.Vertical ? DeltaLabel.ActualWidth + (string.IsNullOrEmpty(DeltaLabel.Text) ? TimeLabel.ActualWidth : MeasureTimeLabel.ActualWidth + 5) + 10 : 10);
 
                 NameLabel.Draw(g);
                 TimeLabel.Draw(g);
@@ -463,7 +456,6 @@ namespace LiveSplit.UI.Components
             }
 
             NameLabel.Font = state.LayoutSettings.TextFont;
-            //NameLabel.Text = Split.Name;
 
             NameLabel.X = 5 + IconWidth;
             NameLabel.HasShadow = state.LayoutSettings.DropShadows;
@@ -482,7 +474,7 @@ namespace LiveSplit.UI.Components
             DeltaLabel.HasShadow = state.LayoutSettings.DropShadows;
             DeltaLabel.IsMonospaced = true;
 
-            NameLabel.Width = width - IconWidth - (mode == LayoutMode.Vertical ? DeltaLabel.ActualWidth + (String.IsNullOrEmpty(DeltaLabel.Text) ? TimeLabel.ActualWidth : MeasureTimeLabel.ActualWidth + 5) + 10 : 10);
+            NameLabel.Width = width - IconWidth - (mode == LayoutMode.Vertical ? DeltaLabel.ActualWidth + (string.IsNullOrEmpty(DeltaLabel.Text) ? TimeLabel.ActualWidth : MeasureTimeLabel.ActualWidth + 5) + 10 : 10);
 
             Color originalColor = DeltaLabel.ForeColor;
             if (Settings.SectionTimer && Settings.SectionTimerGradient)
@@ -520,16 +512,19 @@ namespace LiveSplit.UI.Components
         public void DrawVertical(Graphics g, LiveSplitState state, float width, Region clipRegion)
         {
             if (Header)
+            {
                 if (Settings.Display2Rows)
                     DrawHeader(g, state, width, VerticalHeight, LayoutMode.Horizontal, clipRegion);
                 else
                     DrawHeader(g, state, width, VerticalHeight, LayoutMode.Vertical, clipRegion);
+            }
             else
+            {
                 if (Settings.Display2Rows)
                     DrawGeneral(g, state, width, VerticalHeight, LayoutMode.Horizontal, clipRegion);
                 else
                     DrawGeneral(g, state, width, VerticalHeight, LayoutMode.Vertical, clipRegion);
-            
+            }            
         }
 
         public void DrawHorizontal(Graphics g, LiveSplitState state, float height, Region clipRegion)
@@ -537,26 +532,23 @@ namespace LiveSplit.UI.Components
             DrawGeneral(g, state, HorizontalWidth, height, LayoutMode.Horizontal, clipRegion);
         }
 
-        public string ComponentName
-        {
-            get { return "Split"; }
-        }
+        public string ComponentName => "Split";
 
 
         public Control GetSettingsControl(LayoutMode mode)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public void SetSettings(System.Xml.XmlNode settings)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
 
         public System.Xml.XmlNode GetSettings(System.Xml.XmlDocument document)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public string UpdateName
@@ -579,7 +571,7 @@ namespace LiveSplit.UI.Components
             get { throw new NotSupportedException(); }
         }
 
-        private TimeSpan? getSectionTime(LiveSplitState state, int splitNumber, int topNumber, String comparison, TimingMethod method, int currentIndex)
+        private TimeSpan? getSectionTime(LiveSplitState state, int splitNumber, int topNumber, string comparison, TimingMethod method, int currentIndex)
         {
             if (topNumber > currentIndex)
                 return null;
@@ -591,12 +583,12 @@ namespace LiveSplit.UI.Components
             return state.CurrentTime[method] - (topNumber > 0 ? state.Run[topNumber - 1].SplitTime[method] : TimeSpan.Zero);
         }
 
-        private TimeSpan? getSectionComparasion(LiveSplitState state, int splitNumber, int topNumber, String comparison, TimingMethod method)
+        private TimeSpan? getSectionComparasion(LiveSplitState state, int splitNumber, int topNumber, string comparison, TimingMethod method)
         {
             return (state.Run[splitNumber].Comparisons[comparison][method] - (topNumber > 0 ? state.Run[topNumber - 1].Comparisons[comparison][method] : TimeSpan.Zero));
         }
         
-        private TimeSpan? getSectionDelta(LiveSplitState state, int splitNumber, int topNumber, String comparison, TimingMethod method, int currentIndex)
+        private TimeSpan? getSectionDelta(LiveSplitState state, int splitNumber, int topNumber, string comparison, TimingMethod method, int currentIndex)
         {
             return getSectionTime(state, splitNumber, topNumber, comparison, method, currentIndex) - getSectionComparasion(state, splitNumber, topNumber, comparison, method);
         }
@@ -645,7 +637,8 @@ namespace LiveSplit.UI.Components
 
                 if (IsSubsplit)
                     NameLabel.Text = Split.Name.Substring(1);
-                else {
+                else
+                {
                     Match match = SubsplitRegex.Match(Split.Name);
                     if (match.Success) {
                         if (CollapsedSplit || Header)

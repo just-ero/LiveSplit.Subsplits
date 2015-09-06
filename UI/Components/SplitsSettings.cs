@@ -41,13 +41,13 @@ namespace LiveSplit.UI.Components
         public Color BackgroundColor2 { get; set; }
 
         public ExtendedGradientType BackgroundGradient { get; set; }
-        public String GradientString
+        public string GradientString
         {
             get { return BackgroundGradient.ToString(); }
             set { BackgroundGradient = (ExtendedGradientType)Enum.Parse(typeof(ExtendedGradientType), value); }
         }
 
-        public String Comparison { get; set; }
+        public string Comparison { get; set; }
         public LiveSplitState CurrentState { get; set; }
 
         public bool DisplayIcons { get; set; }
@@ -68,7 +68,7 @@ namespace LiveSplit.UI.Components
         public Color SubsplitTopColor { get; set; }
         public Color SubsplitBottomColor { get; set; }
         public GradientType SubsplitGradient { get; set; }
-        public String SubsplitGradientString
+        public string SubsplitGradientString
         {
             get { return SubsplitGradient.ToString(); }
             set { SubsplitGradient = (GradientType)Enum.Parse(typeof(GradientType), value); }
@@ -81,7 +81,7 @@ namespace LiveSplit.UI.Components
         public Color HeaderTopColor { get; set; }
         public Color HeaderBottomColor { get; set; }
         public GradientType HeaderGradient { get; set; }
-        public String HeaderGradientString
+        public string HeaderGradientString
         {
             get { return HeaderGradient.ToString(); }
             set { HeaderGradient = (GradientType)Enum.Parse(typeof(GradientType), value); }
@@ -114,7 +114,7 @@ namespace LiveSplit.UI.Components
 
         public TimeAccuracy SplitTimesAccuracy { get; set; }
         public GradientType CurrentSplitGradient { get; set; }
-        public String SplitGradientString { get { return CurrentSplitGradient.ToString(); } 
+        public string SplitGradientString { get { return CurrentSplitGradient.ToString(); } 
             set { CurrentSplitGradient = (GradientType)Enum.Parse(typeof(GradientType), value); } }
 
         public event EventHandler SplitLayoutChanged;
