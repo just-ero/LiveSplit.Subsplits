@@ -62,9 +62,9 @@ namespace LiveSplit.UI.Components
 
         private Regex SubsplitRegex = new Regex(@"^{(.+)}\s*(.+)$", RegexOptions.Compiled);
 
-        public float VerticalHeight => 25f + Settings.SplitHeight;
+        public float VerticalHeight { get; set; }
 
-        public float MinimumWidth { get; set; }
+        public float MinimumWidth => (Settings.ShowSplitTimes ? MeasureDeltaLabel.ActualWidth : 10) + MeasureTimeLabel.ActualWidth + IconWidth + 10;
 
         public float HorizontalWidth
             => Settings.SplitWidth + (((!Header && Settings.ShowSplitTimes) || (Header && Settings.SectionTimer)) 
@@ -103,7 +103,8 @@ namespace LiveSplit.UI.Components
             DeltaTimeFormatter = new DeltaSplitTimeFormatter(Settings.DeltasAccuracy, Settings.DropDecimals);
             HeaderTimesFormatter = new RegularSplitTimeFormatter(Settings.HeaderAccuracy);
             SectionTimerFormatter = new RegularSplitTimeFormatter(Settings.SectionTimerAccuracy);
-            MinimumHeight = 31;
+            MinimumHeight = 25;
+            VerticalHeight = 31;
 
             MeasureTimeLabel.Text = TimeFormatter.Format(new TimeSpan(9, 0, 0));
             NeedUpdateAll = true;
@@ -154,8 +155,6 @@ namespace LiveSplit.UI.Components
             NameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
             TimeLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
             DeltaLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
-            MinimumWidth = (Settings.ShowSplitTimes ? MeasureDeltaLabel.ActualWidth : 10) + MeasureTimeLabel.ActualWidth + IconWidth + 10;
-            MinimumHeight = 0.85f * (g.MeasureString("A", state.LayoutSettings.TimesFont).Height + g.MeasureString("A", state.LayoutSettings.TextFont).Height);
 
             if (Settings.SplitTimesAccuracy != CurrentAccuracy)
             {
@@ -355,8 +354,6 @@ namespace LiveSplit.UI.Components
             NameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
             TimeLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
             DeltaLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
-            MinimumWidth = (Settings.SectionTimer ? MeasureDeltaLabel.ActualWidth : 10) + MeasureTimeLabel.ActualWidth + IconWidth + 10;
-            MinimumHeight = 0.85f * (g.MeasureString("A", state.LayoutSettings.TimesFont).Height + g.MeasureString("A", state.LayoutSettings.TextFont).Height);
 
             if (Settings.SplitTimesAccuracy != CurrentAccuracy)
             {
@@ -511,24 +508,27 @@ namespace LiveSplit.UI.Components
 
         public void DrawVertical(Graphics g, LiveSplitState state, float width, Region clipRegion)
         {
-            if (Header)
+            if (Settings.Display2Rows)
             {
-                if (Settings.Display2Rows)
+                VerticalHeight = Settings.SplitHeight + 0.85f * (g.MeasureString("A", state.LayoutSettings.TimesFont).Height + g.MeasureString("A", state.LayoutSettings.TextFont).Height);
+                if (Header)
                     DrawHeader(g, state, width, VerticalHeight, LayoutMode.Horizontal, clipRegion);
                 else
-                    DrawHeader(g, state, width, VerticalHeight, LayoutMode.Vertical, clipRegion);
+                    DrawGeneral(g, state, width, VerticalHeight, LayoutMode.Horizontal, clipRegion);
             }
             else
             {
-                if (Settings.Display2Rows)
-                    DrawGeneral(g, state, width, VerticalHeight, LayoutMode.Horizontal, clipRegion);
+                VerticalHeight = Settings.SplitHeight + 25;
+                if (Header)
+                    DrawHeader(g, state, width, VerticalHeight, LayoutMode.Vertical, clipRegion);
                 else
                     DrawGeneral(g, state, width, VerticalHeight, LayoutMode.Vertical, clipRegion);
-            }            
+            }
         }
 
         public void DrawHorizontal(Graphics g, LiveSplitState state, float height, Region clipRegion)
         {
+            MinimumHeight = 0.85f * (g.MeasureString("A", state.LayoutSettings.TimesFont).Height + g.MeasureString("A", state.LayoutSettings.TextFont).Height);
             DrawGeneral(g, state, HorizontalWidth, height, LayoutMode.Horizontal, clipRegion);
         }
 
