@@ -153,8 +153,11 @@ namespace LiveSplit.UI.Components
             DeltaLabel.SetActualWidth(g);
 
             NameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+            NameLabel.OutlineColor = state.LayoutSettings.TextOutlineColor;
             TimeLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+            TimeLabel.OutlineColor = state.LayoutSettings.TextOutlineColor;
             DeltaLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+            DeltaLabel.OutlineColor = state.LayoutSettings.TextOutlineColor;
 
             if (Settings.SplitTimesAccuracy != CurrentAccuracy)
             {
@@ -277,7 +280,6 @@ namespace LiveSplit.UI.Components
                 }
 
                 NameLabel.Font = state.LayoutSettings.TextFont;
-                //NameLabel.Text = Split.Name;
 
                 if ((Settings.IndentSubsplits && IsSubsplit) || ForceIndent)
                     NameLabel.X = 25 + IconWidth;
@@ -352,8 +354,11 @@ namespace LiveSplit.UI.Components
             DeltaLabel.SetActualWidth(g);
 
             NameLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+            NameLabel.OutlineColor = state.LayoutSettings.TextOutlineColor;
             TimeLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+            TimeLabel.OutlineColor = state.LayoutSettings.TextOutlineColor;
             DeltaLabel.ShadowColor = state.LayoutSettings.ShadowsColor;
+            DeltaLabel.OutlineColor = state.LayoutSettings.TextOutlineColor;
 
             if (Settings.SplitTimesAccuracy != CurrentAccuracy)
             {
