@@ -866,7 +866,7 @@ namespace LiveSplit.UI.Components
                 Cache["Indent"] = ((IsSubsplit && Settings.IndentSubsplits) || (ForceIndent));
                 Cache["DisplayIcon"] = DisplayIcon;
 
-                if (invalidator != null && Cache.HasChanged || FrameCount > 1 || blankOut)
+                if (invalidator != null && (Cache.HasChanged || FrameCount > 1 || blankOut))
                 {
                     invalidator.Invalidate(0, 0, width, height);
                 }
