@@ -68,6 +68,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UI\ColumnData.cs" />
+    <Compile Include="UI\ColumnType.cs" />
+    <Compile Include="UI\Components\ColumnSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Components\ColumnSettings.Designer.cs">
+      <DependentUpon>ColumnSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Components\LabelsComponent.cs" />
     <Compile Include="UI\Components\SplitComponent.cs" />
     <Compile Include="UI\Components\SplitsComponent.cs" />
     <Compile Include="UI\Components\SplitsComponentFactory.cs" />
@@ -83,6 +92,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Components\ColumnSettings.resx">
+      <DependentUpon>ColumnSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Components\SplitsSettings.resx">
       <DependentUpon>SplitsSettings.cs</DependentUpon>

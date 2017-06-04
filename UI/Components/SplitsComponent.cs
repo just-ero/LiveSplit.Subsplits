@@ -26,8 +26,9 @@ namespace LiveSplit.UI.Components
         private Dictionary<Image, Image> ShadowImages { get; set; }
 
         private int visualSplitCount;
-        private int settingsSplitCount;
         private IRun previousRun;
+
+        protected bool PreviousShowLabels { get; set; }
 
         private SectionList sectionList;
 
@@ -35,14 +36,15 @@ namespace LiveSplit.UI.Components
         protected int LastSplitSeparatorIndex { get; set; }
         private int lastSplitOfSection { get; set; }
 
-        protected LiveSplitState State { get; set; }
-
+        protected LiveSplitState CurrentState { get; set; }
+        protected LiveSplitState OldState { get; set; }
+        protected LayoutMode OldLayoutMode { get; set; }
         protected Color OldShadowsColor { get; set; }
 
+        protected IEnumerable<ColumnData> ColumnsList { get { return Settings.ColumnsList.Select(x => x.Data); } }
+
         public string ComponentName
-          => "Subsplits" + (Settings.Comparison == "Current Comparison" 
-            ? "" 
-            : $" ({ CompositeComparisons.GetShortComparisonName(Settings.Comparison) })");
+          => "Subsplits";
 
         public float VerticalHeight => InternalComponent.VerticalHeight;
 
@@ -56,14 +58,11 @@ namespace LiveSplit.UI.Components
 
         public SplitsComponent(LiveSplitState state)
         {
-            Settings = new SplitsSettings()
-            {
-                CurrentState = state
-            };
+            CurrentState = state;
+            Settings = new SplitsSettings(state);
             InternalComponent = new ComponentRendererComponent();
             ShadowImages = new Dictionary<Image, Image>();
             visualSplitCount = Settings.VisualSplitCount;
-            settingsSplitCount = Settings.VisualSplitCount;
             Settings.SplitLayoutChanged += Settings_SplitLayoutChanged;
             ScrollOffset = 0;
             RebuildVisualSplits();
@@ -80,10 +79,13 @@ namespace LiveSplit.UI.Components
         void state_ComparisonRenamed(object sender, EventArgs e)
         {
             var args = (RenameEventArgs)e;
-            if (Settings.Comparison == args.OldName)
+            foreach (var column in ColumnsList)
             {
-                Settings.Comparison = args.NewName;
-                ((LiveSplitState)sender).Layout.HasChanged = true;
+                if (column.Comparison == args.OldName)
+                {
+                    column.Comparison = args.NewName;
+                    ((LiveSplitState)sender).Layout.HasChanged = true;
+                }
             }
         }
 
@@ -98,9 +100,15 @@ namespace LiveSplit.UI.Components
             SplitComponents = new List<SplitComponent>();
             InternalComponent.VisibleComponents = Components;
 
+            if (Settings.ShowColumnLabels && CurrentState.Layout.Mode == LayoutMode.Vertical)
+            {
+                Components.Add(new LabelsComponent(Settings, ColumnsList));
+                Components.Add(new SeparatorComponent());
+            }
+
             for (var i = 0; i < visualSplitCount; ++i)
             {
-                if (i > 0 && i == visualSplitCount - 1)
+                if (i == visualSplitCount - 1 && i > 0)
                 {
                     LastSplitSeparatorIndex = Components.Count;
                     if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit)
@@ -109,7 +117,7 @@ namespace LiveSplit.UI.Components
                         Components.Add(new ThinSeparatorComponent());
                 }
 
-                var splitComponent = new SplitComponent(Settings);
+                var splitComponent = new SplitComponent(Settings, ColumnsList);
                 Components.Add(splitComponent);
                 SplitComponents.Add(splitComponent);
 
@@ -120,7 +128,7 @@ namespace LiveSplit.UI.Components
 
         private void Prepare(LiveSplitState state)
         {
-            if (state != State)
+            if (state != OldState)
             {
                 state.OnScrollDown += state_OnScrollDown;
                 state.OnScrollUp += state_OnScrollUp;
@@ -131,11 +139,15 @@ namespace LiveSplit.UI.Components
                 state.OnUndoSplit += state_OnUndoSplit;
                 state.ComparisonRenamed += state_ComparisonRenamed;
                 state.RunManuallyModified += state_RunManuallyModified;
-                State = state;
+                OldState = state;
             }
 
-            if (Settings.VisualSplitCount != visualSplitCount)
+            if (Settings.VisualSplitCount != visualSplitCount
+            || Settings.ShowColumnLabels != PreviousShowLabels
+            || (Settings.ShowColumnLabels && state.Layout.Mode != OldLayoutMode))
             {
+                PreviousShowLabels = Settings.ShowColumnLabels;
+                OldLayoutMode = state.Layout.Mode;
                 visualSplitCount = Settings.VisualSplitCount;
                 RebuildVisualSplits();
             }
@@ -177,7 +189,7 @@ namespace LiveSplit.UI.Components
                     {
                         if (((SplitComponent)Components[index + 1]).Split == state.CurrentSplit)
                             separator.LockToBottom = true;
-                        else if (((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
+                        else if (Components[index - 1] is SplitComponent && ((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
                             separator.LockToBottom = false;
                     }
                 }
@@ -189,7 +201,7 @@ namespace LiveSplit.UI.Components
                     {
                         if (((SplitComponent)Components[index + 1]).Split == state.CurrentSplit)
                             separator.LockToBottom = true;
-                        else if (((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
+                        else if (Components[index - 1] is SplitComponent && ((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
                             separator.LockToBottom = false;
                     }
                 }
@@ -500,11 +512,8 @@ namespace LiveSplit.UI.Components
             if (!Settings.LockLastSplit && addLast)
                 visibleSplits.Add(state.Run.Count() - 1);
 
-            if (Settings.ShowBlankSplits)
-            {
-                for (; freeSplits > 0; freeSplits--)
-                    visibleSplits.Add(int.MinValue);
-            }
+            for (; freeSplits > 0; freeSplits--)
+                visibleSplits.Add(int.MinValue);
 
             if (Settings.LockLastSplit && addLast)
                 visibleSplits.Add(state.Run.Count() - 1);
@@ -535,13 +544,13 @@ namespace LiveSplit.UI.Components
                         SplitComponents[i].CollapsedSplit = false;
                         SplitComponents[i].TopSplit = sectionList.Sections[-split - 1].startIndex;
                         SplitComponents[i].Split = state.Run[sectionList.Sections[-split - 1].endIndex];
-                        SplitComponents[i].oddSplit = (((-split - 1) % 2) == 0);
+                        SplitComponents[i].oddSplit = ((((-split - 1) + (Settings.ShowColumnLabels ? 1 : 0)) % 2) == 0);
                     }
                     else
                     {
                         SplitComponents[i].Header = false;
                         SplitComponents[i].Split = state.Run[split];
-                        SplitComponents[i].oddSplit = ((sectionList.getSection(split) % 2) == 0);
+                        SplitComponents[i].oddSplit = (((sectionList.getSection(split) + (Settings.ShowColumnLabels ? 1 : 0)) % 2) == 0);
 
                         if ((Settings.HideSubsplits || sectionList.getSection(split) != currentSection)
                             && sectionList.Sections[sectionList.getSection(split)].getSubsplitCount() > 0
@@ -566,15 +575,15 @@ namespace LiveSplit.UI.Components
 
         public void Dispose()
         {
-            State.OnScrollDown -= state_OnScrollDown;
-            State.OnScrollUp -= state_OnScrollUp;
-            State.OnStart -= state_OnStart;
-            State.OnReset -= state_OnReset;
-            State.OnSplit -= state_OnSplit;
-            State.OnSkipSplit -= state_OnSkipSplit;
-            State.OnUndoSplit -= state_OnUndoSplit;
-            State.ComparisonRenamed -= state_ComparisonRenamed;
-            State.RunManuallyModified -= state_RunManuallyModified;
+            CurrentState.OnScrollDown -= state_OnScrollDown;
+            CurrentState.OnScrollUp -= state_OnScrollUp;
+            CurrentState.OnStart -= state_OnStart;
+            CurrentState.OnReset -= state_OnReset;
+            CurrentState.OnSplit -= state_OnSplit;
+            CurrentState.OnSkipSplit -= state_OnSkipSplit;
+            CurrentState.OnUndoSplit -= state_OnUndoSplit;
+            CurrentState.ComparisonRenamed -= state_ComparisonRenamed;
+            CurrentState.RunManuallyModified -= state_RunManuallyModified;
         }
 
         public int GetSettingsHashCode() => Settings.GetSettingsHashCode();
