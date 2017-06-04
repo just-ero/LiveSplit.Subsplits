@@ -699,7 +699,7 @@ namespace LiveSplit.UI.Components
                         TimeLabel.Text = DeltaTimeFormatter.Format(deltaTime);
                     else
                         if (splitIndex < state.CurrentSplitIndex)
-                            TimeLabel.Text = "-";
+                            TimeLabel.Text = TimeFormatConstants.DASH;
                         else
                             TimeLabel.Text = HeaderTimesFormatter.Format(getSectionComparison(state, splitIndex, TopSplit, comparison, timingMethod));
 
