@@ -2,6 +2,7 @@
 using LiveSplit.Model.Comparisons;
 using LiveSplit.TimeFormatters;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -47,7 +48,8 @@ namespace LiveSplit.UI.Components
             set { BackgroundGradient = (ExtendedGradientType)Enum.Parse(typeof(ExtendedGradientType), value); }
         }
 
-        public string Comparison { get; set; }
+        public string HeaderComparison { get; set; }
+        public string HeaderTimingMethod { get; set; }
         public LiveSplitState CurrentState { get; set; }
 
         public bool DisplayIcons { get; set; }
@@ -55,8 +57,6 @@ namespace LiveSplit.UI.Components
         public bool IndentBlankIcons { get; set; }
         public bool ShowThinSeparators { get; set; }
         public bool AlwaysShowLastSplit { get; set; }
-        public bool ShowSplitTimes { get; set; }
-        public bool ShowBlankSplits { get; set; }
         public bool LockLastSplit { get; set; }
         public bool SeparatorLastSplit { get; set; }
 
@@ -103,6 +103,9 @@ namespace LiveSplit.UI.Components
         public bool OverrideDeltasColor { get; set; }
         public Color DeltasColor { get; set; }
 
+        public bool ShowColumnLabels { get; set; }
+        public Color LabelsColor { get; set; }
+
         public Color BeforeNamesColor { get; set; }
         public Color CurrentNamesColor { get; set; }
         public Color AfterNamesColor { get; set; }
@@ -121,17 +124,25 @@ namespace LiveSplit.UI.Components
 
         public LayoutMode Mode { get; set; }
 
-        public SplitsSettings()
+        public IList<ColumnSettings> ColumnsList { get; set; }
+        public Size StartingSize { get; set; }
+        public Size StartingTableLayoutSize { get; set; }
+
+        public SplitsSettings(LiveSplitState state)
         {
             InitializeComponent();
+
+            CurrentState = state;
+
+            StartingSize = Size;
+            StartingTableLayoutSize = tableColumns.Size;
+
             VisualSplitCount = 8;
             SplitPreviewCount = 1;
             DisplayIcons = true;
             IconShadows = true;
             ShowThinSeparators = false;
             AlwaysShowLastSplit = true;
-            ShowSplitTimes = false;
-            ShowBlankSplits = true;
             LockLastSplit = true;
             SeparatorLastSplit = true;
             SplitTimesAccuracy = TimeAccuracy.Seconds;
@@ -158,7 +169,8 @@ namespace LiveSplit.UI.Components
             DeltasAccuracy = TimeAccuracy.Tenths;
             OverrideDeltasColor = false;
             DeltasColor = Color.FromArgb(255, 255, 255);
-            Comparison = "Current Comparison";
+            HeaderComparison = "Current Comparison";
+            HeaderTimingMethod = "Current Timing Method";
             Display2Rows = false;
 
             IndentBlankIcons = true;
@@ -203,10 +215,8 @@ namespace LiveSplit.UI.Components
             chkIndentBlankIcons.DataBindings.Add("Checked", this, "IndentBlankIcons", false, DataSourceUpdateMode.OnPropertyChanged);
             chkThinSeparators.DataBindings.Add("Checked", this, "ShowThinSeparators", false, DataSourceUpdateMode.OnPropertyChanged);
             chkLastSplit.DataBindings.Add("Checked", this, "AlwaysShowLastSplit", false, DataSourceUpdateMode.OnPropertyChanged);
-            chkShowTimes.DataBindings.Add("Checked", this, "ShowSplitTimes", false, DataSourceUpdateMode.OnPropertyChanged);
             chkOverrideTextColor.DataBindings.Add("Checked", this, "OverrideTextColor", false, DataSourceUpdateMode.OnPropertyChanged);
             chkOverrideTimesColor.DataBindings.Add("Checked", this, "OverrideTimesColor", false, DataSourceUpdateMode.OnPropertyChanged);
-            chkShowBlankSplits.DataBindings.Add("Checked", this, "ShowBlankSplits", false, DataSourceUpdateMode.OnPropertyChanged);
             chkLockLastSplit.DataBindings.Add("Checked", this, "LockLastSplit", false, DataSourceUpdateMode.OnPropertyChanged);
             chkSeparatorLastSplit.DataBindings.Add("Checked", this, "SeparatorLastSplit", false, DataSourceUpdateMode.OnPropertyChanged);
             chkDropDecimals.DataBindings.Add("Checked", this, "DropDecimals", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -238,10 +248,22 @@ namespace LiveSplit.UI.Components
 
             trkIconSize.DataBindings.Add("Value", this, "IconSize", false, DataSourceUpdateMode.OnPropertyChanged);
             cmbSplitGradient.DataBindings.Add("SelectedItem", this, "SplitGradientString", false, DataSourceUpdateMode.OnPropertyChanged);
-            cmbComparison.DataBindings.Add("SelectedItem", this, "Comparison", false, DataSourceUpdateMode.OnPropertyChanged);
+            cmbHeaderComparison.DataBindings.Add("SelectedItem", this, "HeaderComparison", false, DataSourceUpdateMode.OnPropertyChanged);
+            cmbHeaderTimingMethod.DataBindings.Add("SelectedItem", this, "HeaderTimingMethod", false, DataSourceUpdateMode.OnPropertyChanged);
             cmbGradientType.DataBindings.Add("SelectedItem", this, "GradientString", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor1.DataBindings.Add("BackColor", this, "BackgroundColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnColor2.DataBindings.Add("BackColor", this, "BackgroundColor2", false, DataSourceUpdateMode.OnPropertyChanged);
+
+            btnLabelColor.DataBindings.Add("BackColor", this, "LabelsColor", false, DataSourceUpdateMode.OnPropertyChanged);
+
+            ColumnsList = new List<ColumnSettings>();
+            ColumnsList.Add(new ColumnSettings(CurrentState, "+/-", ColumnsList) { Data = new ColumnData("+/-", ColumnType.Delta, "Current Comparison", "Current Timing Method") });
+            ColumnsList.Add(new ColumnSettings(CurrentState, "Time", ColumnsList) { Data = new ColumnData("Time", ColumnType.SplitTime, "Current Comparison", "Current Timing Method") });
+        }
+
+        void chkColumnLabels_CheckedChanged(object sender, EventArgs e)
+        {
+            btnLabelColor.Enabled = chkColumnLabels.Checked;
         }
 
         void chkDisplayIcons_CheckedChanged(object sender, EventArgs e)
@@ -269,10 +291,6 @@ namespace LiveSplit.UI.Components
         {
             label3.Enabled = label10.Enabled = label13.Enabled = btnBeforeNamesColor.Enabled
             = btnCurrentNamesColor.Enabled = btnAfterNamesColor.Enabled = chkOverrideTextColor.Checked;
-        }
-        void cmbComparison_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Comparison = cmbComparison.SelectedItem.ToString();
         }
 
         void rdoDeltaTenths_CheckedChanged(object sender, EventArgs e)
@@ -310,12 +328,6 @@ namespace LiveSplit.UI.Components
         void chkLockLastSplit_CheckedChanged(object sender, EventArgs e)
         {
             LockLastSplit = chkLockLastSplit.Checked;
-            SplitLayoutChanged(this, null);
-        }
-
-        void chkShowBlankSplits_CheckedChanged(object sender, EventArgs e)
-        {
-            ShowBlankSplits = chkLockLastSplit.Enabled = chkShowBlankSplits.Checked;
             SplitLayoutChanged(this, null);
         }
 
@@ -389,6 +401,8 @@ namespace LiveSplit.UI.Components
 
         void SplitsSettings_Load(object sender, EventArgs e)
         {
+            ResetColumns();
+
             chkOverrideDeltaColor_CheckedChanged(null, null);
             chkOverrideTextColor_CheckedChanged(null, null);
             chkOverrideTimesColor_CheckedChanged(null, null);
@@ -397,13 +411,13 @@ namespace LiveSplit.UI.Components
             chkOverrideHeaderColor_CheckedChanged(null, null);
             chkSectionTimer_CheckedChanged(null, null);
             chkDisplayIcons_CheckedChanged(null, null);
+            chkColumnLabels_CheckedChanged(null, null);
 
-            chkLockLastSplit.Enabled = chkShowBlankSplits.Checked;
-            cmbComparison.Items.Clear();
-            cmbComparison.Items.Add("Current Comparison");
-            cmbComparison.Items.AddRange(CurrentState.Run.Comparisons.Where(x => x != NoneComparisonGenerator.ComparisonName).ToArray());
-            if (!cmbComparison.Items.Contains(Comparison))
-                cmbComparison.Items.Add(Comparison);
+            cmbHeaderComparison.Items.Clear();
+            cmbHeaderComparison.Items.Add("Current Comparison");
+            cmbHeaderComparison.Items.AddRange(CurrentState.Run.Comparisons.Where(x => x != NoneComparisonGenerator.ComparisonName).ToArray());
+            if (!cmbHeaderComparison.Items.Contains(HeaderComparison))
+                cmbHeaderComparison.Items.Add(HeaderComparison);
 
             rdoHideSubsplits.Checked = !ShowSubsplits && HideSubsplits;
             rdoShowSubsplits.Checked = ShowSubsplits && !HideSubsplits;
@@ -436,6 +450,8 @@ namespace LiveSplit.UI.Components
                 chkDisplayRows.Enabled = false;
                 chkDisplayRows.DataBindings.Clear();
                 chkDisplayRows.Checked = true;
+                chkColumnLabels.DataBindings.Clear();
+                chkColumnLabels.Enabled = chkColumnLabels.Checked = false;
             }
             else
             {
@@ -448,6 +464,9 @@ namespace LiveSplit.UI.Components
                 chkDisplayRows.Enabled = true;
                 chkDisplayRows.DataBindings.Clear();
                 chkDisplayRows.DataBindings.Add("Checked", this, "Display2Rows", false, DataSourceUpdateMode.OnPropertyChanged);
+                chkColumnLabels.DataBindings.Clear();
+                chkColumnLabels.Enabled = true;
+                chkColumnLabels.DataBindings.Add("Checked", this, "ShowColumnLabels", false, DataSourceUpdateMode.OnPropertyChanged);
             }
         }
 
@@ -504,15 +523,39 @@ namespace LiveSplit.UI.Components
             DeltasAccuracy = SettingsHelper.ParseEnum<TimeAccuracy>(element["DeltasAccuracy"], TimeAccuracy.Tenths);
             OverrideDeltasColor = SettingsHelper.ParseBool(element["OverrideDeltasColor"], false);
             DeltasColor = SettingsHelper.ParseColor(element["DeltasColor"], Color.FromArgb(255, 255, 255));
-            Comparison = SettingsHelper.ParseString(element["Comparison"], "Current Comparison");
             Display2Rows = SettingsHelper.ParseBool(element["Display2Rows"], false);
-            ShowSplitTimes = SettingsHelper.ParseBool(element["ShowSplitTimes"], false);
             SplitTimesAccuracy = SettingsHelper.ParseEnum<TimeAccuracy>(element["SplitTimesAccuracy"], TimeAccuracy.Seconds);
-            ShowBlankSplits = SettingsHelper.ParseBool(element["ShowBlankSplits"], true);
             LockLastSplit = SettingsHelper.ParseBool(element["LockLastSplit"], true);
             IconSize = SettingsHelper.ParseFloat(element["IconSize"], 24f);
             IconShadows = SettingsHelper.ParseBool(element["IconShadows"], true);
+            ShowColumnLabels = SettingsHelper.ParseBool(element["ShowColumnLabels"], false);
+            LabelsColor = SettingsHelper.ParseColor(element["LabelsColor"], Color.FromArgb(255, 255, 255, 255));
 
+            if (version >= new Version(1, 7))
+            {
+                var columnsElement = element["Columns"];
+                ColumnsList.Clear();
+                foreach (var child in columnsElement.ChildNodes)
+                {
+                    var columnData = ColumnData.FromXml((XmlNode)child);
+                    ColumnsList.Add(new ColumnSettings(CurrentState, columnData.Name, ColumnsList) { Data = columnData });
+                }
+            }
+            else
+            {
+                HeaderComparison = SettingsHelper.ParseString(element["Comparison"], "Current Comparison");
+                HeaderTimingMethod = "Current Timing Method";
+                ColumnsList.Clear();
+                if (SettingsHelper.ParseBool(element["ShowSplitTimes"]))
+                {
+                    ColumnsList.Add(new ColumnSettings(CurrentState, "+/-", ColumnsList) { Data = new ColumnData("+/-", ColumnType.Delta, HeaderComparison, "Current Timing Method") });
+                    ColumnsList.Add(new ColumnSettings(CurrentState, "Time", ColumnsList) { Data = new ColumnData("Time", ColumnType.SplitTime, HeaderComparison, "Current Timing Method") });
+                }
+                else
+                {
+                    ColumnsList.Add(new ColumnSettings(CurrentState, "+/-", ColumnsList) { Data = new ColumnData("+/-", ColumnType.DeltaorSplitTime, HeaderComparison, "Current Timing Method") });
+                }
+            }
             if (version >= new Version(1, 3))
             {
                 BeforeNamesColor = SettingsHelper.ParseColor(element["BeforeNamesColor"]);
@@ -548,7 +591,7 @@ namespace LiveSplit.UI.Components
 
         private int CreateSettingsNode(XmlDocument document, XmlElement parent)
         {
-            return SettingsHelper.CreateSetting(document, parent, "Version", "1.6.0") ^
+            var hashCode = SettingsHelper.CreateSetting(document, parent, "Version", "1.7") ^
             SettingsHelper.CreateSetting(document, parent, "CurrentSplitTopColor", CurrentSplitTopColor) ^
             SettingsHelper.CreateSetting(document, parent, "CurrentSplitBottomColor", CurrentSplitBottomColor) ^
             SettingsHelper.CreateSetting(document, parent, "VisualSplitCount", VisualSplitCount) ^
@@ -557,7 +600,6 @@ namespace LiveSplit.UI.Components
             SettingsHelper.CreateSetting(document, parent, "ShowThinSeparators", ShowThinSeparators) ^
             SettingsHelper.CreateSetting(document, parent, "AlwaysShowLastSplit", AlwaysShowLastSplit) ^
             SettingsHelper.CreateSetting(document, parent, "SplitWidth", SplitWidth) ^
-            SettingsHelper.CreateSetting(document, parent, "ShowSplitTimes", ShowSplitTimes) ^
             SettingsHelper.CreateSetting(document, parent, "SplitTimesAccuracy", SplitTimesAccuracy) ^
             SettingsHelper.CreateSetting(document, parent, "BeforeNamesColor", BeforeNamesColor) ^
             SettingsHelper.CreateSetting(document, parent, "CurrentNamesColor", CurrentNamesColor) ^
@@ -567,7 +609,6 @@ namespace LiveSplit.UI.Components
             SettingsHelper.CreateSetting(document, parent, "CurrentTimesColor", CurrentTimesColor) ^
             SettingsHelper.CreateSetting(document, parent, "AfterTimesColor", AfterTimesColor) ^
             SettingsHelper.CreateSetting(document, parent, "OverrideTimesColor", OverrideTimesColor) ^
-            SettingsHelper.CreateSetting(document, parent, "ShowBlankSplits", ShowBlankSplits) ^
             SettingsHelper.CreateSetting(document, parent, "LockLastSplit", LockLastSplit) ^
             SettingsHelper.CreateSetting(document, parent, "IconSize", IconSize) ^
             SettingsHelper.CreateSetting(document, parent, "IconShadows", IconShadows) ^
@@ -581,7 +622,8 @@ namespace LiveSplit.UI.Components
             SettingsHelper.CreateSetting(document, parent, "DropDecimals", DropDecimals) ^
             SettingsHelper.CreateSetting(document, parent, "OverrideDeltasColor", OverrideDeltasColor) ^
             SettingsHelper.CreateSetting(document, parent, "DeltasColor", DeltasColor) ^
-            SettingsHelper.CreateSetting(document, parent, "Comparison", Comparison) ^
+            SettingsHelper.CreateSetting(document, parent, "HeaderComparison", HeaderComparison) ^
+            SettingsHelper.CreateSetting(document, parent, "HeaderTimingMethod", HeaderTimingMethod) ^
             SettingsHelper.CreateSetting(document, parent, "Display2Rows", Display2Rows) ^
             SettingsHelper.CreateSetting(document, parent, "IndentBlankIcons", IndentBlankIcons) ^
             SettingsHelper.CreateSetting(document, parent, "IndentSubsplits", IndentSubsplits) ^
@@ -608,7 +650,31 @@ namespace LiveSplit.UI.Components
             SettingsHelper.CreateSetting(document, parent, "HeaderBottomColor", HeaderBottomColor) ^
             SettingsHelper.CreateSetting(document, parent, "HeaderTextColor", HeaderTextColor) ^
             SettingsHelper.CreateSetting(document, parent, "HeaderTimesColor", HeaderTimesColor) ^
-            SettingsHelper.CreateSetting(document, parent, "SectionTimerColor", SectionTimerColor);
+            SettingsHelper.CreateSetting(document, parent, "SectionTimerColor", SectionTimerColor) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowColumnLabels", ShowColumnLabels) ^
+            SettingsHelper.CreateSetting(document, parent, "LabelsColor", LabelsColor);
+
+            XmlElement columnsElement = null;
+            if (document != null)
+            {
+                columnsElement = document.CreateElement("Columns");
+                parent.AppendChild(columnsElement);
+            }
+
+            var count = 1;
+            foreach (var columnData in ColumnsList.Select(x => x.Data))
+            {
+                XmlElement settings = null;
+                if (document != null)
+                {
+                    settings = document.CreateElement("Settings");
+                    columnsElement.AppendChild(settings);
+                }
+                hashCode ^= columnData.CreateElement(document, settings) * count;
+                count++;
+            }
+
+            return hashCode;
         }
 
         private void ColorButtonClick(object sender, EventArgs e)
@@ -646,7 +712,9 @@ namespace LiveSplit.UI.Components
 
         private void chkShowHeader_CheckedChanged(object sender, EventArgs e)
         {
-            chkShowSectionIcon.Enabled = groupBox12.Enabled = groupBox13.Enabled = chkShowHeader.Checked;
+            chkShowSectionIcon.Enabled = groupBox12.Enabled = groupBox13.Enabled 
+                = lblComparison.Enabled = cmbHeaderComparison.Enabled = lblTimingMethod.Enabled = cmbHeaderTimingMethod.Enabled 
+                = chkShowHeader.Checked;
         }
 
         private void cmbHeaderGradient_SelectedIndexChanged(object sender, EventArgs e)
@@ -717,6 +785,107 @@ namespace LiveSplit.UI.Components
         private void rdoSectionTimerAccuracyHundreths_CheckedChanged(object sender, EventArgs e)
         {
             UpdateSectionTimerAccuracy();
+        }
+
+        private void cmbHeaderComparison_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            HeaderComparison = cmbHeaderComparison.SelectedItem.ToString();
+        }
+
+        private void cmbHeaderTimingMethod_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            HeaderTimingMethod = cmbHeaderTimingMethod.SelectedItem.ToString();
+        }
+
+        private void ResetColumns()
+        {
+            ClearLayout();
+            var index = 1;
+            foreach (var column in ColumnsList)
+            {
+                UpdateLayoutForColumn();
+                AddColumnToLayout(column, index);
+                column.UpdateEnabledButtons();
+                index++;
+            }
+        }
+
+        private void AddColumnToLayout(ColumnSettings column, int index)
+        {
+            tableColumns.Controls.Add(column, 0, index);
+            tableColumns.SetColumnSpan(column, 4);
+            column.ColumnRemoved -= column_ColumnRemoved;
+            column.MovedUp -= column_MovedUp;
+            column.MovedDown -= column_MovedDown;
+            column.ColumnRemoved += column_ColumnRemoved;
+            column.MovedUp += column_MovedUp;
+            column.MovedDown += column_MovedDown;
+        }
+
+        void column_MovedDown(object sender, EventArgs e)
+        {
+            var column = (ColumnSettings)sender;
+            var index = ColumnsList.IndexOf(column);
+            ColumnsList.Remove(column);
+            ColumnsList.Insert(index + 1, column);
+            ResetColumns();
+            column.SelectControl();
+        }
+
+        void column_MovedUp(object sender, EventArgs e)
+        {
+            var column = (ColumnSettings)sender;
+            var index = ColumnsList.IndexOf(column);
+            ColumnsList.Remove(column);
+            ColumnsList.Insert(index - 1, column);
+            ResetColumns();
+            column.SelectControl();
+        }
+
+        void column_ColumnRemoved(object sender, EventArgs e)
+        {
+            var column = (ColumnSettings)sender;
+            var index = ColumnsList.IndexOf(column);
+            ColumnsList.Remove(column);
+            ResetColumns();
+            if (ColumnsList.Count > 0)
+                ColumnsList.Last().SelectControl();
+            else
+                chkColumnLabels.Select();
+        }
+
+        private void ClearLayout()
+        {
+            tableColumns.RowCount = 1;
+            tableColumns.RowStyles.Clear();
+            tableColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 29f));
+            tableColumns.Size = StartingTableLayoutSize;
+            foreach (var control in tableColumns.Controls.OfType<ColumnSettings>().ToList())
+            {
+                tableColumns.Controls.Remove(control);
+            }
+            Size = StartingSize;
+        }
+
+        private void UpdateLayoutForColumn()
+        {
+            tableColumns.RowCount++;
+            tableColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 179f));
+            tableColumns.Size = new Size(tableColumns.Size.Width, tableColumns.Size.Height + 179);
+            Size = new Size(Size.Width, Size.Height + 179);
+            groupColumns.Size = new Size(groupColumns.Size.Width, groupColumns.Size.Height + 179);
+        }
+
+        private void btnAddColumn_Click(object sender, EventArgs e)
+        {
+            UpdateLayoutForColumn();
+
+            var columnControl = new ColumnSettings(CurrentState, "#" + (ColumnsList.Count + 1), ColumnsList);
+            ColumnsList.Add(columnControl);
+            AddColumnToLayout(columnControl, ColumnsList.Count);
+
+            foreach (var column in ColumnsList)
+                column.UpdateEnabledButtons();
         }
     }
 }
