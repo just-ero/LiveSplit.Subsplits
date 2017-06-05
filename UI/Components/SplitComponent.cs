@@ -540,7 +540,10 @@ namespace LiveSplit.UI.Components
         public void DrawHorizontal(Graphics g, LiveSplitState state, float height, Region clipRegion)
         {
             MinimumHeight = 0.85f * (g.MeasureString("A", state.LayoutSettings.TimesFont).Height + g.MeasureString("A", state.LayoutSettings.TextFont).Height);
-            DrawGeneral(g, state, HorizontalWidth, height, LayoutMode.Horizontal, clipRegion);
+            if (Header)
+                DrawHeader(g, state, HorizontalWidth, height, LayoutMode.Horizontal, clipRegion);
+            else
+                DrawGeneral(g, state, HorizontalWidth, height, LayoutMode.Horizontal, clipRegion);
         }
 
         public string ComponentName => "Split";
@@ -977,7 +980,7 @@ namespace LiveSplit.UI.Components
 
         protected float CalculateLabelsWidth()
         {
-            if (ColumnsList != null)
+            if (!Header && ColumnsList != null)
             {
                 var mixedCount = ColumnsList.Count(x => x.Type == ColumnType.DeltaorSplitTime || x.Type == ColumnType.SegmentDeltaorSegmentTime);
                 var deltaCount = ColumnsList.Count(x => x.Type == ColumnType.Delta || x.Type == ColumnType.SegmentDelta);
@@ -1037,6 +1040,8 @@ namespace LiveSplit.UI.Components
                     Cache["Columns" + index + "Text"] = label.Text;
                     Cache["Columns" + index + "Color"] = label.ForeColor.ToArgb();
                 }
+                Cache["MeasureTimeActualWidth"] = MeasureTimeLabel.ActualWidth;
+                Cache["MeasureDeltaActualWidth"] = MeasureDeltaLabel.ActualWidth;
 
                 if (invalidator != null && (Cache.HasChanged || FrameCount > 1 || blankOut))
                 {
