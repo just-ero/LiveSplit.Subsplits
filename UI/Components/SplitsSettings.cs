@@ -172,6 +172,8 @@ namespace LiveSplit.UI.Components
             HeaderComparison = "Current Comparison";
             HeaderTimingMethod = "Current Timing Method";
             Display2Rows = false;
+            ShowColumnLabels = false;
+            LabelsColor = Color.FromArgb(255, 255, 255);
 
             IndentBlankIcons = true;
             IndentSubsplits = true;
@@ -504,11 +506,11 @@ namespace LiveSplit.UI.Components
             HeaderText = SettingsHelper.ParseBool(element["HeaderText"], true);
             HeaderTimesColor = SettingsHelper.ParseColor(element["HeaderTimesColor"], Color.FromArgb(255, 255, 255));
             HeaderTimes = SettingsHelper.ParseBool(element["HeaderTimes"], true);
-            HeaderAccuracy = SettingsHelper.ParseEnum<TimeAccuracy>(element["HeaderAccuracy"], TimeAccuracy.Tenths);
+            HeaderAccuracy = SettingsHelper.ParseEnum(element["HeaderAccuracy"], TimeAccuracy.Tenths);
             SectionTimer = SettingsHelper.ParseBool(element["SectionTimer"], true);
             SectionTimerColor = SettingsHelper.ParseColor(element["SectionTimerColor"], Color.FromArgb(0x77, 0x77, 0x77));
             SectionTimerGradient = SettingsHelper.ParseBool(element["SectionTimerGradient"], true);
-            SectionTimerAccuracy = SettingsHelper.ParseEnum<TimeAccuracy>(element["SectionTimerAccuracy"], TimeAccuracy.Tenths);
+            SectionTimerAccuracy = SettingsHelper.ParseEnum(element["SectionTimerAccuracy"], TimeAccuracy.Tenths);
             OverrideTimesColor = SettingsHelper.ParseBool(element["OverrideTimesColor"], false);
             BeforeTimesColor = SettingsHelper.ParseColor(element["BeforeTimesColor"], Color.FromArgb(255, 255, 255));
             CurrentTimesColor = SettingsHelper.ParseColor(element["CurrentTimesColor"], Color.FromArgb(255, 255, 255));
@@ -520,16 +522,16 @@ namespace LiveSplit.UI.Components
             GradientString = SettingsHelper.ParseString(element["BackgroundGradient"], ExtendedGradientType.Alternating.ToString());
             SeparatorLastSplit = SettingsHelper.ParseBool(element["SeparatorLastSplit"], true);
             DropDecimals = SettingsHelper.ParseBool(element["DropDecimals"], true);
-            DeltasAccuracy = SettingsHelper.ParseEnum<TimeAccuracy>(element["DeltasAccuracy"], TimeAccuracy.Tenths);
+            DeltasAccuracy = SettingsHelper.ParseEnum(element["DeltasAccuracy"], TimeAccuracy.Tenths);
             OverrideDeltasColor = SettingsHelper.ParseBool(element["OverrideDeltasColor"], false);
             DeltasColor = SettingsHelper.ParseColor(element["DeltasColor"], Color.FromArgb(255, 255, 255));
             Display2Rows = SettingsHelper.ParseBool(element["Display2Rows"], false);
-            SplitTimesAccuracy = SettingsHelper.ParseEnum<TimeAccuracy>(element["SplitTimesAccuracy"], TimeAccuracy.Seconds);
+            SplitTimesAccuracy = SettingsHelper.ParseEnum(element["SplitTimesAccuracy"], TimeAccuracy.Seconds);
             LockLastSplit = SettingsHelper.ParseBool(element["LockLastSplit"], true);
             IconSize = SettingsHelper.ParseFloat(element["IconSize"], 24f);
             IconShadows = SettingsHelper.ParseBool(element["IconShadows"], true);
             ShowColumnLabels = SettingsHelper.ParseBool(element["ShowColumnLabels"], false);
-            LabelsColor = SettingsHelper.ParseColor(element["LabelsColor"], Color.FromArgb(255, 255, 255, 255));
+            LabelsColor = SettingsHelper.ParseColor(element["LabelsColor"], Color.FromArgb(255, 255, 255));
 
             if (version >= new Version(1, 7))
             {
