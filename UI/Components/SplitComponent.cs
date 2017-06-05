@@ -48,7 +48,7 @@ namespace LiveSplit.UI.Components
         protected ITimeFormatter HeaderTimesFormatter { get; set; }
         protected ITimeFormatter SectionTimerFormatter { get; set; }
 
-        protected int IconWidth => ((!Header && DisplayIcon) || (Header && Settings.ShowSectionIcon)) ? (int)(Settings.IconSize + 7.5f) : 0;
+        protected int IconWidth => DisplayIcon ? (int)(Settings.IconSize + 7.5f) : 0;
 
         public bool DisplayIcon { get; set; }
 
@@ -283,24 +283,12 @@ namespace LiveSplit.UI.Components
                 }
 
                 NameLabel.Font = state.LayoutSettings.TextFont;
-
-                float nameX;
-                if ((Settings.IndentSubsplits && IsSubsplit) || ForceIndent)
-                {
-                    NameLabel.X = 25 + IconWidth;
-                    nameX = width - 27;
-                }
-                else
-                {
-                    NameLabel.X = 5 + IconWidth;
-                    nameX = width - 7;
-                }
-
                 NameLabel.HasShadow = state.LayoutSettings.DropShadows;
 
                 if (ColumnsList.Count() == LabelsList.Count)
                 {
                     var curX = width - 7;
+                    var nameX = width - 7;
                     foreach (var label in LabelsList.Reverse())
                     {
                         var column = ColumnsList.ElementAt(LabelsList.IndexOf(label));
@@ -325,10 +313,13 @@ namespace LiveSplit.UI.Components
                             nameX = curX + labelWidth + 5 - label.ActualWidth;
                     }
 
+                    NameLabel.Width = (mode == LayoutMode.Horizontal ? width - 10 : nameX) - IconWidth;
+                    NameLabel.X = 5 + IconWidth;
                     if ((Settings.IndentSubsplits && IsSubsplit) || ForceIndent)
-                        NameLabel.Width = (mode == LayoutMode.Horizontal ? width - 30 : nameX) - IconWidth;
-                    else
-                        NameLabel.Width = (mode == LayoutMode.Horizontal ? width - 10 : nameX) - IconWidth;
+                    {
+                        NameLabel.Width -= 20;
+                        NameLabel.X += 20;
+                    }
 
                     NameLabel.Draw(g);
                 }
@@ -423,7 +414,7 @@ namespace LiveSplit.UI.Components
             }
 
             var icon = Split.Icon;
-            if (Settings.ShowSectionIcon && icon != null)
+            if (DisplayIcon && icon != null)
             {
                 var shadow = ShadowImage;
 
@@ -977,9 +968,9 @@ namespace LiveSplit.UI.Components
             if (Header)
             {
                 if (Settings.SectionTimer || Settings.HeaderTimes)
-                    width += MeasureTimeLabel.ActualWidth;
+                    width += MeasureTimeLabel.ActualWidth + 5;
                 if (Settings.SectionTimer)
-                    width += MeasureDeltaLabel.ActualWidth;
+                    width += MeasureDeltaLabel.ActualWidth + 5;
             }
             return width;
         }
@@ -991,9 +982,9 @@ namespace LiveSplit.UI.Components
                 var mixedCount = ColumnsList.Count(x => x.Type == ColumnType.DeltaorSplitTime || x.Type == ColumnType.SegmentDeltaorSegmentTime);
                 var deltaCount = ColumnsList.Count(x => x.Type == ColumnType.Delta || x.Type == ColumnType.SegmentDelta);
                 var timeCount = ColumnsList.Count(x => x.Type == ColumnType.SplitTime || x.Type == ColumnType.SegmentTime);
-                return mixedCount * Math.Max(MeasureDeltaLabel.ActualWidth, MeasureTimeLabel.ActualWidth)
-                    + deltaCount * MeasureDeltaLabel.ActualWidth
-                    + timeCount * MeasureTimeLabel.ActualWidth;
+                return mixedCount * (Math.Max(MeasureDeltaLabel.ActualWidth, MeasureTimeLabel.ActualWidth) + 5)
+                    + deltaCount * (MeasureDeltaLabel.ActualWidth + 5)
+                    + timeCount * (MeasureTimeLabel.ActualWidth + 5);
             }
             return 0f;
         }

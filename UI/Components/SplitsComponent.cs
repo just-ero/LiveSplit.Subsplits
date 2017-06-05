@@ -168,9 +168,12 @@ namespace LiveSplit.UI.Components
             foreach (var split in SplitComponents)
             {
                 var hideIconSectionSplit = !Settings.ShowIconSectionSplit && split.Split != null && state.Run.IndexOf(split.Split) == lastSplitOfSection;
-                
-                split.DisplayIcon = Settings.DisplayIcons && !hideIconSectionSplit && iconsNotBlank 
-                    && (split.Split == null || split.Split.Icon != null || Settings.IndentBlankIcons);
+                var shouldIndent = split.Split == null || split.Split.Icon != null || Settings.IndentBlankIcons;
+
+                if (split.Header)
+                    split.DisplayIcon = Settings.ShowSectionIcon && shouldIndent && iconsNotBlank;
+                else
+                    split.DisplayIcon = Settings.DisplayIcons && !hideIconSectionSplit && iconsNotBlank && shouldIndent;
 
                 if (split.Split != null && split.Split.Icon != null)
                     split.ShadowImage = ShadowImages[split.Split.Icon];
