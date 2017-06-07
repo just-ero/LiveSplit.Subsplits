@@ -31,6 +31,7 @@ namespace LiveSplit.UI.Components
         public Color CurrentSplitTopColor { get; set; }
         public Color CurrentSplitBottomColor { get; set; }
         public int SplitPreviewCount { get; set; }
+        public int MinimumMajorSplits { get; set; }
         public float SplitWidth { get; set; }
         public float SplitHeight { get; set; }
         public float ScaledSplitHeight { get { return SplitHeight * 10f; } set { SplitHeight = value / 10f; } }
@@ -139,6 +140,7 @@ namespace LiveSplit.UI.Components
 
             VisualSplitCount = 8;
             SplitPreviewCount = 1;
+            MinimumMajorSplits = 3;
             DisplayIcons = true;
             IconShadows = true;
             ShowThinSeparators = false;

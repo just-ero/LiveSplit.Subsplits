@@ -420,6 +420,7 @@ namespace LiveSplit.UI.Components
             int freeSplits = visualSplitCount - (addLast ? 1 : 0) - (addHeader ? 1 : 0);
             int topSplit = currentSplit - 1;
             int bottomSplit = currentSplit + 1;
+            var majorSplitsToAdd = (!Settings.ShowSubsplits && !Settings.HideSubsplits) ? Math.Min(currentSection, Settings.MinimumMajorSplits) : 0;
 
             List<int> visibleSplits = new List<int>();
             if ((currentSplit < state.Run.Count() - 1) && (freeSplits > 0) && !(Settings.HideSubsplits && !sectionList.isMajorSplit(currentSplit)))
@@ -429,12 +430,9 @@ namespace LiveSplit.UI.Components
             }
 
             int previewCount = 0;
-            while ((previewCount < Settings.SplitPreviewCount) && (bottomSplit < state.Run.Count() - (addLast ? 1 : 0)) && (freeSplits > 0))
+            while ((previewCount < Settings.SplitPreviewCount) && (bottomSplit < state.Run.Count() - (addLast ? 1 : 0)) && (freeSplits > majorSplitsToAdd))
             {
-                if ((sectionList.isMajorSplit(bottomSplit)
-                        && (!Settings.CurrentSectionOnly || sectionList.getSection(bottomSplit) == currentSection)) ||
-                    (!sectionList.isMajorSplit(bottomSplit)
-                        && (Settings.ShowSubsplits || (!Settings.HideSubsplits && sectionList.getSection(bottomSplit) == currentSection))))
+                if (ShouldIncludeSplit(currentSection, bottomSplit))
                 {
                     visibleSplits.Add(bottomSplit);
                     freeSplits--;
@@ -445,22 +443,20 @@ namespace LiveSplit.UI.Components
 
             while ((topSplit >= 0) && (freeSplits > 0))
             {
-                if ((sectionList.isMajorSplit(topSplit) && (!Settings.CurrentSectionOnly)) ||
-                    (!sectionList.isMajorSplit(topSplit)
-                        && (Settings.ShowSubsplits || (!Settings.HideSubsplits && sectionList.getSection(topSplit) == currentSection))))
+                var isMajor = sectionList.isMajorSplit(topSplit);
+                if (ShouldIncludeSplit(currentSection, topSplit) && (freeSplits > majorSplitsToAdd || sectionList.isMajorSplit(topSplit)))
                 {
                     visibleSplits.Insert(0, topSplit);
                     freeSplits--;
+                    if (isMajor)
+                        majorSplitsToAdd--;
                 }
                 topSplit--;
             }
 
             while ((bottomSplit < state.Run.Count() - (addLast ? 1 : 0)) && (freeSplits > 0))
             {
-                if ((sectionList.isMajorSplit(bottomSplit)
-                        && (!Settings.CurrentSectionOnly || sectionList.getSection(bottomSplit) == currentSection)) ||
-                    (!sectionList.isMajorSplit(bottomSplit)
-                        && (Settings.ShowSubsplits || (!Settings.HideSubsplits && sectionList.getSection(bottomSplit) == currentSection))))
+                if (ShouldIncludeSplit(currentSection, bottomSplit))
                 {
                     visibleSplits.Add(bottomSplit);
                     freeSplits--;
@@ -523,8 +519,10 @@ namespace LiveSplit.UI.Components
 
             if (addHeader)
             {
-                int insertIndex = visibleSplits.IndexOf(sectionList.Sections[currentSection].startIndex);
-                visibleSplits.Insert(insertIndex >= 0 ? insertIndex : 0, -(currentSection + 1));
+                int insertIndex = 0;
+                if (currentSection > 0)
+                    insertIndex = visibleSplits.IndexOf(sectionList.Sections[currentSection - 1].endIndex) + 1;
+                visibleSplits.Insert(insertIndex, -(currentSection + 1));
             }
 
             int i = 0;
@@ -574,6 +572,14 @@ namespace LiveSplit.UI.Components
 
             if (invalidator != null)
                 InternalComponent.Update(invalidator, state, width, height, mode);
+        }
+
+        private bool ShouldIncludeSplit(int currentSection, int split)
+        {
+            return (sectionList.isMajorSplit(split)
+                       && (!Settings.CurrentSectionOnly || sectionList.getSection(split) == currentSection)) ||
+                   (!sectionList.isMajorSplit(split)
+                       && (Settings.ShowSubsplits || (!Settings.HideSubsplits && sectionList.getSection(split) == currentSection)));
         }
 
         public void Dispose()
