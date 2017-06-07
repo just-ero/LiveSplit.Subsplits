@@ -19,6 +19,8 @@ namespace LiveSplit.UI.Components
         public bool CollapsedSplit { get; set; }
         public bool oddSplit { get; set; }
 
+        private bool Indent { get { return Settings.IndentSubsplits && (IsSubsplit || ForceIndent); } }
+
         public ISegment Split { get; set; }
         protected bool blankOut = false;
 
@@ -266,7 +268,7 @@ namespace LiveSplit.UI.Components
                     {
                         g.DrawImage(
                             shadow,
-                            7 + (Settings.IconSize * (5 / 4f) - shadowWidth) / 2 - 0.7f + ((Settings.IndentSubsplits && IsSubsplit) || ForceIndent ? 20 : 0),
+                            7 + (Settings.IconSize * (5 / 4f) - shadowWidth) / 2 - 0.7f + (Indent ? 20 : 0),
                             (height - Settings.IconSize) / 2.0f + (Settings.IconSize * (5 / 4f) - shadowHeight) / 2 - 0.7f,
                             shadowWidth,
                             shadowHeight);
@@ -276,7 +278,7 @@ namespace LiveSplit.UI.Components
 
                     g.DrawImage(
                         icon,
-                        7 + (Settings.IconSize - drawWidth) / 2 + ((Settings.IndentSubsplits && IsSubsplit) || ForceIndent ? 20 : 0),
+                        7 + (Settings.IconSize - drawWidth) / 2 + (Indent ? 20 : 0),
                         (height - Settings.IconSize) / 2.0f + (Settings.IconSize - drawHeight) / 2,
                         drawWidth,
                         drawHeight);
@@ -315,7 +317,7 @@ namespace LiveSplit.UI.Components
 
                     NameLabel.Width = (mode == LayoutMode.Horizontal ? width - 10 : nameX) - IconWidth;
                     NameLabel.X = 5 + IconWidth;
-                    if ((Settings.IndentSubsplits && IsSubsplit) || ForceIndent)
+                    if (Indent)
                     {
                         NameLabel.Width -= 20;
                         NameLabel.X += 20;
@@ -1034,7 +1036,7 @@ namespace LiveSplit.UI.Components
                 Cache["NameColor"] = NameLabel.ForeColor.ToArgb();
                 Cache["TimeColor"] = TimeLabel.ForeColor.ToArgb();
                 Cache["DeltaColor"] = DeltaLabel.ForeColor.ToArgb();
-                Cache["Indent"] = ((IsSubsplit && Settings.IndentSubsplits) || (ForceIndent));
+                Cache["Indent"] = Indent;
                 Cache["DisplayIcon"] = DisplayIcon;
                 Cache["ColumnsCount"] = ColumnsList.Count();
                 for (var index = 0; index < LabelsList.Count; index++)

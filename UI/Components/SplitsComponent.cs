@@ -530,7 +530,7 @@ namespace LiveSplit.UI.Components
             {
                 if (i < SplitComponents.Count)
                 {
-                    SplitComponents[i].ForceIndent = Settings.IndentSectionSplit && split == lastSplitOfSection;
+                    SplitComponents[i].ForceIndent = !Settings.ShowSubsplits && !Settings.HideSubsplits && Settings.IndentSectionSplit && split == lastSplitOfSection;
 
                     if (split == int.MinValue)
                     {

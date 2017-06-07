@@ -353,6 +353,8 @@ namespace LiveSplit.UI.Components
                 HideSubsplits = false;
                 CurrentSectionOnly = false;
                 chkCurrentSectionOnly.Enabled = false;
+                chkIndentSubsplits.Enabled = true;
+                chkIndentSectionSplit.Enabled = false;
             }
             else if (rdoHideSubsplits.Checked)
             {
@@ -360,6 +362,8 @@ namespace LiveSplit.UI.Components
                 HideSubsplits = true;
                 CurrentSectionOnly = chkCurrentSectionOnly.Checked;
                 chkCurrentSectionOnly.Enabled = true;
+                chkIndentSubsplits.Enabled = false;
+                chkIndentSectionSplit.Enabled = false;
             }
             else
             {
@@ -367,7 +371,10 @@ namespace LiveSplit.UI.Components
                 HideSubsplits = false;
                 CurrentSectionOnly = chkCurrentSectionOnly.Checked;
                 chkCurrentSectionOnly.Enabled = true;
+                chkIndentSubsplits.Enabled = true;
+                chkIndentSectionSplit.Enabled = true;
             }
+            chkIndentSubsplits_CheckedChanged(null, null);
         }
 
         void UpdateAccuracy()
@@ -799,6 +806,12 @@ namespace LiveSplit.UI.Components
         private void cmbHeaderTimingMethod_SelectedIndexChanged(object sender, EventArgs e)
         {
             HeaderTimingMethod = cmbHeaderTimingMethod.SelectedItem.ToString();
+        }
+
+        private void chkIndentSubsplits_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!ShowSubsplits && !HideSubsplits)
+                chkIndentSectionSplit.Enabled = chkIndentSubsplits.Checked;
         }
 
         private void ResetColumns()
