@@ -140,7 +140,7 @@ namespace LiveSplit.UI.Components
 
             VisualSplitCount = 8;
             SplitPreviewCount = 1;
-            MinimumMajorSplits = 3;
+            MinimumMajorSplits = 0;
             DisplayIcons = true;
             IconShadows = true;
             ShowThinSeparators = false;
@@ -206,6 +206,7 @@ namespace LiveSplit.UI.Components
 
             dmnTotalSegments.DataBindings.Add("Value", this, "VisualSplitCount", false, DataSourceUpdateMode.OnPropertyChanged);
             dmnUpcomingSegments.DataBindings.Add("Value", this, "SplitPreviewCount", false, DataSourceUpdateMode.OnPropertyChanged);
+            dmnMinimumMajorSplits.DataBindings.Add("Value", this, "MinimumMajorSplits", false, DataSourceUpdateMode.OnPropertyChanged);
             btnTopColor.DataBindings.Add("BackColor", this, "CurrentSplitTopColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnBottomColor.DataBindings.Add("BackColor", this, "CurrentSplitBottomColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnBeforeNamesColor.DataBindings.Add("BackColor", this, "BeforeNamesColor", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -355,6 +356,8 @@ namespace LiveSplit.UI.Components
                 chkCurrentSectionOnly.Enabled = false;
                 chkIndentSubsplits.Enabled = true;
                 chkIndentSectionSplit.Enabled = false;
+                lblMinimumMajorSplits.Enabled = false;
+                dmnMinimumMajorSplits.Enabled = false;
             }
             else if (rdoHideSubsplits.Checked)
             {
@@ -364,6 +367,8 @@ namespace LiveSplit.UI.Components
                 chkCurrentSectionOnly.Enabled = true;
                 chkIndentSubsplits.Enabled = false;
                 chkIndentSectionSplit.Enabled = false;
+                lblMinimumMajorSplits.Enabled = false;
+                dmnMinimumMajorSplits.Enabled = false;
             }
             else
             {
@@ -372,9 +377,10 @@ namespace LiveSplit.UI.Components
                 CurrentSectionOnly = chkCurrentSectionOnly.Checked;
                 chkCurrentSectionOnly.Enabled = true;
                 chkIndentSubsplits.Enabled = true;
-                chkIndentSectionSplit.Enabled = true;
+                chkIndentSectionSplit.Enabled = chkIndentSubsplits.Checked;
+                lblMinimumMajorSplits.Enabled = true;
+                dmnMinimumMajorSplits.Enabled = true;
             }
-            chkIndentSubsplits_CheckedChanged(null, null);
         }
 
         void UpdateAccuracy()
@@ -490,6 +496,7 @@ namespace LiveSplit.UI.Components
             CurrentSplitBottomColor = SettingsHelper.ParseColor(element["CurrentSplitBottomColor"], Color.FromArgb(21, 53, 116));
             VisualSplitCount = SettingsHelper.ParseInt(element["VisualSplitCount"], 8);
             SplitPreviewCount = SettingsHelper.ParseInt(element["SplitPreviewCount"], 1);
+            MinimumMajorSplits = SettingsHelper.ParseInt(element["MinimumMajorSplits"], 0);
             DisplayIcons = SettingsHelper.ParseBool(element["DisplayIcons"], true);
             ShowThinSeparators = SettingsHelper.ParseBool(element["ShowThinSeparators"], false);
             AlwaysShowLastSplit = SettingsHelper.ParseBool(element["AlwaysShowLastSplit"], true);
@@ -607,6 +614,7 @@ namespace LiveSplit.UI.Components
             SettingsHelper.CreateSetting(document, parent, "CurrentSplitBottomColor", CurrentSplitBottomColor) ^
             SettingsHelper.CreateSetting(document, parent, "VisualSplitCount", VisualSplitCount) ^
             SettingsHelper.CreateSetting(document, parent, "SplitPreviewCount", SplitPreviewCount) ^
+            SettingsHelper.CreateSetting(document, parent, "MinimumMajorSplits", MinimumMajorSplits) ^
             SettingsHelper.CreateSetting(document, parent, "DisplayIcons", DisplayIcons) ^
             SettingsHelper.CreateSetting(document, parent, "ShowThinSeparators", ShowThinSeparators) ^
             SettingsHelper.CreateSetting(document, parent, "AlwaysShowLastSplit", AlwaysShowLastSplit) ^
