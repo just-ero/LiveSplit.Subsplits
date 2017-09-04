@@ -723,7 +723,7 @@ namespace LiveSplit.UI.Components
                     }
                     else
                     {
-                        if (Split == state.CurrentSplit)
+                        if (IsActive)
                             NameLabel.ForeColor = Settings.OverrideTextColor ? Settings.CurrentNamesColor : state.LayoutSettings.TextColor;
                         else
                             NameLabel.ForeColor = Settings.OverrideTextColor ? Settings.AfterNamesColor : state.LayoutSettings.TextColor;
@@ -818,7 +818,7 @@ namespace LiveSplit.UI.Components
             {
                 if (type == ColumnType.SplitTime || type == ColumnType.SegmentTime || type == ColumnType.DeltaorSplitTime || type == ColumnType.SegmentDeltaorSegmentTime)
                 {
-                    if (Split == state.CurrentSplit)
+                    if (IsActive)
                         label.ForeColor = Settings.OverrideTimesColor ? Settings.CurrentTimesColor : state.LayoutSettings.TextColor;
                     else
                         label.ForeColor = Settings.OverrideTimesColor ? Settings.AfterTimesColor : state.LayoutSettings.TextColor;
@@ -846,7 +846,7 @@ namespace LiveSplit.UI.Components
                 //Live Delta
                 var splitDelta = type == ColumnType.DeltaorSplitTime || type == ColumnType.Delta;
                 var bestDelta = LiveSplitStateHelper.CheckLiveDelta(state, splitDelta, comparison, timingMethod);
-                if (bestDelta != null && Split == state.CurrentSplit &&
+                if (bestDelta != null && IsActive &&
                     (type == ColumnType.DeltaorSplitTime || type == ColumnType.Delta || type == ColumnType.SegmentDeltaorSegmentTime || type == ColumnType.SegmentDelta))
                 {
                     if (splitDelta) //DeltaorSplitTime or Delta
@@ -948,7 +948,7 @@ namespace LiveSplit.UI.Components
             {
                 if (type == ColumnType.SplitTime || type == ColumnType.SegmentTime || type == ColumnType.DeltaorSplitTime || type == ColumnType.SegmentDeltaorSegmentTime)
                 {
-                    if (Split == state.CurrentSplit)
+                    if (IsActive)
                         label.ForeColor = Settings.OverrideTimesColor ? Settings.CurrentTimesColor : state.LayoutSettings.TextColor;
                     else
                         label.ForeColor = Settings.OverrideTimesColor ? Settings.AfterTimesColor : state.LayoutSettings.TextColor;
