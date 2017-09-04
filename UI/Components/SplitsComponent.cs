@@ -423,7 +423,7 @@ namespace LiveSplit.UI.Components
             var majorSplitsToAdd = (!Settings.ShowSubsplits && !Settings.HideSubsplits) ? Math.Min(currentSection, Settings.MinimumMajorSplits) : 0;
 
             List<int> visibleSplits = new List<int>();
-            if ((currentSplit < state.Run.Count() - 1) && (freeSplits > 0) && !(Settings.HideSubsplits && !sectionList.isMajorSplit(currentSplit)))
+            if ((currentSplit < state.Run.Count() - 1) && (freeSplits > 0) && (!Settings.HideSubsplits || sectionList.isMajorSplit(currentSplit)))
             {
                 visibleSplits.Add(currentSplit);
                 freeSplits--;
@@ -434,9 +434,14 @@ namespace LiveSplit.UI.Components
             {
                 if (ShouldIncludeSplit(currentSection, bottomSplit))
                 {
-                    visibleSplits.Add(bottomSplit);
+                    if (bottomSplit == state.Run.Count - 1)
+                        addLast = true;
+                    else
+                    {
+                        visibleSplits.Add(bottomSplit);
+                        previewCount++;
+                    }
                     freeSplits--;
-                    previewCount++;
                 }
                 bottomSplit++;
             }
@@ -458,7 +463,10 @@ namespace LiveSplit.UI.Components
             {
                 if (ShouldIncludeSplit(currentSection, bottomSplit))
                 {
-                    visibleSplits.Add(bottomSplit);
+                    if (bottomSplit == state.Run.Count - 1)
+                        addLast = true;
+                    else
+                        visibleSplits.Add(bottomSplit);
                     freeSplits--;
                 }
                 bottomSplit++;
