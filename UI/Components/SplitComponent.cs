@@ -867,6 +867,24 @@ namespace LiveSplit.UI.Components
             }
         }
 
+        private TimeSpan? CheckLiveDeltaCollapsed(LiveSplitState state, int splitIndex, bool splitDelta, string comparison, TimingMethod method)
+        {
+            if (state.CurrentPhase == TimerPhase.Running || state.CurrentPhase == TimerPhase.Paused)
+            {
+                var curSplit = state.Run[splitIndex].Comparisons[comparison][method];
+                var currentTime = state.CurrentTime[method];
+                var segmentDelta = getSectionDelta(state, splitIndex, TopSplit, comparison, method);
+
+                if (splitDelta && currentTime > curSplit || segmentDelta > TimeSpan.Zero)
+                {
+                    if (splitDelta)
+                        return currentTime - curSplit;
+                    return segmentDelta;
+                }
+            }
+            return null;
+        }
+
         protected void UpdateCollapsedColumn(LiveSplitState state, SimpleLabel label, ColumnData data)
         {
             var comparison = data.Comparison == "Current Comparison" ? state.CurrentComparison : data.Comparison;
@@ -963,7 +981,17 @@ namespace LiveSplit.UI.Components
                         label.Text = TimeFormatter.Format(Split.Comparisons[comparison][timingMethod] - previousTime);
                     }
                 }
-                else //Delta or SegmentDelta
+
+                //Live Delta
+                var splitDelta = type == ColumnType.DeltaorSplitTime || type == ColumnType.Delta;
+                var bestDelta = CheckLiveDeltaCollapsed(state, splitIndex, splitDelta, comparison, timingMethod);
+                if (bestDelta != null && IsActive &&
+                    (type == ColumnType.DeltaorSplitTime || type == ColumnType.Delta || type == ColumnType.SegmentDeltaorSegmentTime || type == ColumnType.SegmentDelta))
+                {
+                    label.Text = DeltaTimeFormatter.Format(bestDelta);
+                    label.ForeColor = Settings.OverrideDeltasColor ? Settings.DeltasColor : state.LayoutSettings.TextColor;
+                }
+                else if (type == ColumnType.Delta || type == ColumnType.SegmentDelta)
                 {
                     label.Text = "";
                 }
