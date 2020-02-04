@@ -551,6 +551,8 @@ namespace LiveSplit.UI.Components
 
             if (version >= new Version(1, 7))
             {
+                HeaderComparison = SettingsHelper.ParseString(element["HeaderComparison"], "Current Comparison");
+                HeaderTimingMethod = SettingsHelper.ParseString(element["HeaderTimingMethod"], "Current Timing Method");
                 var columnsElement = element["Columns"];
                 ColumnsList.Clear();
                 foreach (var child in columnsElement.ChildNodes)
