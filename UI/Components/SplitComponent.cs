@@ -1067,6 +1067,7 @@ namespace LiveSplit.UI.Components
                 }
                 Cache["MeasureTimeActualWidth"] = MeasureTimeLabel.ActualWidth;
                 Cache["MeasureDeltaActualWidth"] = MeasureDeltaLabel.ActualWidth;
+                Cache["Header"] = Header;
 
                 if (invalidator != null && (Cache.HasChanged || FrameCount > 1 || blankOut))
                 {
