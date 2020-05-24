@@ -100,7 +100,7 @@ namespace LiveSplit.UI.Components
             SplitComponents = new List<SplitComponent>();
             InternalComponent.VisibleComponents = Components;
 
-            if (Settings.ShowColumnLabels && CurrentState.Layout.Mode == LayoutMode.Vertical)
+            if (Settings.ShowColumnLabels && CurrentState.Layout?.Mode == LayoutMode.Vertical)
             {
                 Components.Add(new LabelsComponent(Settings, ColumnsList));
                 Components.Add(new SeparatorComponent());
