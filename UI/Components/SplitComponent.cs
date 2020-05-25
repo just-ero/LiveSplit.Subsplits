@@ -28,6 +28,8 @@ namespace LiveSplit.UI.Components
         protected SimpleLabel TimeLabel { get; set; }
         protected SimpleLabel MeasureTimeLabel { get; set; }
         protected SimpleLabel MeasureDeltaLabel { get; set; }
+        protected SimpleLabel HeaderMeasureTimeLabel { get; set; }
+        protected SimpleLabel HeaderMeasureDeltaLabel { get; set; }
         protected SimpleLabel DeltaLabel { get; set; }
         public SplitsSettings Settings { get; set; }
 
@@ -94,6 +96,7 @@ namespace LiveSplit.UI.Components
                 Text = ""
             };
             MeasureTimeLabel = new SimpleLabel();
+            HeaderMeasureTimeLabel = new SimpleLabel();
             DeltaLabel = new SimpleLabel()
             {
                 HorizontalAlignment = StringAlignment.Far,
@@ -101,6 +104,7 @@ namespace LiveSplit.UI.Components
                 Text = ""
             };
             MeasureDeltaLabel = new SimpleLabel();
+            HeaderMeasureDeltaLabel = new SimpleLabel();
             Settings = settings;
             ColumnsList = columnsList;
             TimeFormatter = new RegularSplitTimeFormatter(Settings.SplitTimesAccuracy);
@@ -115,6 +119,28 @@ namespace LiveSplit.UI.Components
 
             Cache = new GraphicsCache();
             LabelsList = new List<SimpleLabel>();
+        }
+
+        private void SetMeasureLabels(Graphics g, LiveSplitState state)
+        {
+            MeasureTimeLabel.Text = TimeFormatter.Format(new TimeSpan(24, 0, 0));
+            MeasureDeltaLabel.Text = DeltaTimeFormatter.Format(new TimeSpan(0, 9, 0, 0));
+            HeaderMeasureTimeLabel.Text = HeaderTimesFormatter.Format(new TimeSpan(24, 0, 0));
+            HeaderMeasureDeltaLabel.Text = SectionTimerFormatter.Format(new TimeSpan(0, 9, 0, 0));
+
+            MeasureTimeLabel.Font = state.LayoutSettings.TimesFont;
+            MeasureTimeLabel.IsMonospaced = true;
+            MeasureDeltaLabel.Font = state.LayoutSettings.TimesFont;
+            MeasureDeltaLabel.IsMonospaced = true;
+            HeaderMeasureTimeLabel.Font = state.LayoutSettings.TimesFont;
+            HeaderMeasureTimeLabel.IsMonospaced = true;
+            HeaderMeasureDeltaLabel.Font = state.LayoutSettings.TimesFont;
+            HeaderMeasureDeltaLabel.IsMonospaced = true;
+
+            MeasureTimeLabel.SetActualWidth(g);
+            MeasureDeltaLabel.SetActualWidth(g);
+            HeaderMeasureTimeLabel.SetActualWidth(g);
+            HeaderMeasureDeltaLabel.SetActualWidth(g);
         }
 
         private void DrawGeneral(Graphics g, LiveSplitState state, float width, float height, LayoutMode mode, Region clipRegion)
@@ -143,16 +169,7 @@ namespace LiveSplit.UI.Components
                 g.FillRectangle(gradientBrush, 0, 0, width, height);
             }
 
-            MeasureTimeLabel.Text = TimeFormatter.Format(new TimeSpan(24, 0, 0));
-            MeasureDeltaLabel.Text = DeltaTimeFormatter.Format(new TimeSpan(0, 9, 0, 0));
-
-            MeasureTimeLabel.Font = state.LayoutSettings.TimesFont;
-            MeasureTimeLabel.IsMonospaced = true;
-            MeasureDeltaLabel.Font = state.LayoutSettings.TimesFont;
-            MeasureDeltaLabel.IsMonospaced = true;
-
-            MeasureTimeLabel.SetActualWidth(g);
-            MeasureDeltaLabel.SetActualWidth(g);
+            SetMeasureLabels(g, state);
             TimeLabel.SetActualWidth(g);
             DeltaLabel.SetActualWidth(g);
 
@@ -346,18 +363,9 @@ namespace LiveSplit.UI.Components
                 Settings.HeaderGradient == GradientType.Plain
                 ? Settings.HeaderTopColor
                 : Settings.HeaderBottomColor);
-            g.FillRectangle(currentSplitBrush, 0, 0, width, height);            
+            g.FillRectangle(currentSplitBrush, 0, 0, width, height);
 
-            MeasureTimeLabel.Text = HeaderTimesFormatter.Format(new TimeSpan(24, 0, 0));
-            MeasureDeltaLabel.Text = SectionTimerFormatter.Format(new TimeSpan(0, 9, 0, 0));
-
-            MeasureTimeLabel.Font = state.LayoutSettings.TimesFont;
-            MeasureTimeLabel.IsMonospaced = true;
-            MeasureDeltaLabel.Font = state.LayoutSettings.TimesFont;
-            MeasureDeltaLabel.IsMonospaced = true;
-
-            MeasureTimeLabel.SetActualWidth(g);
-            MeasureDeltaLabel.SetActualWidth(g);
+            SetMeasureLabels(g, state);
             TimeLabel.SetActualWidth(g);
             DeltaLabel.SetActualWidth(g);
 
@@ -472,19 +480,19 @@ namespace LiveSplit.UI.Components
 
             TimeLabel.Font = state.LayoutSettings.TimesFont;
 
-            TimeLabel.Width = Math.Max(MeasureDeltaLabel.ActualWidth, MeasureTimeLabel.ActualWidth) + 20;
-            TimeLabel.X = width - Math.Max(MeasureDeltaLabel.ActualWidth, MeasureTimeLabel.ActualWidth) - 27;
+            TimeLabel.Width = Math.Max(HeaderMeasureDeltaLabel.ActualWidth, HeaderMeasureTimeLabel.ActualWidth) + 20;
+            TimeLabel.X = width - Math.Max(HeaderMeasureDeltaLabel.ActualWidth, HeaderMeasureTimeLabel.ActualWidth) - 27;
 
             TimeLabel.HasShadow = state.LayoutSettings.DropShadows;
             TimeLabel.IsMonospaced = true;
 
             DeltaLabel.Font = state.LayoutSettings.TimesFont;
-            DeltaLabel.X = width - MeasureTimeLabel.ActualWidth - MeasureDeltaLabel.ActualWidth - 32;
-            DeltaLabel.Width = MeasureDeltaLabel.ActualWidth + 20;
+            DeltaLabel.X = width - HeaderMeasureTimeLabel.ActualWidth - HeaderMeasureDeltaLabel.ActualWidth - 32;
+            DeltaLabel.Width = HeaderMeasureDeltaLabel.ActualWidth + 20;
             DeltaLabel.HasShadow = state.LayoutSettings.DropShadows;
             DeltaLabel.IsMonospaced = true;
 
-            NameLabel.Width = width - IconWidth - (mode == LayoutMode.Vertical ? DeltaLabel.ActualWidth + (string.IsNullOrEmpty(DeltaLabel.Text) ? TimeLabel.ActualWidth : MeasureTimeLabel.ActualWidth + 5) + 10 : 10);
+            NameLabel.Width = width - IconWidth - (mode == LayoutMode.Vertical ? DeltaLabel.ActualWidth + (string.IsNullOrEmpty(DeltaLabel.Text) ? TimeLabel.ActualWidth : HeaderMeasureTimeLabel.ActualWidth + 5) + 10 : 10);
 
             Color originalColor = DeltaLabel.ForeColor;
             if (Settings.SectionTimer && Settings.SectionTimerGradient)
@@ -993,19 +1001,18 @@ namespace LiveSplit.UI.Components
         protected float CalculateHeaderWidth()
         {
             var width = 0f;
-            if (Header)
-            {
-                if (Settings.SectionTimer || Settings.HeaderTimes)
-                    width += MeasureTimeLabel.ActualWidth + 5;
-                if (Settings.SectionTimer)
-                    width += MeasureDeltaLabel.ActualWidth + 5;
-            }
+
+            if (Settings.SectionTimer || Settings.HeaderTimes)
+                width += HeaderMeasureTimeLabel.ActualWidth + 5;
+            if (Settings.SectionTimer)
+                width += HeaderMeasureDeltaLabel.ActualWidth + 5;
+
             return width;
         }
 
         protected float CalculateLabelsWidth()
         {
-            if (!Header && ColumnsList != null)
+            if (ColumnsList != null)
             {
                 var mixedCount = ColumnsList.Count(x => x.Type == ColumnType.DeltaorSplitTime || x.Type == ColumnType.SegmentDeltaorSegmentTime);
                 var deltaCount = ColumnsList.Count(x => x.Type == ColumnType.Delta || x.Type == ColumnType.SegmentDelta);
@@ -1067,6 +1074,8 @@ namespace LiveSplit.UI.Components
                 }
                 Cache["MeasureTimeActualWidth"] = MeasureTimeLabel.ActualWidth;
                 Cache["MeasureDeltaActualWidth"] = MeasureDeltaLabel.ActualWidth;
+                Cache["HeaderMeasureTimeActualWidth"] = HeaderMeasureTimeLabel.ActualWidth;
+                Cache["HeaderMeasureDeltaActualWidth"] = HeaderMeasureDeltaLabel.ActualWidth;
                 Cache["Header"] = Header;
 
                 if (invalidator != null && (Cache.HasChanged || FrameCount > 1 || blankOut))
