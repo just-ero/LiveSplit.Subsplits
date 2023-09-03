@@ -28,6 +28,7 @@ namespace LiveSplit.UI.Components
         static public ISegment HilightSplit { get; set; }
         static public ISegment SectionSplit { get; set; }
 
+        public bool AutomaticAbbreviation { get; set; }
         public Color CurrentSplitTopColor { get; set; }
         public Color CurrentSplitBottomColor { get; set; }
         public int SplitPreviewCount { get; set; }
@@ -138,6 +139,7 @@ namespace LiveSplit.UI.Components
             StartingSize = Size;
             StartingTableLayoutSize = tableColumns.Size;
 
+            AutomaticAbbreviation = false;
             VisualSplitCount = 8;
             SplitPreviewCount = 1;
             MinimumMajorSplits = 0;
@@ -204,6 +206,7 @@ namespace LiveSplit.UI.Components
             SectionTimerGradient = true;
             SectionTimerAccuracy = TimeAccuracy.Tenths;
 
+            chkAutomaticAbbreviation.DataBindings.Add("Checked", this, "AutomaticAbbreviation", false, DataSourceUpdateMode.OnPropertyChanged);
             dmnTotalSegments.DataBindings.Add("Value", this, "VisualSplitCount", false, DataSourceUpdateMode.OnPropertyChanged);
             dmnUpcomingSegments.DataBindings.Add("Value", this, "SplitPreviewCount", false, DataSourceUpdateMode.OnPropertyChanged);
             dmnMinimumMajorSplits.DataBindings.Add("Value", this, "MinimumMajorSplits", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -492,6 +495,7 @@ namespace LiveSplit.UI.Components
             var element = (XmlElement)node;
             Version version = SettingsHelper.ParseVersion(element["Version"]);
 
+            AutomaticAbbreviation = SettingsHelper.ParseBool(element["AutomaticAbbreviation"], false);
             CurrentSplitTopColor = SettingsHelper.ParseColor(element["CurrentSplitTopColor"], Color.FromArgb(51, 115, 244));
             CurrentSplitBottomColor = SettingsHelper.ParseColor(element["CurrentSplitBottomColor"], Color.FromArgb(21, 53, 116));
             VisualSplitCount = SettingsHelper.ParseInt(element["VisualSplitCount"], 8);
@@ -612,6 +616,7 @@ namespace LiveSplit.UI.Components
         private int CreateSettingsNode(XmlDocument document, XmlElement parent)
         {
             var hashCode = SettingsHelper.CreateSetting(document, parent, "Version", "1.7") ^
+            SettingsHelper.CreateSetting(document, parent, "AutomaticAbbreviation", AutomaticAbbreviation) ^
             SettingsHelper.CreateSetting(document, parent, "CurrentSplitTopColor", CurrentSplitTopColor) ^
             SettingsHelper.CreateSetting(document, parent, "CurrentSplitBottomColor", CurrentSplitBottomColor) ^
             SettingsHelper.CreateSetting(document, parent, "VisualSplitCount", VisualSplitCount) ^
@@ -913,6 +918,11 @@ namespace LiveSplit.UI.Components
 
             foreach (var column in ColumnsList)
                 column.UpdateEnabledButtons();
+        }
+
+        private void chkAutomaticAbbreviation_CheckedChanged(object sender, EventArgs e)
+        {
+            AutomaticAbbreviation = chkAutomaticAbbreviation.Checked;
         }
     }
 }

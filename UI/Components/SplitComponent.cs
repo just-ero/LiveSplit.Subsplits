@@ -659,11 +659,14 @@ namespace LiveSplit.UI.Components
                 IsHighlight = (SplitsSettings.HilightSplit == Split);
                 IsSubsplit = Split.Name.StartsWith("-") && Split != state.Run.Last();
 
+                var splitIndex = state.Run.IndexOf(Split);
+
+                Match match = SubsplitRegex.Match(Split.Name);
+
                 if (IsSubsplit)
                     NameLabel.Text = Split.Name.Substring(1);
                 else
                 {
-                    Match match = SubsplitRegex.Match(Split.Name);
                     if (match.Success) {
                         if (CollapsedSplit || Header)
                             NameLabel.Text = match.Groups[1].Value;
@@ -673,7 +676,26 @@ namespace LiveSplit.UI.Components
                         NameLabel.Text = Split.Name;
                 }
 
-                var splitIndex = state.Run.IndexOf(Split);
+                if (Settings.AutomaticAbbreviation)
+                {
+                    if ((NameLabel.Text != Split.Name || NameLabel.AlternateText == null || !NameLabel.AlternateText.Any()) && !match.Success)
+                    {
+                        NameLabel.AlternateText = Split.Name.GetAbbreviations().ToList();
+                    }     
+                    else if (match.Success && (Header || CollapsedSplit))
+                    {
+                        NameLabel.Text = match.Groups[1].Value;
+                        NameLabel.AlternateText = NameLabel.Text.GetAbbreviations().ToList();
+                    }
+                    else if (match.Success && (!Header || !CollapsedSplit))
+                    {
+                        NameLabel.Text = match.Groups[2].Value;
+                        NameLabel.AlternateText = NameLabel.Text.GetAbbreviations().ToList();
+                    }
+                        
+                }
+                else if (NameLabel.AlternateText != null && NameLabel.AlternateText.Any())
+                    NameLabel.AlternateText.Clear();
 
                 if (Header)
                 {
