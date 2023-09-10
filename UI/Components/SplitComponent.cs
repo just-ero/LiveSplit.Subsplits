@@ -664,32 +664,22 @@ namespace LiveSplit.UI.Components
                 Match match = SubsplitRegex.Match(Split.Name);
 
                 if (IsSubsplit)
-                {
                     NameLabel.Text = Split.Name.Substring(1);
-                }
                 else
                 {
                     if (match.Success) {
                         if (CollapsedSplit || Header)
-                        {
                             NameLabel.Text = match.Groups[1].Value;
-                        }
                         else
-                        {
                             NameLabel.Text = match.Groups[2].Value;
-                        }
                     } else
                         NameLabel.Text = Split.Name;
                 }
 
                 if (Settings.AutomaticAbbreviation)
-                {
                     NameLabel.AlternateText = NameLabel.Text.GetAbbreviations().ToList();
-                }
                 else if (NameLabel.AlternateText != null && NameLabel.AlternateText.Any())
-                {
                     NameLabel.AlternateText.Clear();
-                }
 
                 if (Header)
                 {
