@@ -676,7 +676,7 @@ namespace LiveSplit.UI.Components
                         NameLabel.Text = Split.Name;
                 }
 
-                if (Settings.AutomaticAbbreviation)
+                if (Settings.AutomaticAbbreviation && (NameLabel.Text != Split.Name || NameLabel.AlternateText == null || !NameLabel.AlternateText.Any()))
                     NameLabel.AlternateText = NameLabel.Text.GetAbbreviations().ToList();
                 else if (NameLabel.AlternateText != null && NameLabel.AlternateText.Any())
                     NameLabel.AlternateText.Clear();
