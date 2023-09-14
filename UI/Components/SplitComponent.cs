@@ -652,6 +652,8 @@ namespace LiveSplit.UI.Components
         {
             if (Split != null)
             {
+                var previousSplitName = NameLabel.Text;
+
                 IsActive = (state.CurrentPhase == TimerPhase.Running
                             || state.CurrentPhase == TimerPhase.Paused) &&
                             ((!Settings.HideSubsplits && state.CurrentSplit == Split) ||
@@ -676,7 +678,7 @@ namespace LiveSplit.UI.Components
                         NameLabel.Text = Split.Name;
                 }
 
-                if (Settings.AutomaticAbbreviation && (NameLabel.Text != Split.Name || NameLabel.AlternateText == null || !NameLabel.AlternateText.Any()))
+                if (Settings.AutomaticAbbreviation && (NameLabel.Text != previousSplitName || NameLabel.AlternateText == null || !NameLabel.AlternateText.Any()))
                     NameLabel.AlternateText = NameLabel.Text.GetAbbreviations().ToList();
                 else if (NameLabel.AlternateText != null && NameLabel.AlternateText.Any())
                     NameLabel.AlternateText.Clear();
