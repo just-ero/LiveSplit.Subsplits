@@ -652,6 +652,8 @@ namespace LiveSplit.UI.Components
         {
             if (Split != null)
             {
+                string previousSplitName = NameLabel.Text;
+
                 IsActive = (state.CurrentPhase == TimerPhase.Running
                             || state.CurrentPhase == TimerPhase.Paused) &&
                             ((!Settings.HideSubsplits && state.CurrentSplit == Split) ||
@@ -659,11 +661,14 @@ namespace LiveSplit.UI.Components
                 IsHighlight = (SplitsSettings.HilightSplit == Split);
                 IsSubsplit = Split.Name.StartsWith("-") && Split != state.Run.Last();
 
+                var splitIndex = state.Run.IndexOf(Split);
+
+                Match match = SubsplitRegex.Match(Split.Name);
+
                 if (IsSubsplit)
                     NameLabel.Text = Split.Name.Substring(1);
                 else
                 {
-                    Match match = SubsplitRegex.Match(Split.Name);
                     if (match.Success) {
                         if (CollapsedSplit || Header)
                             NameLabel.Text = match.Groups[1].Value;
@@ -673,7 +678,15 @@ namespace LiveSplit.UI.Components
                         NameLabel.Text = Split.Name;
                 }
 
-                var splitIndex = state.Run.IndexOf(Split);
+                if (Settings.AutomaticAbbreviation)
+                {
+                    if (NameLabel.Text != previousSplitName || NameLabel.AlternateText == null || !NameLabel.AlternateText.Any())
+                    {
+                        NameLabel.AlternateText = NameLabel.Text.GetAbbreviations().ToList();
+                    }
+                }   
+                else if (NameLabel.AlternateText != null && NameLabel.AlternateText.Any())
+                    NameLabel.AlternateText.Clear();
 
                 if (Header)
                 {
