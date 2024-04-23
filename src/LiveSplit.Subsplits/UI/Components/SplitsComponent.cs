@@ -1,11 +1,11 @@
-﻿using LiveSplit.Model;
-using LiveSplit.Model.Comparisons;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
+
+using LiveSplit.Model;
 
 namespace LiveSplit.UI.Components
 {
@@ -15,7 +15,7 @@ namespace LiveSplit.UI.Components
 
         public float PaddingTop => InternalComponent.PaddingTop;
         public float PaddingLeft => InternalComponent.PaddingLeft;
-        public float PaddingBottom =>  InternalComponent.PaddingBottom;
+        public float PaddingBottom => InternalComponent.PaddingBottom;
         public float PaddingRight => InternalComponent.PaddingRight;
 
         protected IList<IComponent> Components { get; set; }
@@ -30,7 +30,7 @@ namespace LiveSplit.UI.Components
 
         protected bool PreviousShowLabels { get; set; }
 
-        private SectionList sectionList;
+        private readonly SectionList sectionList;
 
         protected int ScrollOffset { get; set; }
         protected int LastSplitSeparatorIndex { get; set; }
@@ -71,12 +71,12 @@ namespace LiveSplit.UI.Components
             sectionList.UpdateSplits(state.Run);
         }
 
-        void state_RunManuallyModified(object sender, EventArgs e)
+        private void state_RunManuallyModified(object sender, EventArgs e)
         {
             sectionList.UpdateSplits(((LiveSplitState)sender).Run);
         }
 
-        void state_ComparisonRenamed(object sender, EventArgs e)
+        private void state_ComparisonRenamed(object sender, EventArgs e)
         {
             var args = (RenameEventArgs)e;
             foreach (var column in ColumnsList)
@@ -89,7 +89,7 @@ namespace LiveSplit.UI.Components
             }
         }
 
-        void Settings_SplitLayoutChanged(object sender, EventArgs e)
+        private void Settings_SplitLayoutChanged(object sender, EventArgs e)
         {
             RebuildVisualSplits();
         }
@@ -112,9 +112,13 @@ namespace LiveSplit.UI.Components
                 {
                     LastSplitSeparatorIndex = Components.Count;
                     if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit)
+                    {
                         Components.Add(new SeparatorComponent());
+                    }
                     else if (Settings.ShowThinSeparators)
+                    {
                         Components.Add(new ThinSeparatorComponent());
+                    }
                 }
 
                 var splitComponent = new SplitComponent(Settings, ColumnsList);
@@ -122,7 +126,9 @@ namespace LiveSplit.UI.Components
                 SplitComponents.Add(splitComponent);
 
                 if (Settings.ShowThinSeparators && i < visualSplitCount - 2)
+                {
                     Components.Add(new ThinSeparatorComponent());
+                }
             }
         }
 
@@ -153,7 +159,9 @@ namespace LiveSplit.UI.Components
             }
 
             if (OldShadowsColor != state.LayoutSettings.ShadowsColor)
+            {
                 ShadowImages.Clear();
+            }
 
             foreach (var split in state.Run)
             {
@@ -171,15 +179,24 @@ namespace LiveSplit.UI.Components
                 var shouldIndent = split.Split == null || split.Split.Icon != null || Settings.IndentBlankIcons;
 
                 if (split.Header)
+                {
                     split.DisplayIcon = Settings.ShowSectionIcon && shouldIndent && iconsNotBlank;
+                }
                 else
+                {
                     split.DisplayIcon = Settings.DisplayIcons && !hideIconSectionSplit && iconsNotBlank && shouldIndent;
+                }
 
                 if (split.Split != null && split.Split.Icon != null)
+                {
                     split.ShadowImage = ShadowImages[split.Split.Icon];
+                }
                 else
+                {
                     split.ShadowImage = null;
+                }
             }
+
             OldShadowsColor = state.LayoutSettings.ShadowsColor;
 
             foreach (var component in Components)
@@ -191,42 +208,49 @@ namespace LiveSplit.UI.Components
                     if (state.CurrentPhase == TimerPhase.Running || state.CurrentPhase == TimerPhase.Paused)
                     {
                         if (((SplitComponent)Components[index + 1]).Split == state.CurrentSplit)
+                        {
                             separator.LockToBottom = true;
+                        }
                         else if (Components[index - 1] is SplitComponent && ((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
+                        {
                             separator.LockToBottom = false;
+                        }
                     }
                 }
-                else if (component is ThinSeparatorComponent)
+                else if (component is ThinSeparatorComponent separator)
                 {
-                    var separator = (ThinSeparatorComponent)component;
                     var index = Components.IndexOf(separator);
                     if (state.CurrentPhase == TimerPhase.Running || state.CurrentPhase == TimerPhase.Paused)
                     {
                         if (((SplitComponent)Components[index + 1]).Split == state.CurrentSplit)
+                        {
                             separator.LockToBottom = true;
+                        }
                         else if (Components[index - 1] is SplitComponent && ((SplitComponent)Components[index - 1]).Split == state.CurrentSplit)
+                        {
                             separator.LockToBottom = false;
+                        }
                     }
                 }
             }
         }
 
-        void state_OnUndoSplit(object sender, EventArgs e)
+        private void state_OnUndoSplit(object sender, EventArgs e)
         {
             ScrollOffset = 0;
         }
 
-        void state_OnSkipSplit(object sender, EventArgs e)
+        private void state_OnSkipSplit(object sender, EventArgs e)
         {
             ScrollOffset = 0;
         }
 
-        void state_OnSplit(object sender, EventArgs e)
+        private void state_OnSplit(object sender, EventArgs e)
         {
             ScrollOffset = 0;
         }
 
-        void state_OnReset(object sender, TimerPhase e)
+        private void state_OnReset(object sender, TimerPhase e)
         {
             ScrollOffset = 0;
         }
@@ -246,7 +270,7 @@ namespace LiveSplit.UI.Components
 
                 public bool splitInRange(int splitIndex)
                 {
-                    return (splitIndex >= startIndex && splitIndex <= endIndex);
+                    return splitIndex >= startIndex && splitIndex <= endIndex;
                 }
 
                 public int getSubsplitCount()
@@ -263,8 +287,10 @@ namespace LiveSplit.UI.Components
                 for (int splitIndex = splits.Count() - 1; splitIndex >= 0; splitIndex--)
                 {
                     int sectionIndex = splitIndex;
-                    while ((splitIndex > 0) && (splits[splitIndex - 1].Name.StartsWith("-")))
+                    while ((splitIndex > 0) && splits[splitIndex - 1].Name.StartsWith("-"))
+                    {
                         splitIndex--;
+                    }
 
                     Sections.Insert(0, new Section(splitIndex, sectionIndex));
                 }
@@ -288,9 +314,11 @@ namespace LiveSplit.UI.Components
                 int sectionIndex = getSection(splitIndex);
 
                 if (sectionIndex == -1)
+                {
                     return true;
+                }
 
-                return (splitIndex == Sections[sectionIndex].endIndex);
+                return splitIndex == Sections[sectionIndex].endIndex;
             }
 
             public int getMajorSplit(int splitIndex)
@@ -298,33 +326,35 @@ namespace LiveSplit.UI.Components
                 int sectionIndex = getSection(splitIndex);
 
                 if (sectionIndex == -1)
+                {
                     return splitIndex;
+                }
 
                 return Sections[sectionIndex].endIndex;
             }
         }
 
-        void state_OnStart(object sender, EventArgs e)
+        private void state_OnStart(object sender, EventArgs e)
         {
             ScrollOffset = 0;
         }
 
-        void state_OnScrollUp(object sender, EventArgs e)
+        private void state_OnScrollUp(object sender, EventArgs e)
         {
             ScrollOffset--;
         }
 
-        void state_OnScrollDown(object sender, EventArgs e)
+        private void state_OnScrollDown(object sender, EventArgs e)
         {
             ScrollOffset++;
         }
 
-        void DrawBackground(Graphics g, float width, float height)
+        private void DrawBackground(Graphics g, float width, float height)
         {
             if (Settings.BackgroundGradient != ExtendedGradientType.Alternating
                 && (Settings.BackgroundColor.A > 0
-                || Settings.BackgroundGradient != ExtendedGradientType.Plain
-                && Settings.BackgroundColor2.A > 0))
+                || (Settings.BackgroundGradient != ExtendedGradientType.Plain
+                && Settings.BackgroundColor2.A > 0)))
             {
                 var gradientBrush = new LinearGradientBrush(
                             new PointF(0, 0),
@@ -384,9 +414,13 @@ namespace LiveSplit.UI.Components
             var currentSection = sectionList.getSection(currentSplit);
             runningSectionIndex = sectionList.getSection(runningSectionIndex);
             if (sectionList.Sections[currentSection].getSubsplitCount() > 0)
+            {
                 lastSplitOfSection = sectionList.Sections[currentSection].endIndex;
+            }
             else
+            {
                 lastSplitOfSection = -1;
+            }
 
             if (Settings.HideSubsplits)
             {
@@ -396,26 +430,35 @@ namespace LiveSplit.UI.Components
                     SplitsSettings.HilightSplit = state.Run[currentSplit];
                 }
                 else
+                {
                     SplitsSettings.HilightSplit = null;
-
+                }
 
                 SplitsSettings.SectionSplit = state.Run[sectionList.Sections[runningSectionIndex].endIndex];
             }
             else
             {
                 if (ScrollOffset != 0)
+                {
                     SplitsSettings.HilightSplit = state.Run[currentSplit];
+                }
                 else
+                {
                     SplitsSettings.HilightSplit = null;
+                }
 
                 if (currentSection == runningSectionIndex)
+                {
                     SplitsSettings.SectionSplit = null;
+                }
                 else
+                {
                     SplitsSettings.SectionSplit = state.Run[sectionList.Sections[runningSectionIndex].endIndex];
+                }
             }
 
-            bool addLast = (Settings.AlwaysShowLastSplit || currentSplit == state.Run.Count() - 1);
-            bool addHeader = (Settings.ShowHeader && (sectionList.Sections[currentSection].getSubsplitCount() > 0));
+            bool addLast = Settings.AlwaysShowLastSplit || currentSplit == state.Run.Count() - 1;
+            bool addHeader = Settings.ShowHeader && (sectionList.Sections[currentSection].getSubsplitCount() > 0);
 
             int freeSplits = visualSplitCount - (addLast ? 1 : 0) - (addHeader ? 1 : 0);
             int topSplit = currentSplit - 1;
@@ -435,14 +478,18 @@ namespace LiveSplit.UI.Components
                 if (ShouldIncludeSplit(currentSection, bottomSplit))
                 {
                     if (bottomSplit == state.Run.Count - 1)
+                    {
                         addLast = true;
+                    }
                     else
                     {
                         visibleSplits.Add(bottomSplit);
                         previewCount++;
                     }
+
                     freeSplits--;
                 }
+
                 bottomSplit++;
             }
 
@@ -454,8 +501,11 @@ namespace LiveSplit.UI.Components
                     visibleSplits.Insert(0, topSplit);
                     freeSplits--;
                     if (isMajor)
+                    {
                         majorSplitsToAdd--;
+                    }
                 }
+
                 topSplit--;
             }
 
@@ -464,32 +514,40 @@ namespace LiveSplit.UI.Components
                 if (ShouldIncludeSplit(currentSection, bottomSplit))
                 {
                     if (bottomSplit == state.Run.Count - 1)
+                    {
                         addLast = true;
+                    }
                     else
+                    {
                         visibleSplits.Add(bottomSplit);
+                    }
+
                     freeSplits--;
                 }
+
                 bottomSplit++;
             }
 
-
             foreach (var component in Components)
             {
-                if (component is SeparatorComponent)
+                if (component is SeparatorComponent separator)
                 {
-                    var separator = (SeparatorComponent)component;
                     var index = Components.IndexOf(separator);
 
                     if (Settings.AlwaysShowLastSplit && Settings.SeparatorLastSplit && index == LastSplitSeparatorIndex)
                     {
                         int lastIndex = state.Run.Count() - 1;
 
-                        if (freeSplits > 0 || visibleSplits.Any() && (visibleSplits.Last() == lastIndex - 1))
+                        if (freeSplits > 0 || (visibleSplits.Any() && (visibleSplits.Last() == lastIndex - 1)))
                         {
                             if (Settings.ShowThinSeparators)
+                            {
                                 separator.DisplayedSize = 1f;
+                            }
                             else
+                            {
                                 separator.DisplayedSize = 0f;
+                            }
 
                             separator.UseSeparatorColor = false;
                         }
@@ -499,9 +557,13 @@ namespace LiveSplit.UI.Components
                             if (visibleSplits.Any() && (prevSection <= 0 || visibleSplits.Last() == sectionList.Sections[prevSection].endIndex))
                             {
                                 if (Settings.ShowThinSeparators)
+                                {
                                     separator.DisplayedSize = 1f;
+                                }
                                 else
+                                {
                                     separator.DisplayedSize = 0f;
+                                }
 
                                 separator.UseSeparatorColor = false;
                             }
@@ -515,21 +577,29 @@ namespace LiveSplit.UI.Components
                 }
             }
 
-
             if (!Settings.LockLastSplit && addLast)
+            {
                 visibleSplits.Add(state.Run.Count() - 1);
+            }
 
             for (; freeSplits > 0; freeSplits--)
+            {
                 visibleSplits.Add(int.MinValue);
+            }
 
             if (Settings.LockLastSplit && addLast)
+            {
                 visibleSplits.Add(state.Run.Count() - 1);
+            }
 
             if (addHeader)
             {
                 int insertIndex = 0;
                 if (currentSection > 0)
+                {
                     insertIndex = visibleSplits.IndexOf(sectionList.Sections[currentSection - 1].endIndex) + 1;
+                }
+
                 visibleSplits.Insert(insertIndex, -(currentSection + 1));
             }
 
@@ -553,13 +623,13 @@ namespace LiveSplit.UI.Components
                         SplitComponents[i].CollapsedSplit = false;
                         SplitComponents[i].TopSplit = sectionList.Sections[-split - 1].startIndex;
                         SplitComponents[i].Split = state.Run[sectionList.Sections[-split - 1].endIndex];
-                        SplitComponents[i].oddSplit = ((((-split - 1) + (Settings.ShowColumnLabels ? 1 : 0)) % 2) == 0);
+                        SplitComponents[i].oddSplit = ((-split - 1 + (Settings.ShowColumnLabels ? 1 : 0)) % 2) == 0;
                     }
                     else
                     {
                         SplitComponents[i].Header = false;
                         SplitComponents[i].Split = state.Run[split];
-                        SplitComponents[i].oddSplit = (((sectionList.getSection(split) + (Settings.ShowColumnLabels ? 1 : 0)) % 2) == 0);
+                        SplitComponents[i].oddSplit = ((sectionList.getSection(split) + (Settings.ShowColumnLabels ? 1 : 0)) % 2) == 0;
 
                         if ((Settings.HideSubsplits || sectionList.getSection(split) != currentSection)
                             && sectionList.Sections[sectionList.getSection(split)].getSubsplitCount() > 0
@@ -579,7 +649,9 @@ namespace LiveSplit.UI.Components
             }
 
             if (invalidator != null)
+            {
                 InternalComponent.Update(invalidator, state, width, height, mode);
+            }
         }
 
         private bool ShouldIncludeSplit(int currentSection, int split)
@@ -603,6 +675,9 @@ namespace LiveSplit.UI.Components
             CurrentState.RunManuallyModified -= state_RunManuallyModified;
         }
 
-        public int GetSettingsHashCode() => Settings.GetSettingsHashCode();
+        public int GetSettingsHashCode()
+        {
+            return Settings.GetSettingsHashCode();
+        }
     }
 }

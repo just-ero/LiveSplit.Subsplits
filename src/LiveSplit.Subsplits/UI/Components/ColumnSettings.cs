@@ -1,9 +1,10 @@
-﻿using LiveSplit.Model;
-using LiveSplit.Model.Comparisons;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+
+using LiveSplit.Model;
+using LiveSplit.Model.Comparisons;
 
 namespace LiveSplit.UI.Components
 {
@@ -40,25 +41,25 @@ namespace LiveSplit.UI.Components
             Data = new ColumnData(columnName, ColumnType.Delta, "Current Comparison", "Current Timing Method");
 
             CurrentState = state;
-            ColumnsList = columnsList; 
+            ColumnsList = columnsList;
         }
 
-        void cmbTimingMethod_SelectedIndexChanged(object sender, EventArgs e)
+        private void cmbTimingMethod_SelectedIndexChanged(object sender, EventArgs e)
         {
             TimingMethod = cmbTimingMethod.SelectedItem.ToString();
         }
 
-        void cmbComparison_SelectedIndexChanged(object sender, EventArgs e)
+        private void cmbComparison_SelectedIndexChanged(object sender, EventArgs e)
         {
             Comparison = cmbComparison.SelectedItem.ToString();
         }
 
-        void cmbColumnType_SelectedIndexChanged(object sender, EventArgs e)
+        private void cmbColumnType_SelectedIndexChanged(object sender, EventArgs e)
         {
             Type = cmbColumnType.SelectedItem.ToString();
         }
 
-        void ColumnSettings_Load(object sender, EventArgs e)
+        private void ColumnSettings_Load(object sender, EventArgs e)
         {
             UpdateComparisonItems();
 
@@ -76,9 +77,9 @@ namespace LiveSplit.UI.Components
             btnMoveUp.Enabled = ColumnIndex > 0;
         }
 
-        void txtName_TextChanged(object sender, EventArgs e)
+        private void txtName_TextChanged(object sender, EventArgs e)
         {
-            groupColumn.Text = $"Column: { txtName.Text }";
+            groupColumn.Text = $"Column: {txtName.Text}";
         }
 
         private void UpdateComparisonItems()
@@ -87,16 +88,22 @@ namespace LiveSplit.UI.Components
             cmbComparison.Items.Add("Current Comparison");
 
             if (Data.Type == ColumnType.Delta || Data.Type == ColumnType.DeltaorSplitTime || Data.Type == ColumnType.SplitTime)
+            {
                 cmbComparison.Items.AddRange(CurrentState.Run.Comparisons.Where(x => x != NoneComparisonGenerator.ComparisonName).ToArray());
+            }
             else
             {
                 cmbComparison.Items.AddRange(CurrentState.Run.Comparisons.Where(x => x != BestSplitTimesComparisonGenerator.ComparisonName && x != NoneComparisonGenerator.ComparisonName).ToArray());
                 if (Comparison == BestSplitTimesComparisonGenerator.ComparisonName)
+                {
                     Comparison = "Current Comparison";
+                }
             }
 
             if (!cmbComparison.Items.Contains(Comparison))
+            {
                 cmbComparison.Items.Add(Comparison);
+            }
 
             cmbComparison.DataBindings.Clear();
             cmbComparison.DataBindings.Add("SelectedItem", this, "Comparison", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -105,17 +112,29 @@ namespace LiveSplit.UI.Components
         private static string GetColumnType(ColumnType type)
         {
             if (type == ColumnType.SplitTime)
+            {
                 return "Split Time";
+            }
             else if (type == ColumnType.Delta)
+            {
                 return "Delta";
+            }
             else if (type == ColumnType.DeltaorSplitTime)
+            {
                 return "Delta or Split Time";
+            }
             else if (type == ColumnType.SegmentTime)
+            {
                 return "Segment Time";
+            }
             else if (type == ColumnType.SegmentDelta)
+            {
                 return "Segment Delta";
+            }
             else
+            {
                 return "Segment Delta or Segment Time";
+            }
         }
 
         private static ColumnType ParseColumnType(string columnType)

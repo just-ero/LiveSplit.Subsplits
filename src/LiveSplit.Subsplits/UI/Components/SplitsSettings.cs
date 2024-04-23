@@ -1,12 +1,13 @@
-﻿using LiveSplit.Model;
-using LiveSplit.Model.Comparisons;
-using LiveSplit.TimeFormatters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
+
+using LiveSplit.Model;
+using LiveSplit.Model.Comparisons;
+using LiveSplit.TimeFormatters;
 
 namespace LiveSplit.UI.Components
 {
@@ -21,7 +22,10 @@ namespace LiveSplit.UI.Components
                 _VisualSplitCount = value;
                 var max = Math.Max(0, _VisualSplitCount - (AlwaysShowLastSplit ? 2 : 1));
                 if (dmnUpcomingSegments.Value > max)
+                {
                     dmnUpcomingSegments.Value = max;
+                }
+
                 dmnUpcomingSegments.Maximum = max;
             }
         }
@@ -98,7 +102,7 @@ namespace LiveSplit.UI.Components
         public Color SectionTimerColor { get; set; }
         public bool SectionTimerGradient { get; set; }
         public TimeAccuracy SectionTimerAccuracy { get; set; }
-        
+
         public bool DropDecimals { get; set; }
         public TimeAccuracy DeltasAccuracy { get; set; }
 
@@ -119,8 +123,11 @@ namespace LiveSplit.UI.Components
 
         public TimeAccuracy SplitTimesAccuracy { get; set; }
         public GradientType CurrentSplitGradient { get; set; }
-        public string SplitGradientString { get { return CurrentSplitGradient.ToString(); } 
-            set { CurrentSplitGradient = (GradientType)Enum.Parse(typeof(GradientType), value); } }
+        public string SplitGradientString
+        {
+            get { return CurrentSplitGradient.ToString(); }
+            set { CurrentSplitGradient = (GradientType)Enum.Parse(typeof(GradientType), value); }
+        }
 
         public event EventHandler SplitLayoutChanged;
 
@@ -269,55 +276,55 @@ namespace LiveSplit.UI.Components
             ColumnsList.Add(new ColumnSettings(CurrentState, "Time", ColumnsList) { Data = new ColumnData("Time", ColumnType.SplitTime, "Current Comparison", "Current Timing Method") });
         }
 
-        void chkColumnLabels_CheckedChanged(object sender, EventArgs e)
+        private void chkColumnLabels_CheckedChanged(object sender, EventArgs e)
         {
             btnLabelColor.Enabled = chkColumnLabels.Checked;
         }
 
-        void chkDisplayIcons_CheckedChanged(object sender, EventArgs e)
+        private void chkDisplayIcons_CheckedChanged(object sender, EventArgs e)
         {
             trkIconSize.Enabled = label5.Enabled = chkIconShadows.Enabled = chkDisplayIcons.Checked;
         }
 
-        void chkIndentBlankIcons_CheckedChanged(object sender, EventArgs e)
+        private void chkIndentBlankIcons_CheckedChanged(object sender, EventArgs e)
         {
             SplitLayoutChanged(this, null);
         }
 
-        void chkOverrideTimesColor_CheckedChanged(object sender, EventArgs e)
+        private void chkOverrideTimesColor_CheckedChanged(object sender, EventArgs e)
         {
             label6.Enabled = label9.Enabled = label7.Enabled = btnBeforeTimesColor.Enabled
                 = btnCurrentTimesColor.Enabled = btnAfterTimesColor.Enabled = chkOverrideTimesColor.Checked;
         }
 
-        void chkOverrideDeltaColor_CheckedChanged(object sender, EventArgs e)
+        private void chkOverrideDeltaColor_CheckedChanged(object sender, EventArgs e)
         {
             label8.Enabled = btnDeltaColor.Enabled = chkOverrideDeltaColor.Checked;
         }
 
-        void chkOverrideTextColor_CheckedChanged(object sender, EventArgs e)
+        private void chkOverrideTextColor_CheckedChanged(object sender, EventArgs e)
         {
             label3.Enabled = label10.Enabled = label13.Enabled = btnBeforeNamesColor.Enabled
             = btnCurrentNamesColor.Enabled = btnAfterNamesColor.Enabled = chkOverrideTextColor.Checked;
         }
 
-        void rdoDeltaTenths_CheckedChanged(object sender, EventArgs e)
+        private void rdoDeltaTenths_CheckedChanged(object sender, EventArgs e)
         {
             UpdateDeltaAccuracy();
         }
 
-        void rdoDeltaSeconds_CheckedChanged(object sender, EventArgs e)
+        private void rdoDeltaSeconds_CheckedChanged(object sender, EventArgs e)
         {
             UpdateDeltaAccuracy();
         }
 
-        void chkSeparatorLastSplit_CheckedChanged(object sender, EventArgs e)
+        private void chkSeparatorLastSplit_CheckedChanged(object sender, EventArgs e)
         {
             SeparatorLastSplit = chkSeparatorLastSplit.Checked;
             SplitLayoutChanged(this, null);
         }
 
-        void cmbGradientType_SelectedIndexChanged(object sender, EventArgs e)
+        private void cmbGradientType_SelectedIndexChanged(object sender, EventArgs e)
         {
             btnColor1.Visible = cmbGradientType.SelectedItem.ToString() != "Plain";
             btnColor2.DataBindings.Clear();
@@ -325,7 +332,7 @@ namespace LiveSplit.UI.Components
             GradientString = cmbGradientType.SelectedItem.ToString();
         }
 
-        void cmbSplitGradient_SelectedIndexChanged(object sender, EventArgs e)
+        private void cmbSplitGradient_SelectedIndexChanged(object sender, EventArgs e)
         {
             btnTopColor.Visible = cmbSplitGradient.SelectedItem.ToString() != "Plain";
             btnBottomColor.DataBindings.Clear();
@@ -333,23 +340,23 @@ namespace LiveSplit.UI.Components
             SplitGradientString = cmbSplitGradient.SelectedItem.ToString();
         }
 
-        void chkLockLastSplit_CheckedChanged(object sender, EventArgs e)
+        private void chkLockLastSplit_CheckedChanged(object sender, EventArgs e)
         {
             LockLastSplit = chkLockLastSplit.Checked;
             SplitLayoutChanged(this, null);
         }
 
-        void rdoTenths_CheckedChanged(object sender, EventArgs e)
+        private void rdoTenths_CheckedChanged(object sender, EventArgs e)
         {
             UpdateAccuracy();
         }
 
-        void rdoSeconds_CheckedChanged(object sender, EventArgs e)
+        private void rdoSeconds_CheckedChanged(object sender, EventArgs e)
         {
             UpdateAccuracy();
         }
 
-        void UpdateSubsplitVisibility()
+        private void UpdateSubsplitVisibility()
         {
             if (rdoShowSubsplits.Checked)
             {
@@ -386,40 +393,52 @@ namespace LiveSplit.UI.Components
             }
         }
 
-        void UpdateAccuracy()
+        private void UpdateAccuracy()
         {
             if (rdoSeconds.Checked)
+            {
                 SplitTimesAccuracy = TimeAccuracy.Seconds;
+            }
             else if (rdoTenths.Checked)
+            {
                 SplitTimesAccuracy = TimeAccuracy.Tenths;
+            }
             else
+            {
                 SplitTimesAccuracy = TimeAccuracy.Hundredths;
+            }
         }
 
-        void UpdateDeltaAccuracy()
+        private void UpdateDeltaAccuracy()
         {
             if (rdoDeltaSeconds.Checked)
+            {
                 DeltasAccuracy = TimeAccuracy.Seconds;
+            }
             else if (rdoDeltaTenths.Checked)
+            {
                 DeltasAccuracy = TimeAccuracy.Tenths;
+            }
             else
+            {
                 DeltasAccuracy = TimeAccuracy.Hundredths;
+            }
         }
 
-        void chkLastSplit_CheckedChanged(object sender, EventArgs e)
+        private void chkLastSplit_CheckedChanged(object sender, EventArgs e)
         {
             AlwaysShowLastSplit = chkLastSplit.Checked;
             VisualSplitCount = VisualSplitCount;
             SplitLayoutChanged(this, null);
         }
 
-        void chkThinSeparators_CheckedChanged(object sender, EventArgs e)
+        private void chkThinSeparators_CheckedChanged(object sender, EventArgs e)
         {
             ShowThinSeparators = chkThinSeparators.Checked;
             SplitLayoutChanged(this, null);
         }
 
-        void SplitsSettings_Load(object sender, EventArgs e)
+        private void SplitsSettings_Load(object sender, EventArgs e)
         {
             ResetColumns();
 
@@ -437,7 +456,9 @@ namespace LiveSplit.UI.Components
             cmbHeaderComparison.Items.Add("Current Comparison");
             cmbHeaderComparison.Items.AddRange(CurrentState.Run.Comparisons.Where(x => x != NoneComparisonGenerator.ComparisonName).ToArray());
             if (!cmbHeaderComparison.Items.Contains(HeaderComparison))
+            {
                 cmbHeaderComparison.Items.Add(HeaderComparison);
+            }
 
             rdoHideSubsplits.Checked = !ShowSubsplits && HideSubsplits;
             rdoShowSubsplits.Checked = ShowSubsplits && !HideSubsplits;
@@ -580,6 +601,7 @@ namespace LiveSplit.UI.Components
                     ColumnsList.Add(new ColumnSettings(CurrentState, "+/-", ColumnsList) { Data = new ColumnData("+/-", ColumnType.DeltaorSplitTime, HeaderComparison, "Current Timing Method") });
                 }
             }
+
             if (version >= new Version(1, 3))
             {
                 BeforeNamesColor = SettingsHelper.ParseColor(element["BeforeNamesColor"]);
@@ -590,13 +612,16 @@ namespace LiveSplit.UI.Components
             else
             {
                 if (version >= new Version(1, 2))
+                {
                     BeforeNamesColor = CurrentNamesColor = AfterNamesColor = SettingsHelper.ParseColor(element["SplitNamesColor"]);
+                }
                 else
                 {
                     BeforeNamesColor = Color.FromArgb(255, 255, 255);
                     CurrentNamesColor = Color.FromArgb(255, 255, 255);
                     AfterNamesColor = Color.FromArgb(255, 255, 255);
                 }
+
                 OverrideTextColor = !SettingsHelper.ParseBool(element["UseTextColor"], true);
             }
         }
@@ -696,6 +721,7 @@ namespace LiveSplit.UI.Components
                     settings = document.CreateElement("Settings");
                     columnsElement.AppendChild(settings);
                 }
+
                 hashCode ^= columnData.CreateElement(document, settings) * count;
                 count++;
             }
@@ -738,8 +764,8 @@ namespace LiveSplit.UI.Components
 
         private void chkShowHeader_CheckedChanged(object sender, EventArgs e)
         {
-            chkShowSectionIcon.Enabled = groupBox12.Enabled = groupBox13.Enabled 
-                = lblComparison.Enabled = cmbHeaderComparison.Enabled = lblTimingMethod.Enabled = cmbHeaderTimingMethod.Enabled 
+            chkShowSectionIcon.Enabled = groupBox12.Enabled = groupBox13.Enabled
+                = lblComparison.Enabled = cmbHeaderComparison.Enabled = lblTimingMethod.Enabled = cmbHeaderTimingMethod.Enabled
                 = chkShowHeader.Checked;
         }
 
@@ -756,14 +782,20 @@ namespace LiveSplit.UI.Components
             label17.Enabled = btnHeaderTextColor.Enabled = label18.Enabled = btnHeaderTimesColor.Enabled = chkOverrideHeaderColor.Checked;
         }
 
-        void UpdateHeaderAccuracy()
+        private void UpdateHeaderAccuracy()
         {
             if (rdoHeaderAccuracySeconds.Checked)
+            {
                 HeaderAccuracy = TimeAccuracy.Seconds;
+            }
             else if (rdoHeaderAccuracyTenths.Checked)
+            {
                 HeaderAccuracy = TimeAccuracy.Tenths;
+            }
             else
+            {
                 HeaderAccuracy = TimeAccuracy.Hundredths;
+            }
         }
 
         private void rdoHeaderAccuracySeconds_CheckedChanged(object sender, EventArgs e)
@@ -786,16 +818,20 @@ namespace LiveSplit.UI.Components
             label19.Enabled = btnSectionTimerColor.Enabled = chkSectionTimerGradient.Enabled = groupBox14.Enabled = chkSectionTimer.Checked;
         }
 
-        void UpdateSectionTimerAccuracy()
+        private void UpdateSectionTimerAccuracy()
         {
             if (rdoSectionTimerAccuracySeconds.Checked)
             {
                 SectionTimerAccuracy = TimeAccuracy.Seconds;
             }
             else if (rdoSectionTimerAccuracyTenths.Checked)
+            {
                 SectionTimerAccuracy = TimeAccuracy.Tenths;
+            }
             else
+            {
                 SectionTimerAccuracy = TimeAccuracy.Hundredths;
+            }
         }
 
         private void rdoSectionTimerAccuracySeconds_CheckedChanged(object sender, EventArgs e)
@@ -826,7 +862,9 @@ namespace LiveSplit.UI.Components
         private void chkIndentSubsplits_CheckedChanged(object sender, EventArgs e)
         {
             if (!ShowSubsplits && !HideSubsplits)
+            {
                 chkIndentSectionSplit.Enabled = chkIndentSubsplits.Checked;
+            }
         }
 
         private void ResetColumns()
@@ -854,7 +892,7 @@ namespace LiveSplit.UI.Components
             column.MovedDown += column_MovedDown;
         }
 
-        void column_MovedDown(object sender, EventArgs e)
+        private void column_MovedDown(object sender, EventArgs e)
         {
             var column = (ColumnSettings)sender;
             var index = ColumnsList.IndexOf(column);
@@ -864,7 +902,7 @@ namespace LiveSplit.UI.Components
             column.SelectControl();
         }
 
-        void column_MovedUp(object sender, EventArgs e)
+        private void column_MovedUp(object sender, EventArgs e)
         {
             var column = (ColumnSettings)sender;
             var index = ColumnsList.IndexOf(column);
@@ -874,16 +912,20 @@ namespace LiveSplit.UI.Components
             column.SelectControl();
         }
 
-        void column_ColumnRemoved(object sender, EventArgs e)
+        private void column_ColumnRemoved(object sender, EventArgs e)
         {
             var column = (ColumnSettings)sender;
             var index = ColumnsList.IndexOf(column);
             ColumnsList.Remove(column);
             ResetColumns();
             if (ColumnsList.Count > 0)
+            {
                 ColumnsList.Last().SelectControl();
+            }
             else
+            {
                 chkColumnLabels.Select();
+            }
         }
 
         private void ClearLayout()
@@ -896,6 +938,7 @@ namespace LiveSplit.UI.Components
             {
                 tableColumns.Controls.Remove(control);
             }
+
             Size = StartingSize;
         }
 
@@ -917,7 +960,9 @@ namespace LiveSplit.UI.Components
             AddColumnToLayout(columnControl, ColumnsList.Count);
 
             foreach (var column in ColumnsList)
+            {
                 column.UpdateEnabledButtons();
+            }
         }
 
         private void chkAutomaticAbbreviation_CheckedChanged(object sender, EventArgs e)
